@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "name": "cz1",
+        "start_node_id": 1,
+        "end_node_id": 5,
+        "start_node_name": "n1",
+        "end_node_name": "n5"
+    },
+    {
+        "id": 2,
+        "name": "cz2",
+        "start_node_id": 2,
+        "end_node_id": 6,
+        "start_node_name": "n2",
+        "end_node_name": "n6"
+    },
+    {
+        "id": 3,
+        "name": "cz3",
+        "start_node_id": 3,
+        "end_node_id": 7,
+        "start_node_name": "n3",
+        "end_node_name": "n7"
+    },
+    {
+        "id": 4,
+        "name": "cz4",
+        "start_node_id": 4,
+        "end_node_id": 8,
+        "start_node_name": "n4",
+        "end_node_name": "n8"
+    },
+    {
+        "id": 5,
+        "name": "bx5",
+        "start_node_id": 1,
+        "end_node_id": 2,
+        "start_node_name": "n1",
+        "end_node_name": "n2"
+    },
+    {
+        "id": 6,
+        "name": "bx6",
+        "start_node_id": 3,
+        "end_node_id": 4,
+        "start_node_name": "n3",
+        "end_node_name": "n4"
+    },
+    {
+        "id": 7,
+        "name": "bx7",
+        "start_node_id": 5,
+        "end_node_id": 6,
+        "start_node_name": "n5",
+        "end_node_name": "n6"
+    },
+    {
+        "id": 8,
+        "name": "bx8",
+        "start_node_id": 7,
+        "end_node_id": 8,
+        "start_node_name": "n7",
+        "end_node_name": "n8"
+    },
+    {
+        "id": 9,
+        "name": "by9",
+        "start_node_id": 1,
+        "end_node_id": 3,
+        "start_node_name": "n1",
+        "end_node_name": "n3"
+    },
+    {
+        "id": 10,
+        "name": "by10",
+        "start_node_id": 2,
+        "end_node_id": 4,
+        "start_node_name": "n2",
+        "end_node_name": "n4"
+    },
+    {
+        "id": 11,
+        "name": "by11",
+        "start_node_id": 5,
+        "end_node_id": 7,
+        "start_node_name": "n5",
+        "end_node_name": "n7"
+    },
+    {
+        "id": 12,
+        "name": "by12",
+        "start_node_id": 6,
+        "end_node_id": 8,
+        "start_node_name": "n6",
+        "end_node_name": "n8"
+    }
+]

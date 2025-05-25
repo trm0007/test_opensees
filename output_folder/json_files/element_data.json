@@ -1,0 +1,400 @@
+{
+    "elements": [
+        {
+            "transType": "PDelta",
+            "transTag": 1,
+            "vecxz": [
+                0.0,
+                1.0,
+                1.0
+            ],
+            "eleTag": 1,
+            "node_i_id": 1,
+            "node_j_id": 5,
+            "numIntgrPts": 8,
+            "secTag": 1,
+            "length": 11.5,
+            "area": 1.3333333333333333,
+            "unit_weight": 150.0,
+            "Iy": 0.19753086419753083,
+            "Iz": 0.1111111111111111,
+            "section_name": "section1"
+        },
+        {
+            "transType": "PDelta",
+            "transTag": 2,
+            "vecxz": [
+                0.0,
+                1.0,
+                1.0
+            ],
+            "eleTag": 2,
+            "node_i_id": 2,
+            "node_j_id": 6,
+            "numIntgrPts": 8,
+            "secTag": 1,
+            "length": 11.5,
+            "area": 1.3333333333333333,
+            "unit_weight": 150.0,
+            "Iy": 0.19753086419753083,
+            "Iz": 0.1111111111111111,
+            "section_name": "section1"
+        },
+        {
+            "transType": "PDelta",
+            "transTag": 3,
+            "vecxz": [
+                0.0,
+                1.0,
+                1.0
+            ],
+            "eleTag": 3,
+            "node_i_id": 3,
+            "node_j_id": 7,
+            "numIntgrPts": 8,
+            "secTag": 1,
+            "length": 11.5,
+            "area": 1.3333333333333333,
+            "unit_weight": 150.0,
+            "Iy": 0.19753086419753083,
+            "Iz": 0.1111111111111111,
+            "section_name": "section1"
+        },
+        {
+            "transType": "PDelta",
+            "transTag": 4,
+            "vecxz": [
+                0.0,
+                1.0,
+                1.0
+            ],
+            "eleTag": 4,
+            "node_i_id": 4,
+            "node_j_id": 8,
+            "numIntgrPts": 8,
+            "secTag": 1,
+            "length": 11.5,
+            "area": 1.3333333333333333,
+            "unit_weight": 150.0,
+            "Iy": 0.19753086419753083,
+            "Iz": 0.1111111111111111,
+            "section_name": "section1"
+        },
+        {
+            "transType": "Linear",
+            "transTag": 5,
+            "vecxz": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "eleTag": 5,
+            "node_i_id": 1,
+            "node_j_id": 2,
+            "numIntgrPts": 8,
+            "secTag": 2,
+            "length": 20.0,
+            "area": 2.0,
+            "unit_weight": 150.0,
+            "Iy": 0.6666666666666666,
+            "Iz": 0.16666666666666666,
+            "section_name": "section2"
+        },
+        {
+            "transType": "Linear",
+            "transTag": 6,
+            "vecxz": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "eleTag": 6,
+            "node_i_id": 3,
+            "node_j_id": 4,
+            "numIntgrPts": 8,
+            "secTag": 2,
+            "length": 20.0,
+            "area": 2.0,
+            "unit_weight": 150.0,
+            "Iy": 0.6666666666666666,
+            "Iz": 0.16666666666666666,
+            "section_name": "section2"
+        },
+        {
+            "transType": "Linear",
+            "transTag": 7,
+            "vecxz": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "eleTag": 7,
+            "node_i_id": 5,
+            "node_j_id": 6,
+            "numIntgrPts": 8,
+            "secTag": 2,
+            "length": 20.0,
+            "area": 2.0,
+            "unit_weight": 150.0,
+            "Iy": 0.6666666666666666,
+            "Iz": 0.16666666666666666,
+            "section_name": "section2"
+        },
+        {
+            "transType": "Linear",
+            "transTag": 8,
+            "vecxz": [
+                0.0,
+                -1.0,
+                0.0
+            ],
+            "eleTag": 8,
+            "node_i_id": 7,
+            "node_j_id": 8,
+            "numIntgrPts": 8,
+            "secTag": 2,
+            "length": 20.0,
+            "area": 2.0,
+            "unit_weight": 150.0,
+            "Iy": 0.6666666666666666,
+            "Iz": 0.16666666666666666,
+            "section_name": "section2"
+        },
+        {
+            "transType": "Linear",
+            "transTag": 9,
+            "vecxz": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "eleTag": 9,
+            "node_i_id": 1,
+            "node_j_id": 3,
+            "numIntgrPts": 8,
+            "secTag": 2,
+            "length": 23.0,
+            "area": 2.0,
+            "unit_weight": 150.0,
+            "Iy": 0.6666666666666666,
+            "Iz": 0.16666666666666666,
+            "section_name": "section2"
+        },
+        {
+            "transType": "Linear",
+            "transTag": 10,
+            "vecxz": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "eleTag": 10,
+            "node_i_id": 2,
+            "node_j_id": 4,
+            "numIntgrPts": 8,
+            "secTag": 2,
+            "length": 23.0,
+            "area": 2.0,
+            "unit_weight": 150.0,
+            "Iy": 0.6666666666666666,
+            "Iz": 0.16666666666666666,
+            "section_name": "section2"
+        },
+        {
+            "transType": "Linear",
+            "transTag": 11,
+            "vecxz": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "eleTag": 11,
+            "node_i_id": 5,
+            "node_j_id": 7,
+            "numIntgrPts": 8,
+            "secTag": 2,
+            "length": 23.0,
+            "area": 2.0,
+            "unit_weight": 150.0,
+            "Iy": 0.6666666666666666,
+            "Iz": 0.16666666666666666,
+            "section_name": "section2"
+        },
+        {
+            "transType": "Linear",
+            "transTag": 12,
+            "vecxz": [
+                1.0,
+                0.0,
+                0.0
+            ],
+            "eleTag": 12,
+            "node_i_id": 6,
+            "node_j_id": 8,
+            "numIntgrPts": 8,
+            "secTag": 2,
+            "length": 23.0,
+            "area": 2.0,
+            "unit_weight": 150.0,
+            "Iy": 0.6666666666666666,
+            "Iz": 0.16666666666666666,
+            "section_name": "section2"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1,
+            "name": "n1",
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "id": 2,
+            "name": "n2",
+            "x": 20.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        {
+            "id": 3,
+            "name": "n3",
+            "x": 0.0,
+            "y": 23.0,
+            "z": 0.0
+        },
+        {
+            "id": 4,
+            "name": "n4",
+            "x": 20.0,
+            "y": 23.0,
+            "z": 0.0
+        },
+        {
+            "id": 5,
+            "name": "n5",
+            "x": 0.0,
+            "y": 0.0,
+            "z": 11.5
+        },
+        {
+            "id": 6,
+            "name": "n6",
+            "x": 20.0,
+            "y": 0.0,
+            "z": 11.5
+        },
+        {
+            "id": 7,
+            "name": "n7",
+            "x": 0.0,
+            "y": 23.0,
+            "z": 11.5
+        },
+        {
+            "id": 8,
+            "name": "n8",
+            "x": 20.0,
+            "y": 23.0,
+            "z": 11.5
+        }
+    ],
+    "sections": {
+        "rectangular_sections": {
+            "section1": {
+                "type": "rectangular",
+                "section_tag": 1,
+                "H": 1.3333333333333333,
+                "B": 1.0,
+                "cover_H": 0.125,
+                "cover_B": 0.125,
+                "core_tag": 2,
+                "cover_tag": 1,
+                "steel_tag": 3,
+                "n_bars_top": 3,
+                "dia_top": 0.08333333333333333,
+                "n_bars_bot": 3,
+                "dia_bot": 0.08333333333333333,
+                "n_bars_secondary_top": 2,
+                "dia_sec_top": 0.05208333333333333,
+                "n_bars_secondary_bot": 2,
+                "dia_sec_bot": 0.05208333333333333,
+                "n_bars_int": 4,
+                "dia_int": 0.041666666666666664,
+                "offset": 0.16666666666666666,
+                "area": 1.3333333333333333,
+                "unit_weight": 150.0,
+                "Iy": 0.19753086419753083,
+                "Iz": 0.1111111111111111
+            },
+            "section2": {
+                "type": "rectangular",
+                "section_tag": 2,
+                "H": 2.0,
+                "B": 1.0,
+                "cover_H": 0.125,
+                "cover_B": 0.125,
+                "core_tag": 2,
+                "cover_tag": 1,
+                "steel_tag": 3,
+                "n_bars_top": 4,
+                "dia_top": 0.08333333333333333,
+                "n_bars_bot": 4,
+                "dia_bot": 0.08333333333333333,
+                "n_bars_secondary_top": 2,
+                "dia_sec_top": 0.05208333333333333,
+                "n_bars_secondary_bot": 2,
+                "dia_sec_bot": 0.05208333333333333,
+                "n_bars_int": 6,
+                "dia_int": 0.041666666666666664,
+                "offset": 0.16666666666666666,
+                "area": 2.0,
+                "unit_weight": 150.0,
+                "Iy": 0.6666666666666666,
+                "Iz": 0.16666666666666666
+            }
+        },
+        "circular_sections": {
+            "section3": {
+                "type": "circular",
+                "section_tag": 3,
+                "D_Sec": 1.6666666666666665,
+                "cover_Sec": 0.125,
+                "num_Bars_Sec": 8,
+                "bar_dia_Sec": 0.08333333333333333,
+                "core_tag": 2,
+                "cover_tag": 1,
+                "steel_tag": 3,
+                "ri": 0.0,
+                "nf_Core_R": 8,
+                "nf_Core_T": 8,
+                "nf_Cover_R": 4,
+                "nf_Cover_T": 8,
+                "area": 2.181659722222222,
+                "unit_weight": 150.0,
+                "Iy": 0.3787606883668248,
+                "Iz": 0.3787606883668248
+            },
+            "section4": {
+                "type": "circular",
+                "section_tag": 4,
+                "D_Sec": 2.6666666666666665,
+                "cover_Sec": 0.16666666666666666,
+                "num_Bars_Sec": 12,
+                "bar_dia_Sec": 0.10416666666666666,
+                "core_tag": 2,
+                "cover_tag": 1,
+                "steel_tag": 3,
+                "ri": 0.6666666666666666,
+                "nf_Core_R": 8,
+                "nf_Core_T": 12,
+                "nf_Cover_R": 4,
+                "nf_Cover_T": 12,
+                "area": 4.188786666666666,
+                "unit_weight": 150.0,
+                "Iy": 2.327105669325772,
+                "Iz": 2.327105669325772
+            }
+        }
+    }
+}
