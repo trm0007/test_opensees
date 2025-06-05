@@ -1,6 +1,6 @@
 from import_ import *     
 from input import *
-from load_combinations import merge_structures, process_structure_loads
+from load_combinations import merge_structures
 from Grid_and_structure_creation import load_structure
 from wall_meshing import create_combined_structure_json
 from sections_function import *
@@ -98,8 +98,8 @@ def assign_node_into_opensees(JSON_FOLDER):
             # Create node in OpenSees
             ops.node(node_id, node_coordinates['x'], node_coordinates['y'], node_coordinates['z'])
             
-            print(f"Created node - ID: {node_id}, Name: {node_name}, "
-                f"Coordinates: ({node_coordinates['x']}, {node_coordinates['y']}, {node_coordinates['z']})")
+            # print(f"Created node - ID: {node_id}, Name: {node_name}, "
+            #     f"Coordinates: ({node_coordinates['x']}, {node_coordinates['y']}, {node_coordinates['z']})")
         
         except KeyError as e:
             print(f"Error: Node {node.get('id', 'UNKNOWN')} is missing required field {str(e)}")
@@ -113,6 +113,291 @@ def define_materials(materials_list):
     for mat in materials_list:
         ops.uniaxialMaterial(*mat.values())
 
+def define_rc_section10_opensees(sec_tag, core_tag, cover_tag, steel_tag, H, B, cover_H, cover_B, offset,
+                    n_bars_top, dia_top, n_bars_bot, dia_bot,
+                    n_bars_secondary_top, dia_sec_top, n_bars_secondary_bot, dia_sec_bot,
+                    n_bars_int, dia_int):
+    """
+    Draw a rectangular RC section with visualization.
+    
+    Parameters:
+    -----------
+    sec_tag : int
+        Tag for the section
+    core_tag : int
+        Material tag for core concrete
+    cover_tag : int
+        Material tag for cover concrete
+    steel_tag : int
+        Material tag for reinforcement steel
+    H : float
+        Height of the section
+    B : float
+        Width of the section
+    cover_H : float
+        Cover thickness in H direction
+    cover_B : float
+        Cover thickness in B direction
+    offset : float
+        Offset for secondary reinforcement from primary reinforcement
+    n_bars_top : int
+        Number of primary reinforcement bars at top
+    dia_top : float
+        Diameter of primary reinforcement bars at top
+    n_bars_bot : int
+        Number of primary reinforcement bars at bottom
+    dia_bot : float
+        Diameter of primary reinforcement bars at bottom
+    n_bars_secondary_top : int
+        Number of secondary reinforcement bars at top
+    dia_sec_top : float
+        Diameter of secondary reinforcement bars at top
+    n_bars_secondary_bot : int
+        Number of secondary reinforcement bars at bottom
+    dia_sec_bot : float
+        Diameter of secondary reinforcement bars at bottom
+    n_bars_int : int
+        Number of intermediate reinforcement bars
+    dia_int : float
+        Diameter of intermediate reinforcement bars
+    """
+    # Calculate coordinates for core and cover
+    core_y = H / 2 - cover_H
+    core_z = B / 2 - cover_B
+    cover_y = H / 2
+    cover_z = B / 2
+
+    # Create the OpenSees fiber section
+    ops.section('Fiber', sec_tag, '-GJ', 1.0e9)
+    
+    # Generate a quadrilateral shaped patch (core patch)
+    ops.patch('quad', core_tag,
+          10, 10,  # nfIJ, nfJK
+          *[-core_y, core_z],
+          *[-core_y, -core_z],
+          *[core_y, -core_z],
+          *[core_y, core_z])
+    
+    # Define the four cover patches
+    ops.patch('quad', cover_tag,
+          2, 10,
+          *[-cover_y, cover_z],
+          *[-core_y, core_z],
+          *[core_y, core_z],
+          *[cover_y, cover_z])    
+    ops.patch('quad', cover_tag,
+          2, 10,
+          *[-core_y, -core_z],
+          *[-cover_y, -cover_z],
+          *[cover_y, -cover_z],
+          *[core_y, -core_z])    
+    ops.patch('quad', cover_tag,
+          10, 2,
+          *[-cover_y, cover_z],
+          *[-cover_y, -cover_z],
+          *[-core_y, -core_z],
+          *[-core_y, core_z])     
+    ops.patch('quad', cover_tag,
+          10, 2,
+          *[core_y, core_z],
+          *[core_y, -core_z],
+          *[cover_y, -cover_z],
+          *[cover_y, cover_z]) 
+
+    # Construct straight lines of fibers for reinforcement
+    # Top primary reinforcement
+    ops.layer('straight', steel_tag, n_bars_top, 0.25*np.pi*dia_top**2,
+          *[core_y, core_z], *[core_y, -core_z])
+    
+    # Bottom primary reinforcement
+    ops.layer('straight', steel_tag, n_bars_bot, 0.25*np.pi*dia_bot**2,
+      *[-core_y, core_z], *[-core_y, -core_z])
+    
+    # Secondary top reinforcement
+    ops.layer('straight', steel_tag, n_bars_secondary_top, 0.25*np.pi*dia_sec_top**2,
+          *[core_y - offset, core_z], *[core_y - offset, -core_z])
+    
+    # Secondary bottom reinforcement
+    ops.layer('straight', steel_tag, n_bars_secondary_bot, 0.25*np.pi*dia_sec_bot**2,
+          *[-core_y + offset, core_z], *[-core_y + offset, -core_z])
+    
+    # Intermediate reinforcement (top and bottom)
+    ops.layer('straight', steel_tag, n_bars_int // 2, 0.25*np.pi*dia_int**2,
+          *[-core_y, core_z], *[core_y, core_z])
+    ops.layer('straight', steel_tag, n_bars_int // 2, 0.25*np.pi*dia_int**2,
+          *[-core_y, -core_z], *[core_y, -core_z])
+    
+def define_circular_rc_section10_opensees(sec_tag, core_tag, cover_tag, steel_tag,
+                             D_Sec, cover_Sec, num_Bars_Sec, bar_dia_Sec,
+                             ri=0.0, nf_Core_R=8, nf_Core_T=8, nf_Cover_R=4, nf_Cover_T=8):
+    """
+    Draw a circular RC section with visualization.
+    
+    Parameters:
+    -----------
+    sec_tag : int
+        Tag for the section
+    core_tag : int
+        Material tag for core concrete
+    cover_tag : int
+        Material tag for cover concrete
+    steel_tag : int
+        Material tag for reinforcement steel
+    D_Sec : float
+        Outer diameter of the section
+    cover_Sec : float
+        Cover thickness to reinforcing steel
+    num_Bars_Sec : int
+        Number of longitudinal reinforcement bars
+    bar_dia_Sec : float
+        Diameter of longitudinal reinforcement bars
+    ri : float, optional
+        Inner radius (for hollow sections), default = 0.0
+    nf_Core_R : int, optional
+        Number of radial divisions in core, default = 8
+    nf_Core_T : int, optional
+        Number of theta divisions in core, default = 8
+    nf_Cover_R : int, optional
+        Number of radial divisions in cover, default = 4
+    nf_Cover_T : int, optional
+        Number of theta divisions in cover, default = 8
+    """
+    # Calculate key dimensions
+    ro = D_Sec / 2  # outer radius
+    rc = ro - cover_Sec  # core radius
+    bar_area_Sec = 0.25 * np.pi * bar_dia_Sec**2  # bar area
+    
+    # constructs a FiberSection 
+    ops.section('Fiber', sec_tag, '-GJ', 1.0e9)
+    
+    # Define the core patch (confined concrete)
+    ops.patch('circ', core_tag, nf_Core_T, nf_Core_R, 0, 0, ri, rc, 0, 360)
+    
+    # Define the cover patch (unconfined concrete)
+    ops.patch('circ', cover_tag, nf_Cover_T, nf_Cover_R, 0, 0, rc, ro, 0, 360)
+    
+    # Define the reinforcing layer
+    theta = 360.0 / num_Bars_Sec  # angle increment between bars
+    ops.layer('circ', steel_tag, num_Bars_Sec, bar_area_Sec, 0, 0, rc, 0, 360)
+
+
+def define_L_rc_section10_opensees(sec_tag, core_tag, cover_tag, steel_tag, H, B, t, cover_H, cover_B, offset,
+                                  n_bars_vertical, dia_vertical, n_bars_horizontal, dia_horizontal,
+                                  n_bars_corner, dia_corner):
+    """
+    Define an L-shaped RC section in OpenSees.
+    
+    Parameters:
+    -----------
+    sec_tag : int
+        Tag for the section
+    core_tag : int
+        Material tag for core concrete
+    cover_tag : int
+        Material tag for cover concrete
+    steel_tag : int
+        Material tag for reinforcement steel
+    H : float
+        Total height of the L-section
+    B : float
+        Total width of the L-section
+    t : float
+        Thickness of the L-section legs
+    cover_H : float
+        Cover thickness in vertical direction
+    cover_B : float
+        Cover thickness in horizontal direction
+    offset : float
+        Offset for secondary reinforcement from primary reinforcement
+    n_bars_vertical : int
+        Number of vertical reinforcement bars
+    dia_vertical : float
+        Diameter of vertical reinforcement bars
+    n_bars_horizontal : int
+        Number of horizontal reinforcement bars
+    dia_horizontal : float
+        Diameter of horizontal reinforcement bars
+    n_bars_corner : int
+        Number of corner reinforcement bars
+    dia_corner : float
+        Diameter of corner reinforcement bars
+    """
+    # Calculate coordinates for core and cover
+    core_y1 = 0
+    core_y2 = H - cover_H
+    core_z1 = 0
+    core_z2 = t - cover_B  # Vertical leg
+    core_z3 = B - cover_B  # Horizontal leg
+    
+    # Create the OpenSees fiber section
+    ops.section('Fiber', sec_tag, '-GJ', 1.0e9)
+    
+    # Define core patches for vertical and horizontal legs
+    # Vertical leg core
+    ops.patch('quad', core_tag, 10, 10,
+              core_z1, core_y1,
+              core_z2, core_y1,
+              core_z2, core_y2,
+              core_z1, core_y2)
+    
+    # Horizontal leg core
+    ops.patch('quad', core_tag, 10, 10,
+              core_z1, core_y1,
+              core_z3, core_y1,
+              core_z3, t - cover_H,
+              core_z1, t - cover_H)
+    
+    # Define cover patches
+    # Vertical leg left cover
+    ops.patch('quad', cover_tag, 2, 10,
+              0, 0,
+              cover_B, 0,
+              cover_B, H,
+              0, H)
+    
+    # Vertical leg right cover
+    ops.patch('quad', cover_tag, 2, 10,
+              t - cover_B, 0,
+              t, 0,
+              t, H,
+              t - cover_B, H)
+    
+    # Horizontal leg bottom cover
+    ops.patch('quad', cover_tag, 10, 2,
+              0, 0,
+              B, 0,
+              B, cover_H,
+              0, cover_H)
+    
+    # Horizontal leg top cover
+    ops.patch('quad', cover_tag, 10, 2,
+              0, t - cover_H,
+              B, t - cover_H,
+              B, t,
+              0, t)
+    
+    # Define reinforcement layers
+    bar_area_vertical = 0.25 * np.pi * dia_vertical**2
+    bar_area_horizontal = 0.25 * np.pi * dia_horizontal**2
+    bar_area_corner = 0.25 * np.pi * dia_corner**2
+    
+    # Vertical reinforcement
+    vert_bar_x = t - cover_B - offset
+    ops.layer('straight', steel_tag, n_bars_vertical, bar_area_vertical,
+              vert_bar_x, cover_H,
+              vert_bar_x, H - cover_H)
+    
+    # Horizontal reinforcement
+    horiz_bar_y = t - cover_H - offset
+    ops.layer('straight', steel_tag, n_bars_horizontal, bar_area_horizontal,
+              cover_B, horiz_bar_y,
+              B - cover_B, horiz_bar_y)
+    
+    # Corner reinforcement (placed at intersection of vertical and horizontal bars)
+    ops.layer('straight', steel_tag, n_bars_corner, bar_area_corner,
+              vert_bar_x, horiz_bar_y,
+              vert_bar_x, horiz_bar_y)
+  
 
 def assign_member_section_into_opensees(section_definitions):
     # =============================================
@@ -170,6 +455,27 @@ def assign_member_section_into_opensees(section_definitions):
                 section_info["nf_Cover_R"],
                 section_info["nf_Cover_T"]
             )
+        elif section_name in section_definitions["L"]:
+            section_info = section_definitions["L"][section_name]
+            define_L_rc_section10_opensees(
+                tag,
+                section_info["core_tag"],
+                section_info["cover_tag"],
+                section_info["steel_tag"],
+                section_info["H"],
+                section_info["B"],
+                section_info["t"],
+                section_info["cover_H"],
+                section_info["cover_B"],
+                section_info["offset"],
+                section_info["n_bars_vertical"],
+                section_info["dia_vertical"],
+                section_info["n_bars_horizontal"],
+                section_info["dia_horizontal"],
+                section_info["n_bars_corner"],
+                section_info["dia_corner"]
+            )
+
 
 
 def assign_beam_column_into_opensees(opensees_element_json_file):
@@ -211,8 +517,11 @@ def assign_shell_material_and_section_into_opensees(materials_config, sections_c
 
         if mat_type == "ENT":
             ops.uniaxialMaterial('ENT', mat_id, props['E'])
+        elif mat_type == "Elastic":
+            ops.uniaxialMaterial("Elastic", 1, props['E'])       # Soil
         elif mat_type == "ElasticIsotropic":
             ops.nDMaterial('ElasticIsotropic', mat_id, props['E'], props['nu'], props['rho'])
+            
 
     # Create sections
     for sec in sections_config['sections']:
@@ -317,6 +626,126 @@ def assign_shell_element_into_opensees(JSON_FOLDER, section_config=None):
         print("Please ensure these sections are defined in your section_config")
     
     return created_elements > 0
+
+def apply_nodal_loads(JSON_FOLDER, load_combination="Comb2", load_pattern_tag=1, time_series_tag=None):
+    """
+    Simplified function to apply nodal loads from pre-combined load files.
+    Handles mass loads differently by applying them as nodal masses.
+    
+    Args:
+        JSON_FOLDER (str): Path to folder containing load_data
+        load_combination (str): Name of load combination to apply (default: "Comb2")
+        load_pattern_tag (int): Tag for the load pattern (default: 1)
+        time_series_tag (int): Optional time series tag for dynamic analysis
+    """
+    # 1. Open the load combination file
+    nodal_loads_file = os.path.join(JSON_FOLDER, "load_data", f"nodal_loads_{load_combination}.json")
+    
+    if not os.path.exists(nodal_loads_file):
+        raise FileNotFoundError(f"Load combination file not found: {nodal_loads_file}")
+    
+    with open(nodal_loads_file, 'r') as f:
+        nodal_loads = json.load(f)
+    
+    # Check if this is a mass load case
+    is_mass_load = load_combination.lower() == "mass"
+    
+    if not is_mass_load:
+        # 2. Create load pattern for force loads
+        pattern_type = 'Plain'
+        if time_series_tag is not None:
+            ops.pattern(pattern_type, load_pattern_tag, time_series_tag)
+        else:
+            ops.pattern(pattern_type, load_pattern_tag, 'Linear')
+    
+    # 3. Apply all nodal loads/masses
+    for load_values in nodal_loads.values():
+        node_tag = int(load_values[0])  # First value is node name/ID
+        
+        if is_mass_load:
+            # For mass loads: [node_id, "mass", m_x, m_y, m_z, 0, 0, 0]
+            mass_components = load_values[2:5]  # Only take m_x, m_y, m_z
+            try:
+                ops.mass(node_tag, *mass_components)
+            except Exception as e:
+                print(f"Error applying mass to node {node_tag}: {str(e)}")
+        else:
+            # For regular loads: [node_id, combo_name, Fx, Fy, Fz, Mx, My, Mz]
+            load_components = load_values[2:]  # Skip node name and load case name
+            try:
+                ops.load(node_tag, *load_components)
+            except Exception as e:
+                print(f"Error applying load to node {node_tag}: {str(e)}")
+    
+    if is_mass_load:
+        print(f"Applied {len(nodal_loads)} nodal masses from {load_combination}")
+    else:
+        print(f"Applied {len(nodal_loads)} nodal loads from {load_combination}")
+    
+    return True
+
+def apply_member_loads(JSON_FOLDER, load_case_name=None):
+    """Apply all loads for a specific load case from JSON files in directory"""
+
+    load_data_dir = JSON_FOLDER
+    load_data_dir = os.path.join(JSON_FOLDER, "load_data")
+    os.makedirs(load_data_dir, exist_ok=True)
+    # Get all member load files
+    load_files = [f for f in os.listdir(load_data_dir) 
+                 if f.startswith("member_loads_") and f.endswith(".json")]
+    
+    for load_file in load_files:
+        file_path = os.path.join(load_data_dir, load_file)
+        
+        # Load the data
+        with open(file_path, 'r') as f:
+            file_data = json.load(f)
+        
+        # Check if we should process this load case
+        current_case = file_data.get("load_case")
+        if load_case_name and current_case != load_case_name:
+            continue
+            
+        print(f"\nApplying load case: {current_case}")
+        load_data = file_data.get("load_data", {})
+        
+        for elements, load_list in load_data.items():
+            try:
+                elem_ids = json.loads(elements.replace("'", "\""))
+            except json.JSONDecodeError:
+                print(f"Warning: Invalid element ID format '{elements}'. Skipping.")
+                continue
+                
+            for load_dict in load_list:
+                # Apply uniform loads
+                if 'uniform' in load_dict:
+                    uniform = load_dict['uniform']
+                    if any(abs(v) > 1e-10 for v in uniform.values()):
+                        print(f"  Applying uniform load to elements {elem_ids}: {uniform}")
+                        ops.eleLoad('-ele', *elem_ids, '-type', '-beamUniform',
+                                   uniform.get('y', 0.0),
+                                   uniform.get('z', 0.0),
+                                   uniform.get('x', 0.0))
+                
+                # Apply point loads
+                if 'point' in load_dict:
+                    point = load_dict['point']
+                    if any(abs(v) > 1e-10 for k, v in point.items() if k != 'location'):
+                        print(f"  Applying point load to elements {elem_ids}: {point}")
+                        ops.eleLoad('-ele', *elem_ids, '-type', '-beamPoint',
+                                   point.get('y', 0.0),
+                                   point.get('z', 0.0),
+                                   point.get('location', 0.0),
+                                   point.get('x', 0.0))
+                
+                # Apply thermal loads
+                if 'temperature_points' in load_dict and load_dict['temperature_points']:
+                    if any(abs(tp['temp']) > 1e-10 for tp in load_dict['temperature_points']):
+                        print(f"  Applying thermal load to elements {elem_ids}")
+                        temp_pts = []
+                        for point in load_dict['temperature_points']:
+                            temp_pts.extend([point['temp'], point['y']])
+                        ops.eleLoad('-ele', *elem_ids, '-type', '-beamThermal', *temp_pts)
 
 
 # Analysis Functions - Improved with better recorder handling

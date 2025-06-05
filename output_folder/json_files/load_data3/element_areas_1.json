@@ -1,0 +1,54 @@
+{
+    "R10001": {
+        "area": 115.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 2.3000000000000003
+            },
+            "LL": {
+                "pressure": -0.04,
+                "total_force": 4.6000000000000005
+            }
+        }
+    },
+    "R10002": {
+        "area": 115.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 2.3000000000000003
+            },
+            "LL": {
+                "pressure": -0.04,
+                "total_force": 4.6000000000000005
+            }
+        }
+    },
+    "R10003": {
+        "area": 115.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 2.3000000000000003
+            },
+            "LL": {
+                "pressure": -0.04,
+                "total_force": 4.6000000000000005
+            }
+        }
+    },
+    "R10004": {
+        "area": 115.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 2.3000000000000003
+            },
+            "LL": {
+                "pressure": -0.04,
+                "total_force": 4.6000000000000005
+            }
+        }
+    }
+}

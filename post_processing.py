@@ -1,6 +1,6 @@
 from import_ import *     
 from input import *
-from load_combinations import merge_structures, process_structure_loads
+from load_combinations import merge_structures
 from Grid_and_structure_creation import load_structure
 from wall_meshing import create_combined_structure_json
 from sections_function import *
@@ -361,7 +361,7 @@ def structural_model_plot(ele_shapes, OUTPUT_FOLDER="postprocessing_folder", loa
     plt.title(f"Model - {load_combination}")
     filepath = os.path.join(STRUCTURAL_MODEL_FOLDER, f"model_{load_combination}.png")
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"Saved: {filepath}")
+    # print(f"Saved: {filepath}")
     plt.close()
     
     # Deformation plot
@@ -370,7 +370,7 @@ def structural_model_plot(ele_shapes, OUTPUT_FOLDER="postprocessing_folder", loa
     plt.title(f"Deformation - {load_combination}")
     filepath = os.path.join(STRUCTURAL_MODEL_FOLDER, f"deformation_{load_combination}.png")
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"Saved: {filepath}")
+    # print(f"Saved: {filepath}")
     plt.close()
     
     # Load plot
@@ -379,7 +379,7 @@ def structural_model_plot(ele_shapes, OUTPUT_FOLDER="postprocessing_folder", loa
     plt.title(f"Load - {load_combination}")
     filepath = os.path.join(STRUCTURAL_MODEL_FOLDER, f"load_{load_combination}.png")
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"Saved: {filepath}")
+    # print(f"Saved: {filepath}")
     plt.close()
     
     # Extruded shapes plot
@@ -388,7 +388,7 @@ def structural_model_plot(ele_shapes, OUTPUT_FOLDER="postprocessing_folder", loa
     plt.title(f"Extruded Shapes - {load_combination}")
     filepath = os.path.join(STRUCTURAL_MODEL_FOLDER, f"extruded_shapes_{load_combination}.png")
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"Saved: {filepath}")
+    # print(f"Saved: {filepath}")
     plt.close()
     
     print(f"All plots saved to {STRUCTURAL_MODEL_FOLDER}")
@@ -1094,16 +1094,16 @@ def bilinear_interpolation(corner_values, xi, eta):
 
 def calculate_shell_deflections(shell_element, nodes, num_points=5):
     """Calculate deflections across shell element surface"""
-    print(f"DEBUG: Starting calculation for shell element {shell_element.get('id')}")
+    # print(f"DEBUG: Starting calculation for shell element {shell_element.get('id')}")
     element_id = shell_element["id"]
     node_names = shell_element["node_names"]
     node_data = []
     
-    print(f"DEBUG: Processing {len(node_names)} nodes for element {element_id}")
+    # print(f"DEBUG: Processing {len(node_names)} nodes for element {element_id}")
     
     # Get node data
     for node_name in node_names:
-        print(f"DEBUG: Looking for node {node_name}")
+        # print(f"DEBUG: Looking for node {node_name}")
         node = next((n for n in nodes if n["name"] == node_name), None)
         if not node:
             print(f"ERROR: Node {node_name} not found for element {element_id}")
@@ -1111,14 +1111,14 @@ def calculate_shell_deflections(shell_element, nodes, num_points=5):
             return None
         
         try:
-            print(f"DEBUG: Getting displacements for node {node['id']}")
+            # print(f"DEBUG: Getting displacements for node {node['id']}")
             disp = ops.nodeDisp(node["id"])
-            print(f"DEBUG: Node {node['id']} displacements: {disp}")
+            # print(f"DEBUG: Node {node['id']} displacements: {disp}")
             padded_disp = list(disp) + [0]*(6-len(disp))  # Pad to 6 DOF
             
             # Create coordinates array from x, y, z keys
             coords = [node["x"], node["y"], node["z"]]
-            print(f"DEBUG: Node coordinates: {coords}")
+            # print(f"DEBUG: Node coordinates: {coords}")
             
             node_data.append({
                 "id": node["id"],
@@ -1136,13 +1136,13 @@ def calculate_shell_deflections(shell_element, nodes, num_points=5):
             return None
     
     n_nodes = len(node_data)
-    print(f"DEBUG: Found {n_nodes} valid nodes")
+    # print(f"DEBUG: Found {n_nodes} valid nodes")
     if n_nodes not in [3, 4]:
         print(f"ERROR: Element {element_id} has {n_nodes} nodes (only 3 or 4 supported)")
         return None
     
     # Generate sampling points
-    print(f"DEBUG: Generating sampling points for {'triangle' if n_nodes == 3 else 'quad'}")
+    # print(f"DEBUG: Generating sampling points for {'triangle' if n_nodes == 3 else 'quad'}")
     try:
         if n_nodes == 3:  # Triangular element
             xi, eta = np.meshgrid(np.linspace(0, 1, num_points), np.linspace(0, 1, num_points))
@@ -1151,7 +1151,7 @@ def calculate_shell_deflections(shell_element, nodes, num_points=5):
         else:  # Quadrilateral element
             xi, eta = np.meshgrid(np.linspace(-1, 1, num_points), np.linspace(-1, 1, num_points))
             xi, eta = xi.flatten(), eta.flatten()
-        print(f"DEBUG: Generated {len(xi)} sampling points")
+        # print(f"DEBUG: Generated {len(xi)} sampling points")
     except Exception as e:
         print(f"ERROR: Failed to generate sampling points")
         print(f"DEBUG: Exception: {str(e)}")
@@ -1159,10 +1159,10 @@ def calculate_shell_deflections(shell_element, nodes, num_points=5):
     
     # Interpolate at each point
     deflection_points = []
-    print(f"DEBUG: Starting interpolation at sampling points")
+    # print(f"DEBUG: Starting interpolation at sampling points")
     for i, (x, e) in enumerate(zip(xi, eta)):
         try:
-            print(f"DEBUG: Point {i+1}/{len(xi)} - natural coords: ({x:.2f}, {e:.2f})")
+            # print(f"DEBUG: Point {i+1}/{len(xi)} - natural coords: ({x:.2f}, {e:.2f})")
             interp_fn = triangular_interpolation if n_nodes == 3 else bilinear_interpolation
             
             # Interpolate coordinates and displacements
@@ -1183,7 +1183,7 @@ def calculate_shell_deflections(shell_element, nodes, num_points=5):
             print(f"DEBUG: Exception: {str(ex)}")
             return None
     
-    print(f"DEBUG: Successfully calculated deflections for element {element_id}")
+    # print(f"DEBUG: Successfully calculated deflections for element {element_id}")
     return {
         "element_id": element_id,
         "element_name": shell_element.get("name", f"Shell_{element_id}"),
@@ -1305,11 +1305,11 @@ def analyze_shell_deflections(load_case="combo1", samples_per_side=5):
     results = {}
     for element in model.get("shell_elements", []):
         element_id = element["id"]
-        print(f"Processing element {element_id}...")
+        # print(f"Processing element {element_id}...")
         
         # Calculate deflections
         deflection_data = calculate_shell_deflections(element, model["nodes"], samples_per_side)
-        print(f'deflection_data={deflection_data}')
+        # print(f'deflection_data={deflection_data}')
         if not deflection_data:
             continue
         

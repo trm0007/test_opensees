@@ -135,7 +135,7 @@ from units import *
 #         print(f"❌ Error in create_structural_model: {e}")
 #         raise
 
-def create_structural_model(section_definitions, JSON_FOLDER, json_file_path, numIntgrPts=8):
+def create_beam_column_member(section_definitions, JSON_FOLDER, json_file_path, numIntgrPts=8):
     """Create structural model with robust file handling"""
     
     try:
@@ -230,7 +230,13 @@ def create_structural_model(section_definitions, JSON_FOLDER, json_file_path, nu
             # Find the section in section_definitions to get properties
             for category, sections in section_definitions.items():
                 if section_name in sections:
-                    area = sections[section_name]["area"]
+                    if sections[section_name]["type"] == "rectangular":
+                        B = sections[section_name]["B"]
+                        H = sections[section_name]["H"]
+                        area = B * H
+                    elif sections[section_name]["type"] == "circular":
+                        D = sections[section_name]["D_Sec"]
+                        area = 0.785 * D * D
                     unit_weight = sections[section_name]["unit_weight"]
                     Iy = sections[section_name]["Iy"]
                     Iz = sections[section_name]["Iz"]

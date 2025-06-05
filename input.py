@@ -44,7 +44,7 @@ rebar_dia = 1.0 * inch          # #8 bar diameter (1 inch)
 rebar = 0.25 * np.pi * (rebar_dia)**2  # Cross-sectional area of rebar
 
 # =============================================
-# Material Model Definitions (OpenSees)
+# Material (BEAM COLUMN MEMBER MATERIALS)
 # =============================================
 materials = [
     # Unconfined concrete (Concrete02 model)
@@ -87,7 +87,7 @@ materials = [
 ]
 
 # =============================================
-# Section Definitions (Fiber Sections)
+# Section Definitions (BEAM COLUMN MEMBER SECTIONS)
 # =============================================
 # section_definitions = {
 #     # Rectangular RC sections
@@ -184,7 +184,7 @@ section_definitions = {
         "section1": {  # Example: 16×12 inch beam
             "type": "rectangular",
             "section_tag": 1,          # Unique section identifier
-            "H": 16.0 * inch,          # Section height
+            "H": 12.0 * inch,          # Section height
             "B": 12.0 * inch,          # Section width
             "cover_H": 1.5 * inch,     # Cover thickness (vertical)
             "cover_B": 1.5 * inch,     # Cover thickness (horizontal)
@@ -206,12 +206,12 @@ section_definitions = {
             "dia_int": 0.5 * inch,     # 1/2 inch (#4 bar)
             "offset": 2.0 * inch,      # Offset for secondary bars from edge
             "area": 192.0 * inch * inch,  # Cross-sectional area (H × B)
-            "unit_weight": 150.0       # Unit weight in pcf (pounds per cubic foot)
+            "unit_weight": 0.150       # Unit weight in pcf (pounds per cubic foot)
         },
         "section2": {  # Larger beam: 24×12 inch
             "type": "rectangular",
             "section_tag": 2,
-            "H": 24.0 * inch,
+            "H": 12.0 * inch,
             "B": 12.0 * inch,
             "cover_H": 1.5 * inch,
             "cover_B": 1.5 * inch,
@@ -230,7 +230,7 @@ section_definitions = {
             "dia_int": 0.5 * inch,
             "offset": 2.0 * inch,
             "area": 288.0 * inch * inch,  # Cross-sectional area (H × B)
-            "unit_weight": 150.0       # Unit weight in pcf (pounds per cubic foot)
+            "unit_weight": 0.150       # Unit weight in pcf (pounds per cubic foot)
         }
     },
     
@@ -239,7 +239,7 @@ section_definitions = {
         "section3": {  # 20-inch diameter solid column
             "type": "circular",
             "section_tag": 3,
-            "D_Sec": 20.0 * inch,      # Diameter
+            "D_Sec": 12.0 * inch,      # Diameter
             "cover_Sec": 1.5 * inch,   # Cover thickness
             "num_Bars_Sec": 8,         # Number of longitudinal bars
             "bar_dia_Sec": 1.0 * inch, # Bar diameter
@@ -253,12 +253,12 @@ section_definitions = {
             "nf_Cover_R": 4,           # Radial fibers in cover (dimensionless)
             "nf_Cover_T": 8,           # Theta fibers in cover (dimensionless)
             "area": 3.14159 * (20.0/2 * inch) * (20.0/2 * inch),  # π × r²
-            "unit_weight": 150.0       # Unit weight in pcf (pounds per cubic foot)
+            "unit_weight": 0.150       # Unit weight in pcf (pounds per cubic foot)
         },
         "section4": {  # 32-inch diameter hollow column
             "type": "circular",
             "section_tag": 4,
-            "D_Sec": 32.0 * inch,
+            "D_Sec": 12.0 * inch,
             "cover_Sec": 2.0 * inch,
             "num_Bars_Sec": 12,
             "bar_dia_Sec": 1.25 * inch,  # 1-1/4 inch (#10 bar)
@@ -271,10 +271,35 @@ section_definitions = {
             "nf_Cover_R": 4,           # Dimensionless
             "nf_Cover_T": 12,          # Dimensionless
             "area": 3.14159 * ((32.0/2 * inch) * (32.0/2 * inch) - (8.0 * inch) * (8.0 * inch)),  # π × (R² - r²)
-            "unit_weight": 150.0       # Unit weight in pcf (pounds per cubic foot)
+            "unit_weight": 0.150       # Unit weight in pcf (pounds per cubic foot)
         }
     }
 }
+# # Parameters (in mm)
+# params = {
+#     'sec_tag': 1,
+#     'core_tag': 1,
+#     'cover_tag': 2,
+#     'steel_tag': 3,
+#     'H': 800,
+#     'B': 800,
+#     't': 200,
+#     'cover_H': 40,
+#     'cover_B': 40,
+#     'n_bars_vertical_outer': 5,
+#     'dia_vertical_outer': 16,
+#     'n_bars_horizontal_outer': 6,
+#     'dia_horizontal_outer': 16,
+#     'n_bars_vertical_inner': 4,
+#     'dia_vertical_inner': 12,
+#     'n_bars_horizontal_inner': 5,
+#     'dia_horizontal_inner': 12,
+#     'corner_bar_dia': 16,
+#     'IMAGE_FOLDER': "output"
+# }
+
+# # Generate section
+# draw_L_rc_section10(**params)
 
 # =============================================
 # Structural Grid Definition
@@ -305,7 +330,7 @@ fixity_data = {
 }
 
 # =============================================
-# Material Configurations for Shell Elements
+# Material (SHELL MATERIALS)
 # =============================================
 materials_config = {
     "materials": [
@@ -329,9 +354,10 @@ materials_config = {
         }
     ]
 }
-
+# K = 1e8          # Modulus of subgrade (soil spring stiffness) reaction (Pa/m)
+# ops.uniaxialMaterial("ENT", 1, K)            # No Tension Soil
 # =============================================
-# Section Definitions for Shell Elements
+# Section Definitions (Shell Elements)
 # =============================================
 sections_config = {
     "sections": [
@@ -350,7 +376,7 @@ sections_config = {
             "id": 100001,
             "material_id": 100001,
             "properties": {
-                "thickness": 12.0 * inch  # 12-inch thick floor slab
+                "thickness": 6.0 * inch  # 12-inch thick floor slab
             }
         }
     ]
@@ -380,8 +406,8 @@ surface_configurations = {
         },
         "num_x_div": 2,     # Number of mesh divisions in X (dimensionless)
         "num_y_div": 2,     # Number of mesh divisions in Y (dimensionless)
-        "load_case_names": ['DL', 'LL'],
-        "pressures": [-0.02 * ksf, -0.04 * ksf]  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf]  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
     }
 }
 
@@ -483,9 +509,70 @@ load_cases={
   ]
 }
 
+nodal_load_entries = [
+        ["N10002", "DL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
+        ["N10003", "DL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
+        ["N10004", "DL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
+        ["n6", "DL", 0.0, 0.0, -0.5750000000000002, 0.0, 0.0, 0.0],
+        ["n5", "DL", 0.0, 0.0, -0.5750000000000002, 0.0, 0.0, 0.0],
+        ["N10006", "DL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
+        ["N10007", "DL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
+        ["n8", "DL", 0.0, 0.0, -0.5750000000000002, 0.0, 0.0, 0.0],
+        ["n7", "DL", 0.0, 0.0, -0.5750000000000002, 0.0, 0.0, 0.0],
+        ["N10002", "LL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
+        ["N10003", "LL", 0.0, 0.0, -4.600000000000001, 0.0, 0.0, 0.0],
+        ["N10004", "LL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
+        ["n6", "LL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
+        ["n5", "LL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
+        ["N10006", "LL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
+        ["N10007", "LL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
+        ["n8", "LL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
+        ["n7", "LL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0]
+    ]
+    
+
+    
+# Process and save the load cases
+
+# Element load definitions (unchanged from your input)
+element_loads1 = {
+    "[5,6,7,8]": [
+        {
+            "LoadCase": ["DL"],    
+            "uniform": {"x": -0.0, "y": -0.0, "z": -10.0},
+            "point": {"x": -0.0, "y": -0.0, "z": -0.0, "location": 0.5},
+            "temperature_points": [
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0}
+            ]
+        }
+    ]
+}
+
+element_loads2 = {
+    "[5,6,7,8]": [
+        {
+            "LoadCase": ["LL"],    
+            "uniform": {"x": -0.0, "y": -0.0, "z": -10.0},
+            "point": {"x": -0.0, "y": -0.0, "z": -10.0, "location": 0.5},
+            "temperature_points": [
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0}
+            ]
+        }
+    ]
+}
+
+
+
+
+all_element_loads = [element_loads1, element_loads2]
 
 
 load_combinations = {
+    "mass": [("DL", 1.0), ("LL", 0.5), ("self_weight", 0.0)],
     "Comb2": [("DL", 1.2), ("LL", 1.6), ("self_weight", 1.2)],
     "Comb1": [("DL", 1.4)]
 }

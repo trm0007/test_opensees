@@ -1,0 +1,70 @@
+{
+    "R10001": {
+        "area": 115.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 2.3000000000000003
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 5.175
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 8.625
+            }
+        }
+    },
+    "R10002": {
+        "area": 115.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 2.3000000000000003
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 5.175
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 8.625
+            }
+        }
+    },
+    "R10003": {
+        "area": 115.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 2.3000000000000003
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 5.175
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 8.625
+            }
+        }
+    },
+    "R10004": {
+        "area": 115.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 2.3000000000000003
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 5.175
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 8.625
+            }
+        }
+    }
+}

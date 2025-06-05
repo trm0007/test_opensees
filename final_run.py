@@ -1,18 +1,17 @@
 from import_ import *     
 from input import *
-from load_combinations import merge_structures, process_structure_loads
+from load_combinations import merge_structures
 from Grid_and_structure_creation import load_structure
 from wall_meshing import create_combined_structure_json
 from sections_function import *
 from units import *
 import matplotlib.pyplot as plt
-import opsvis as opsv
 from ipywidgets import widgets
 from run_function import *
 from post_processing import *
 
 def final_run(JSON_FOLDER, materials_list, section_definitions, materials_config, sections_config, opensees_element_json_file):
-    import matplotlib.pyplot as plt
+
     
     ops.wipe()
     ops.model('basic', '-ndm', 3, '-ndf', 6)
@@ -58,16 +57,19 @@ def final_run(JSON_FOLDER, materials_list, section_definitions, materials_config
     # # Loading and Analysis
     # # =============================================
     ops.timeSeries('Linear', 1, '-factor', 1.0)
-    ops.pattern('Plain', 1, 1)
+    # Remove the ops.pattern() call here
+    apply_nodal_loads(JSON_FOLDER, load_combination="Comb2", load_pattern_tag=1, time_series_tag=1)
+    apply_member_loads(JSON_FOLDER, load_case_name="Comb2")
+    # process_structure_loads(
+    #     JSON_FOLDER, 
+    #     operation_type="nodal_loads",
+    #     load_cases=load_cases,
+    #     load_combinations=load_combinations,
+    #     numbering=1,
+    #     load_combination="Comb2"
+    # )
 
-    process_structure_loads(
-        JSON_FOLDER, 
-        operation_type="nodal_loads",
-        load_cases=load_cases,
-        load_combinations=load_combinations,
-        numbering=1,
-        load_combination="Comb2"
-    )
+    
 
     run_gravity(JSON_FOLDER, steps=10, comb_name="Comb2")
 
@@ -76,16 +78,44 @@ def final_run(JSON_FOLDER, materials_list, section_definitions, materials_config
     # # =============================================
     
     # Extruded shapes visualization
-    ele_shapes = {
-        1: ['rect', [1.0, 1.3333333333333333]],  # Section1: B=1.0, H=1.333
-        2: ['rect', [1.0, 1.3333333333333333]],  # Section1
-        3: ['rect', [1.0, 1.3333333333333333]],  # Section1
-        4: ['rect', [1.0, 1.3333333333333333]],  # Section1
-        7: ['rect', [1.0, 2.0]],                 # Section2: B=1.0, H=2.0
-        8: ['rect', [1.0, 2.0]],                 # Section2
-        11: ['rect', [1.0, 2.0]],                # Section2
-        12: ['rect', [1.0, 2.0]]                 # Section2
-    }
+    # Initialize the ele_shapes dictionary
+    ele_shapes = {}
+    # ele_shapes = {
+    # 1: ['rect', [200, 300]],           # Rectangular
+    # 2: ['I', [200, 400, 12, 20]],      # I-beam  
+    # 3: ['L', [300, 200, 25]],          # L-shape: H=300, B=200, t=25mm
+    # 4: ['L', [400, 400, 30]],          # Equal leg L-shape
+    # }
+    # Extract section types dynamically
+    section_types = section_definitions.keys()
+
+    # Process each section type
+    for section_type in section_types:
+        sections = section_definitions[section_type]
+        
+        for section_name, section_data in sections.items():
+            section_tag = section_data['section_tag']
+            
+            if section_data['type'] == 'rectangular':
+                # Convert dimensions to feet (assuming inch is defined as 1/12)
+                B = section_data['B'] / 12.0  # width in feet
+                H = section_data['H'] / 12.0  # height in feet
+                ele_shapes[section_tag] = ['rect', [B, H]]
+                
+            elif section_data['type'] == 'circular':
+                D = section_data['D_Sec'] / 12.0  # diameter in feet
+                ele_shapes[section_tag] = ['circ', [D]]
+            
+            elif section_data['type'] == 'L':
+                H = section_data['H'] / 12.0      # height in feet
+                B = section_data['B'] / 12.0      # width in feet
+                t = section_data['t'] / 12.0      # thickness in feet
+                ele_shapes[section_tag] = ['L', [H, B, t]]
+
+    print("ele_shapes = {")
+    for key, value in sorted(ele_shapes.items()):
+        print(f"    {key}: {value},")
+    print("}")
 
     structural_model_plot(ele_shapes, OUTPUT_FOLDER="postprocessing_folder")
 
@@ -121,7 +151,6 @@ def final_run(JSON_FOLDER, materials_list, section_definitions, materials_config
 
 OUTPUT_FOLDER = "output_folder"  # Main output directory
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)  # Create if doesn't exist
-
 # Subdirectories
 JSON_FOLDER = os.path.join(OUTPUT_FOLDER, "json_files")
 IMAGE_FOLDER = os.path.join(OUTPUT_FOLDER, "images")
