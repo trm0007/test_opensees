@@ -343,27 +343,29 @@ def build_model(x_spacing, y_spacing, z_spacing, materials, section_definitions,
     if "all" in run_parts or "create_structure" in run_parts:
         # reset_model(OUTPUT_FOLDER=OUTPUT_FOLDER)
         update_structure(JSON_FOLDER, x_spacing, y_spacing, z_spacing, 
-                        create_new_nodes={}, create_new_members={}, 
-                        delete_nodes=[], delete_members=[], tolerance=1e-6)
+                        create_new_nodes=create_new_nodes, create_new_members=create_new_members, 
+                        delete_nodes= delete_nodes, delete_members=delete_members, tolerance=1e-6)
         print(f"Structure updated successfully.")
 
-    # # =============================================
-    # # Load and Filter Structure Data
-    # # =============================================
-    # if "all" in run_parts or "filter_data" in run_parts:
-    #     nodes, members, structure_data = load_structure(JSON_FOLDER)
-    #     z_points = get_z_levels(nodes)
-    #     print(f'z_points={z_points}')
+    # =============================================
+    # Load and Filter Structure Data
+    # =============================================
+    if "all" in run_parts or "filter_data" in run_parts:
+        nodes, members, structure_data = load_structure(JSON_FOLDER)
+        z_points = get_z_levels(nodes)
+        print(f'z_points={z_points}')
         
-    #     filtered_nodes = filter_nodes_by_z(nodes, z_points)
-    #     filtered_columns = filter_column_members_by_z(members, nodes, z_points)
-    #     filtered_beams_x = filter_beam_x_by_z(members, nodes, z_points)
-    #     filtered_beams_y = filter_beam_y_by_z(members, nodes, z_points)
-            
-    #     save_filtered_data(filtered_nodes, JSON_FOLDER, "filtered_nodes.json")
-    #     save_filtered_data(filtered_columns, JSON_FOLDER, "filtered_columns.json")
-    #     save_filtered_data(filtered_beams_x, JSON_FOLDER, "beamX.json")
-    #     save_filtered_data(filtered_beams_y, JSON_FOLDER, "beamY.json")
+        filtered_nodes = filter_nodes_by_z(nodes, z_points)
+        filtered_columns = filter_column_members_by_z(members, nodes, z_points)
+        filtered_beams_x = filter_beam_x_by_z(members, nodes, z_points)
+        filtered_beams_y = filter_beam_y_by_z(members, nodes, z_points)
+        grouped_members =create_member_name_lists(filtered_nodes, filtered_columns, filtered_beams_x, filtered_beams_y )   
+
+        save_filtered_data(filtered_nodes, JSON_FOLDER, "filtered_nodes.json")
+        save_filtered_data(filtered_columns, JSON_FOLDER, "filtered_columns.json")
+        save_filtered_data(filtered_beams_x, JSON_FOLDER, "beamX.json")
+        save_filtered_data(filtered_beams_y, JSON_FOLDER, "beamY.json")
+        save_filtered_data(grouped_members, JSON_FOLDER, "filtered_grouped_members.json")
 
     # # =============================================
     # # Visualization of Structural Elements
@@ -484,7 +486,8 @@ def build_model(x_spacing, y_spacing, z_spacing, materials, section_definitions,
     if "all" in run_parts or "member_section_mapping" in run_parts:
         mapping = create_member_section_mapping(
             JSON_FOLDER,
-            'member_section_mapping.json'
+            'member_section_mapping.json',
+            member_section_mapping
         )
 
     # =============================================
@@ -498,9 +501,12 @@ def build_model(x_spacing, y_spacing, z_spacing, materials, section_definitions,
     # =============================================
     # Shell Mesh Generation (if needed)
     # =============================================
-    if ("all" in run_parts or "shell_mesh" in run_parts) and surface_configurations is not None and surface_configurations:
-        for config_name, config_data in surface_configurations.items():
-            print(f"\nProcessing {config_name} configuration ({config_data['section_name']})...")
+    converted_surface_configurations = convert_surface_configurations(JSON_FOLDER, surface_configurations)
+    create_components_and_elements(JSON_FOLDER, load_combinations)
+
+    if ("all" in run_parts or "shell_mesh" in run_parts) and converted_surface_configurations is not None and converted_surface_configurations:
+        for config_name, config_data in converted_surface_configurations.items():
+            # print(f"\nProcessing {config_name} configuration ({config_data['section_name']})...")
             
             mesh_data = create_proper_mesh_for_closed_area_3d1(
                 points=config_data["points"],
@@ -508,45 +514,58 @@ def build_model(x_spacing, y_spacing, z_spacing, materials, section_definitions,
                 shell_section_name=config_data["section_name"],
                 JSON_FOLDER=JSON_FOLDER,
                 IMAGE_FOLDER=IMAGE_FOLDER,
+                thickness=config_data["thickness"],
+                load_case_names=config_data["load_case_names"],
+                pressures=config_data["pressures"],
                 num_x_div=config_data["num_x_div"],
                 num_y_div=config_data["num_y_div"],
                 numbering=list(surface_configurations.keys()).index(config_name) + 1,
                 add_shell=config_data["add_shell"],
-                remove_shell=config_data["remove_shell"]
+                remove_shell=config_data["remove_shell"],
+                location_name=config_name,
+
             )
+            
 
-    # =============================================
-    # Final Data Consolidation
-    # =============================================
-    if "all" in run_parts or "final_consolidation" in run_parts:
-        shell_elements_data = create_combined_structure_json(JSON_FOLDER)
-        # print(f'shell_elements_data={shell_elements_data}')
-
+   
+    example_usage(JSON_FOLDER)
     # =============================================
     # Apply Loads
     # =============================================
+    nodes_data, members_data, mesh_data = create_combined_structure_json(JSON_FOLDER)
+
+    nodal_loads =calculate_nodal_loads_from_mesh(nodes_data, mesh_data, all_nodal_load_entries, JSON_FOLDER)
+    create_nodal_load_combinations(nodal_loads, load_combinations, JSON_FOLDER)
+
+    # Process with node coordinates
+    final_json_with_coords = process_element_loads_with_node_coordinates(all_element_loads, nodes_data, members_data, JSON_FOLDER)
+
+    # Output the final JSON
+    # print(json.dumps(final_json_with_coords, indent=2))
+    # print(final_json_with_coords)
+
+    apply_member_load_combinations(final_json_with_coords, load_combinations, JSON_FOLDER)
+    # convert_member_loads_to_nodal(all_element_loads, JSON_FOLDER)
+    lateral_load_dir = os.path.join(JSON_FOLDER, "lateral_load_distribution")
+
+    # Material properties (ft-kips units)
+    E = 3600  # ksi (kips/in²) - typical for concrete
+    poisson_ratio = 0.2
+    fc = 4.0  # ksi - concrete compressive strength
+
+    # Applied lateral forces (kips)
+    Vx_total = 100  # kips - Total lateral force in X direction
+    Vy_total = 80   # kips - Total lateral force in Y direction
+
+    # save_lateral_load_results(JSON_FOLDER, load_combinations, E, poisson_ratio, fc, Vx_total, Vy_total)
+
+
     if "all" in run_parts or "apply_loads" in run_parts:
-        
-        
-    #     if surface_configurations is not None and surface_configurations:
-    #         for config_name, config_data in surface_configurations.items():           
-    #             numbering = list(surface_configurations.keys()).index(config_name) + 1
-    #             apply_shell_load(
-    #                 JSON_FOLDER=JSON_FOLDER,
-    #                 load_case_names=config_data["load_case_names"],
-    #                 pressures=config_data["pressures"],
-    #                 numbering=numbering
-    #             )
-    #     apply_self_weight(JSON_FOLDER, load_case_names="self_weight")
-    # save_nodal_load_cases(JSON_FOLDER, nodal_load_entries)
-    # create_load_combinations(JSON_FOLDER, load_combinations)
-    # combined_loads = create_combined_loads(load_combinations, *all_element_loads, JSON_FOLDER=JSON_FOLDER)
-    # convert_member_loads_to_nodal(JSON_FOLDER)
-    # nodal_mass_combo(JSON_FOLDER, load_combinations)
-        process_loads(JSON_FOLDER, surface_configurations, nodal_load_entries, 
-                    load_combinations, all_element_loads, run_parts)
-        print("\nOperation completed successfully!")
-        print(f"Ran the following parts: {run_parts}")
+        pass 
+        # process_loads(JSON_FOLDER, surface_configurations, nodal_load_entries, 
+        #             load_combinations, all_element_loads, run_parts)
+        # print("\nOperation completed successfully!")
+        # print(f"Ran the following parts: {run_parts}")
 
 # Example usage:
 # Run only the structure creation and filtering

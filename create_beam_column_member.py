@@ -201,7 +201,7 @@ def create_beam_column_member(section_definitions, JSON_FOLDER, json_file_path, 
         for mbr_data in members_data:
             mbr_id = mbr_data["id"]
             mbr_name = mbr_data["name"]
-            print(f'mbr_name={mbr_name}')
+            # print(f'mbr_name={mbr_name}')
             node_i_id = mbr_data["start_node_id"] 
             node_j_id = mbr_data["end_node_id"]
             
@@ -226,17 +226,22 @@ def create_beam_column_member(section_definitions, JSON_FOLDER, json_file_path, 
             unit_weight = None
             Iy = None
             Iz = None
-            
+            rotation = None
+            type = None
             # Find the section in section_definitions to get properties
             for category, sections in section_definitions.items():
                 if section_name in sections:
                     if sections[section_name]["type"] == "rectangular":
                         B = sections[section_name]["B"]
                         H = sections[section_name]["H"]
+                        rotation = sections[section_name]["rotation"]
                         area = B * H
+                        type = sections[section_name]["type"]
                     elif sections[section_name]["type"] == "circular":
                         D = sections[section_name]["D_Sec"]
                         area = 0.785 * D * D
+                        rotation = sections[section_name]["rotation"]
+                        type = sections[section_name]["type"]
                     unit_weight = sections[section_name]["unit_weight"]
                     Iy = sections[section_name]["Iy"]
                     Iz = sections[section_name]["Iz"]
@@ -244,7 +249,7 @@ def create_beam_column_member(section_definitions, JSON_FOLDER, json_file_path, 
                 
             local_x_unit = np.array([dx, dy, dz]) / length 
             if mbr_name.startswith("cz"):
-                angle = 0.0
+                angle = rotation
                 # User-defined rotation angle (degrees)
                 angle = math.radians(angle)  # 30° → 0.5236 rad
                 local_z_unit = np.array([math.sin(angle), math.cos(angle), 1.0])
@@ -271,6 +276,7 @@ def create_beam_column_member(section_definitions, JSON_FOLDER, json_file_path, 
 
             # Store element data
             element_data.append({
+                "type": type,
                 "transType": transType,
                 "transTag": mbr_id,
                 "vecxz": local_z_unit.tolist(),
@@ -284,7 +290,8 @@ def create_beam_column_member(section_definitions, JSON_FOLDER, json_file_path, 
                 "unit_weight": unit_weight,
                 "Iy": Iy,
                 "Iz": Iz,
-                "section_name": section_name
+                "section_name": section_name,
+                "rotation": rotation
             })
         # 7. Save output data with proper error handling
         try:

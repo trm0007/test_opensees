@@ -1,0 +1,155 @@
+{
+    "R14001": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    },
+    "R14002": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    },
+    "R14003": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    },
+    "R14004": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    },
+    "R14005": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    },
+    "R14006": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    },
+    "R14007": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    },
+    "R14008": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    },
+    "R14009": {
+        "area": 16.0,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.32
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.72
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 1.2
+            }
+        }
+    }
+}

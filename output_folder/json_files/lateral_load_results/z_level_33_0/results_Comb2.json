@@ -1,0 +1,54 @@
+{
+  "center_of_mass": [
+    16.01126755702799,
+    16.40495910549746
+  ],
+  "center_of_rigidity": [
+    0,
+    0
+  ],
+  "total_stiffness_matrix": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "element_details": [],
+  "eccentricity": [
+    16.01126755702799,
+    16.40495910549746
+  ],
+  "eccentricity_total": [
+    17.661267557027987,
+    18.05495910549746
+  ],
+  "torsional_moment_applied": 392.5945059875071,
+  "torsional_rigidity_Jr_total": 0,
+  "shear_distribution": [],
+  "total_shear_distributed": [
+    0,
+    0
+  ],
+  "displacements": [
+    0,
+    0,
+    0
+  ],
+  "load_combination": "Comb2",
+  "z_level": "33.0",
+  "Lx": 33.0,
+  "Ly": 33.0,
+  "Vx_total": 100,
+  "Vy_total": 80
+}

@@ -1,0 +1,259 @@
+{
+  "components": [
+    {
+      "wt": 5.574166666666666,
+      "xi": 10.0,
+      "yi": 0.0
+    },
+    {
+      "wt": 3.520104166666666,
+      "xi": 0.0,
+      "yi": 0.0
+    },
+    {
+      "wt": 8.063166666666667,
+      "xi": 10.0,
+      "yi": 10.0
+    },
+    {
+      "wt": 5.574166666666665,
+      "xi": 0.0,
+      "yi": 10.0
+    },
+    {
+      "wt": 5.719583333333333,
+      "xi": 22.0,
+      "yi": 0.0
+    },
+    {
+      "wt": 7.588583333333333,
+      "xi": 22.0,
+      "yi": 10.0
+    },
+    {
+      "wt": 3.6655208333333325,
+      "xi": 33.0,
+      "yi": 0.0
+    },
+    {
+      "wt": 5.099583333333332,
+      "xi": 33.0,
+      "yi": 10.0
+    },
+    {
+      "wt": 8.270583333333333,
+      "xi": 10.0,
+      "yi": 22.0
+    },
+    {
+      "wt": 5.719583333333333,
+      "xi": 0.0,
+      "yi": 22.0
+    },
+    {
+      "wt": 7.801166666666666,
+      "xi": 22.0,
+      "yi": 22.0
+    },
+    {
+      "wt": 5.781583333333333,
+      "xi": 10.0,
+      "yi": 33.0
+    },
+    {
+      "wt": 3.6655208333333333,
+      "xi": 0.0,
+      "yi": 33.0
+    },
+    {
+      "wt": 5.932166666666666,
+      "xi": 22.0,
+      "yi": 33.0
+    },
+    {
+      "wt": 5.250166666666666,
+      "xi": 33.0,
+      "yi": 22.0
+    },
+    {
+      "wt": 3.816104166666666,
+      "xi": 33.0,
+      "yi": 33.0
+    }
+  ],
+  "elements": [
+    {
+      "name": "cz3",
+      "type": "circular_column",
+      "diameter": 0.8,
+      "height": 11.0,
+      "x": 0.0,
+      "y": 0.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz6",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 10.0,
+      "y": 0.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz9",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 22.0,
+      "y": 0.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz12",
+      "type": "circular_column",
+      "diameter": 0.8,
+      "height": 11.0,
+      "x": 33.0,
+      "y": 0.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz15",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 0.0,
+      "y": 10.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz18",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 10.0,
+      "y": 10.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz21",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 22.0,
+      "y": 10.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz24",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 33.0,
+      "y": 10.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz27",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 0.0,
+      "y": 22.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz30",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 10.0,
+      "y": 22.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz33",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 22.0,
+      "y": 22.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz36",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 33.0,
+      "y": 22.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz39",
+      "type": "circular_column",
+      "diameter": 0.8,
+      "height": 11.0,
+      "x": 0.0,
+      "y": 33.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz42",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 10.0,
+      "y": 33.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz45",
+      "type": "rectangular_column",
+      "Dx": 12.0,
+      "Dy": 18.0,
+      "height": 11.0,
+      "x": 22.0,
+      "y": 33.0,
+      "rotation": 0.0
+    },
+    {
+      "name": "cz48",
+      "type": "circular_column",
+      "diameter": 0.8,
+      "height": 11.0,
+      "x": 33.0,
+      "y": 33.0,
+      "rotation": 0.0
+    }
+  ],
+  "Lx": 33.0,
+  "Ly": 33.0,
+  "load_combination": "Comb2",
+  "load_factors": [
+    [
+      "DL",
+      1.2
+    ],
+    [
+      "LL",
+      1.6
+    ],
+    [
+      "self_weight",
+      1.2
+    ]
+  ]
+}

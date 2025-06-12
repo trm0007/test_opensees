@@ -69,14 +69,6 @@ def create_structure(x_spacing, y_spacing, z_spacing):
                 members[f"by{member_id}"] = (n1, n2, member_id)
                 member_id += 1
     
-    # Print results with clean formatting
-    print("\nNode Names and Coordinates:")
-    for name, coords in sorted(nodes.items(), key=lambda x: int(x[0][1:])):
-        print(f"{name}: ({coords[0]:g}, {coords[1]:g}, {coords[2]:g})")
-    
-    print("\nMember Names and Connections:")
-    for name, (n1, n2, _) in sorted(members.items(), key=lambda x: x[1][2]):
-        print(f"{name}: connects {n1} to {n2}")
     
     return nodes, members, x_points, y_points, z_points
 
@@ -544,67 +536,82 @@ def filter_beam_y_by_z(members, nodes, z_points):
                 break
     
     return dict(grouped_members)
+
+
+from collections import defaultdict
+
+def create_member_name_lists(filtered_nodes, filtered_columns, filtered_beams_x, filtered_beams_y):
+    grouped_members = defaultdict(list)
+    grouped_nodes = defaultdict(list)
+    
+    grouped_members['columns'] = [name for group in filtered_columns.values() for name in group]
+    grouped_members['beamx'] = [name for group in filtered_beams_x.values() for name in group]
+    grouped_members['beamy'] = [name for group in filtered_beams_y.values() for name in group]
+    grouped_nodes['nodes'] = [name for group in filtered_nodes.values() for name in group]
+    
+    # Option 1: Return a merged dictionary
+    return {**grouped_members, **grouped_nodes}
+
 	
-	
-def create_section_mapping_from_filtered(filtered_columns_path, filtered_beams_x_path, filtered_beams_y_path, output_file="section_mapping.json"):
-    """
-    Create a section mapping organized by Z-levels using pre-filtered JSON files.
+# def create_section_mapping_from_filtered(filtered_columns_path, filtered_beams_x_path, filtered_beams_y_path, output_file="section_mapping.json"):
+#     """
+#     Create a section mapping organized by Z-levels using pre-filtered JSON files.
     
-    Args:
-        filtered_columns_path: Path to filtered_columns.json
-        filtered_beams_x_path: Path to beamX.json
-        filtered_beams_y_path: Path to beamY.json
-        output_file: Path to save the JSON output
-    """
-    # Load filtered data
-    with open(filtered_columns_path, 'r') as f:
-        filtered_columns = json.load(f)
+#     Args:
+#         filtered_columns_path: Path to filtered_columns.json
+#         filtered_beams_x_path: Path to beamX.json
+#         filtered_beams_y_path: Path to beamY.json
+#         output_file: Path to save the JSON output
+#     """
+#     # Load filtered data
+#     with open(filtered_columns_path, 'r') as f:
+#         filtered_columns = json.load(f)
     
-    with open(filtered_beams_x_path, 'r') as f:
-        filtered_beams_x = json.load(f)
+#     with open(filtered_beams_x_path, 'r') as f:
+#         filtered_beams_x = json.load(f)
     
-    with open(filtered_beams_y_path, 'r') as f:
-        filtered_beams_y = json.load(f)
+#     with open(filtered_beams_y_path, 'r') as f:
+#         filtered_beams_y = json.load(f)
     
-    # Initialize the mapping structure
-    section_mapping = {
-        "columns": defaultdict(dict),
-        "beams_x": defaultdict(dict),
-        "beams_y": defaultdict(dict)
-    }
+#     # Initialize the mapping structure
+#     section_mapping = {
+#         "columns": defaultdict(dict),
+#         "beams_x": defaultdict(dict),
+#         "beams_y": defaultdict(dict)
+#     }
     
-    # Process columns (already grouped by starting Z-level)
-    for z_level, columns in filtered_columns.items():
-        for member_name, member_data in columns.items():
-            # The key format should be "at_z_X.X" where X.X is the z_level
-            z_key = f"at_z_{float(z_level):.1f}"
-            section_mapping["columns"][z_key][member_name] = "section1"
+#     # Process columns (already grouped by starting Z-level)
+#     for z_level, columns in filtered_columns.items():
+#         for member_name, member_data in columns.items():
+#             # The key format should be "at_z_X.X" where X.X is the z_level
+#             z_key = f"at_z_{float(z_level):.1f}"
+#             section_mapping["columns"][z_key][member_name] = "section1"
     
-    # Process x-beams (already grouped by Z-level)
-    for z_level, beams in filtered_beams_x.items():
-        for member_name, member_data in beams.items():
-            z_key = f"at_z_{float(z_level):.1f}"
-            section_mapping["beams_x"][z_key][member_name] = "section2"
+#     # Process x-beams (already grouped by Z-level)
+#     for z_level, beams in filtered_beams_x.items():
+#         for member_name, member_data in beams.items():
+#             z_key = f"at_z_{float(z_level):.1f}"
+#             section_mapping["beams_x"][z_key][member_name] = "section2"
     
-    # Process y-beams (already grouped by Z-level)
-    for z_level, beams in filtered_beams_y.items():
-        for member_name, member_data in beams.items():
-            z_key = f"at_z_{float(z_level):.1f}"
-            section_mapping["beams_y"][z_key][member_name] = "section3"
+#     # Process y-beams (already grouped by Z-level)
+#     for z_level, beams in filtered_beams_y.items():
+#         for member_name, member_data in beams.items():
+#             z_key = f"at_z_{float(z_level):.1f}"
+#             section_mapping["beams_y"][z_key][member_name] = "section3"
     
-    # Convert defaultdict to regular dict for JSON serialization
-    section_mapping = {
-        "columns": dict(section_mapping["columns"]),
-        "beams_x": dict(section_mapping["beams_x"]),
-        "beams_y": dict(section_mapping["beams_y"])
-    }
+#     # Convert defaultdict to regular dict for JSON serialization
+#     section_mapping = {
+#         "columns": dict(section_mapping["columns"]),
+#         "beams_x": dict(section_mapping["beams_x"]),
+#         "beams_y": dict(section_mapping["beams_y"])
+#     }
     
-    # Save to JSON file
-    with open(output_file, 'w') as f:
-        json.dump(section_mapping, f, indent=4)
+#     # Save to JSON file
+#     with open(output_file, 'w') as f:
+#         json.dump(section_mapping, f, indent=4)
     
-    print(f"Section mapping saved to {output_file}")
-    return section_mapping
+#     print(f"Section mapping saved to {output_file}")
+#     return section_mapping
 
 # Run the function
 
@@ -614,51 +621,37 @@ def save_filtered_data(filtered_data, output_folder, filename):
     os.makedirs(os.path.dirname(full_path), exist_ok=True)
     with open(full_path, 'w') as f:
         json.dump(filtered_data, f, indent=4)
-    print(f"Saved filtered data to {full_path}")
+    # print(f"Saved filtered data to {full_path}")
 
-def create_member_section_mapping(JSON_FOLDER, output_file):
+def create_member_section_mapping(JSON_FOLDER, output_file, member_section_mapping):
     """
-    Create a mapping of member names to section types and save to a JSON file.
+    Convert a section->members dict to member->section mapping and save to a JSON file.
     
     Args:
-        output_folder (str): Root output directory
-        input_file (str): Relative path to the input structure data JSON file
-        output_file (str): Relative path to save the output mapping JSON file
+        JSON_FOLDER (str): folder to save JSON file
+        output_file (str): JSON filename
+        member_section_mapping (dict): dict with sections as keys and member lists as values
     
     Returns:
-        dict: The member section mapping dictionary
+        dict: member->section mapping
     """
-    # Create full paths by joining with output_folder
-
     output_path = os.path.join(JSON_FOLDER, output_file)
-    
-    # Load the structure data from the file
-    nodes, members, structure_data = load_structure(JSON_FOLDER)
 
-    # Create a dictionary to map member names to section types
-    member_section_mapping = {}
+    # Convert section->members to member->section mapping
+    member_to_section = {}
+    for section, members in member_section_mapping.items():
+        for member in members:
+            member_to_section[member] = section
 
-    # Process each member
-    for member in structure_data['members']:
-        member_name = member['name']
-        
-        # Check if the member is a column (starts with 'cz')
-        if member_name.startswith('cz'):
-            member_section_mapping[member_name] = 'section1'
-        # Check if the member is a beam (starts with 'bx' or 'by')
-        elif member_name.startswith('bx') or member_name.startswith('by'):
-            member_section_mapping[member_name] = 'section2'
-
-    # Save the mapping to a JSON file
+    # Save the member->section mapping to JSON
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w') as file:
-        json.dump(member_section_mapping, file, indent=4)
+        json.dump(member_to_section, file, indent=4)
 
-    print(f"Member section mapping created and saved to {output_path}")
-    print(f"Mapped {len(member_section_mapping)} members to sections")
-    
-    return member_section_mapping
+    print(f"Member section mapping manually created and saved to {output_path}")
+    print(f"Mapped {len(member_to_section)} members to sections")
 
+    return member_to_section
 
 
 

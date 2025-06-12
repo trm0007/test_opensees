@@ -181,65 +181,70 @@ materials = [
 section_definitions = {
     # Rectangular RC sections
     "rectangular_sections": {
-        "section1": {  # Example: 16×12 inch beam
+        "col1": {  # Example: 16×12 inch beam
             "type": "rectangular",
             "section_tag": 1,          # Unique section identifier
-            "H": 12.0 * inch,          # Section height
-            "B": 12.0 * inch,          # Section width
+            "H": 10.0 * inch,          # Section height
+            "B": 10.0 * inch,          # Section width
             "cover_H": 1.5 * inch,     # Cover thickness (vertical)
             "cover_B": 1.5 * inch,     # Cover thickness (horizontal)
             "core_tag": 2,             # Confined concrete material
             "cover_tag": 1,            # Unconfined concrete material
             "steel_tag": 3,            # Steel material
             # Main reinforcement (top and bottom)
-            "n_bars_top": 3,           # Number of top bars
-            "dia_top": 1.0 * inch,     # Diameter of top bars
-            "n_bars_bot": 3,           # Number of bottom bars
-            "dia_bot": 1.0 * inch,     # Diameter of bottom bars
+            "n_bars_top": 2,           # Number of top bars
+            "dia_top": 0.625 * inch,     # Diameter of top bars
+            "n_bars_bot": 2,           # Number of bottom bars
+            "dia_bot": 0.625 * inch,     # Diameter of bottom bars
             # Secondary reinforcement (sides)
-            "n_bars_secondary_top": 2,
+            "n_bars_secondary_top": 0,
             "dia_sec_top": 0.625 * inch,  # 5/8 inch (#5 bar)
-            "n_bars_secondary_bot": 2,
+            "n_bars_secondary_bot": 0,
             "dia_sec_bot": 0.625 * inch,  # 5/8 inch (#5 bar)
             # Internal ties/stirrups
             "n_bars_int": 4,
             "dia_int": 0.5 * inch,     # 1/2 inch (#4 bar)
             "offset": 2.0 * inch,      # Offset for secondary bars from edge
             "area": 192.0 * inch * inch,  # Cross-sectional area (H × B)
-            "unit_weight": 0.150       # Unit weight in pcf (pounds per cubic foot)
+            "unit_weight": 0.150,       # Unit weight in pcf (pounds per cubic foot)
+            "rotation": 0.0,
         },
-        "section2": {  # Larger beam: 24×12 inch
+        "beam1": {  # Larger beam: 24×12 inch
             "type": "rectangular",
             "section_tag": 2,
-            "H": 12.0 * inch,
-            "B": 12.0 * inch,
+            "H": 15.0 * inch,
+            "B": 10.0 * inch,
             "cover_H": 1.5 * inch,
             "cover_B": 1.5 * inch,
             "core_tag": 2,
             "cover_tag": 1,
             "steel_tag": 3,
-            "n_bars_top": 4,
-            "dia_top": 1.0 * inch,
-            "n_bars_bot": 4,
-            "dia_bot": 1.0 * inch,
-            "n_bars_secondary_top": 2,
-            "dia_sec_top": 0.625 * inch,
-            "n_bars_secondary_bot": 2,
-            "dia_sec_bot": 0.625 * inch,
-            "n_bars_int": 6,
-            "dia_int": 0.5 * inch,
-            "offset": 2.0 * inch,
-            "area": 288.0 * inch * inch,  # Cross-sectional area (H × B)
-            "unit_weight": 0.150       # Unit weight in pcf (pounds per cubic foot)
+            # Main reinforcement (top and bottom)
+            "n_bars_top": 2,           # Number of top bars
+            "dia_top": 0.625 * inch,     # Diameter of top bars
+            "n_bars_bot": 2,           # Number of bottom bars
+            "dia_bot": 0.625 * inch,     # Diameter of bottom bars
+            # Secondary reinforcement (sides)
+            "n_bars_secondary_top": 0,
+            "dia_sec_top": 0.625 * inch,  # 5/8 inch (#5 bar)
+            "n_bars_secondary_bot": 0,
+            "dia_sec_bot": 0.625 * inch,  # 5/8 inch (#5 bar)
+            # Internal ties/stirrups
+            "n_bars_int": 4,
+            "dia_int": 0.5 * inch,     # 1/2 inch (#4 bar)
+            "offset": 2.0 * inch,      # Offset for secondary bars from edge
+            "area": 192.0 * inch * inch,  # Cross-sectional area (H × B)
+            "unit_weight": 0.150,       # Unit weight in pcf (pounds per cubic foot)
+            "rotation": 0.0,
         }
     },
     
     # Circular RC sections (columns)
     "circular_sections": {
-        "section3": {  # 20-inch diameter solid column
+        "col2": {  # 20-inch diameter solid column
             "type": "circular",
             "section_tag": 3,
-            "D_Sec": 12.0 * inch,      # Diameter
+            "D_Sec": 10.0 * inch,      # Diameter
             "cover_Sec": 1.5 * inch,   # Cover thickness
             "num_Bars_Sec": 8,         # Number of longitudinal bars
             "bar_dia_Sec": 1.0 * inch, # Bar diameter
@@ -252,8 +257,9 @@ section_definitions = {
             "nf_Core_T": 8,            # Theta fibers in core (dimensionless)
             "nf_Cover_R": 4,           # Radial fibers in cover (dimensionless)
             "nf_Cover_T": 8,           # Theta fibers in cover (dimensionless)
-            "area": 3.14159 * (20.0/2 * inch) * (20.0/2 * inch),  # π × r²
-            "unit_weight": 0.150       # Unit weight in pcf (pounds per cubic foot)
+            "area": 3.14159 * (10.0/2 * inch) * (10.0/2 * inch),  # π × r²
+            "unit_weight": 0.150,       # Unit weight in pcf (pounds per cubic foot)
+            "rotation": 0.0,
         },
         "section4": {  # 32-inch diameter hollow column
             "type": "circular",
@@ -271,10 +277,48 @@ section_definitions = {
             "nf_Cover_R": 4,           # Dimensionless
             "nf_Cover_T": 12,          # Dimensionless
             "area": 3.14159 * ((32.0/2 * inch) * (32.0/2 * inch) - (8.0 * inch) * (8.0 * inch)),  # π × (R² - r²)
-            "unit_weight": 0.150       # Unit weight in pcf (pounds per cubic foot)
+            "unit_weight": 0.150,       # Unit weight in pcf (pounds per cubic foot)
+            "rotation": 0.0,
         }
     }
 }
+
+member_section_mapping = {
+    'col1': 
+    ["cz4","cz7","cz13","cz16","cz19","cz22","cz25","cz28","cz31","cz34","cz40","cz43",
+             
+    "cz5","cz8","cz14","cz17","cz20","cz23","cz26","cz29","cz32","cz35","cz41","cz44",
+    
+    "cz6","cz9","cz15","cz18","cz21","cz24","cz27","cz30","cz33","cz36","cz42", "cz45"
+    ],
+
+    'col2': 
+    ["cz1", "cz10", "cz37", "cz46",
+             
+    "cz2", "cz11", "cz38", "cz47",
+    
+    "cz3", "cz12", "cz39", "cz48"
+    ],
+
+    'beam1':
+    [
+
+    "bx61","bx62","bx63","bx64","bx65","bx66","bx67","bx68","bx69","bx70","bx71","bx72"
+    ,
+    "bx73","bx74","bx75","bx76","bx77","bx78","bx79","bx80","bx81","bx82","bx83","bx84"
+    ,
+    "bx85","bx86","bx87","bx88","bx89","bx90","bx91","bx92","bx93","bx94","bx95","bx96",
+    
+
+    "by109","by110","by111","by112","by113","by114","by115","by116","by117","by118","by119","by120",
+
+    "by121","by122","by123","by124","by125","by126","by127","by128","by129","by130","by131","by132",
+
+    "by133","by134","by135","by136","by137","by138","by139","by140","by141","by142","by143","by144"
+    
+]
+}
+
 # # Parameters (in mm)
 # params = {
 #     'sec_tag': 1,
@@ -305,9 +349,9 @@ section_definitions = {
 # Structural Grid Definition
 # =============================================
 # Node spacing in X, Y, and Z directions
-x_spacing = [20.0 * foot]     # X-direction spacing
-y_spacing = [23.0 * foot]     # Y-direction spacing 
-z_spacing = [11.5 * foot]     # Story height
+x_spacing = [10.0 * foot, 12.0 * foot, 11.0 * foot]     # X-direction spacing
+y_spacing = [10.0 * foot, 12.0 * foot, 11.0 * foot]     # Y-direction spacing 
+z_spacing = [10.0 * foot, 12.0 * foot, 11.0 * foot]     # Story height
 
 # =============================================
 # Node and Member Management
@@ -318,13 +362,13 @@ create_new_members = {}
 
 # Define nodes/members to remove from model
 delete_nodes = []
-delete_members = ['bx5', 'bx6', 'by9', 'by10']  # Members to be removed
+delete_members = ['bx49', 'bx50', 'bx51', 'bx52', 'bx53', 'bx54', 'bx55', 'bx56', 'bx57', 'bx58', 'bx59', 'bx60', 'by97', 'by98', 'by99', 'by100', 'by101', 'by102', 'by103', 'by104', 'by105', 'by106', 'by107', 'by108']  # Members to be removed
 
 # =============================================
 # FIXITY DATA
 # =============================================
 fixity_data = {
-    "base_nodes1": {"nodes": [1, 2, 3, 4], "vals": [1, 1, 1, 1, 1, 1]},
+    "base_nodes1": {"nodes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], "vals": [1, 1, 1, 1, 1, 1]},
     # "base_nodes2": {"nodes": [], "vals": [0, 1, 1, 0, 1, 0]},
     # "base_nodes3": {"nodes": [], "vals": [1, 0, 0, 1, 0, 1]},
 }
@@ -371,14 +415,32 @@ sections_config = {
             }
         },
         {
-            "name": "floor_slab",
+            "name": "floor_slab1",
             "type": "PlateFiber",
             "id": 100001,
             "material_id": 100001,
             "properties": {
                 "thickness": 6.0 * inch  # 12-inch thick floor slab
             }
-        }
+        },
+        # {
+        #     "name": "floor_slab2",
+        #     "type": "PlateFiber",
+        #     "id": 100002,
+        #     "material_id": 100001,
+        #     "properties": {
+        #         "thickness": 6.0 * inch  # 12-inch thick floor slab
+        #     }
+        # },
+        # {
+        #     "name": "floor_slab3",
+        #     "type": "PlateFiber",
+        #     "id": 100003,
+        #     "material_id": 100001,
+        #     "properties": {
+        #         "thickness": 6.0 * inch  # 12-inch thick floor slab
+        #     }
+        # },
     ]
 }
 
@@ -387,28 +449,313 @@ sections_config = {
 # =============================================
 # Define shell element surfaces
 surface_configurations = {
-    "horizontal": {
-        "points": [
-            # Define a rectangular floor slab at z=11.5 ft
-            [0.0 * foot, 0.0 * foot, 11.5 * foot],
-            [20.0 * foot, 0.0 * foot, 11.5 * foot],
-            [20.0 * foot, 23.0 * foot, 11.5 * foot],
-            [0.0 * foot, 23.0 * foot, 11.5 * foot],
-        ],
-        "section_name": "floor_slab",  # Reference to section in sections_config
+    "first_floor_slab1": {
+        "points": [ "n17", "n18", "n22", "n21"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
         "add_shell": {},     # Can specify predefined shell elements here
         "remove_shell": [],  # Shells to remove
-        "predefined_points": {
-            'n5': np.array([0.0 * foot, 0.0 * foot, 11.5 * foot]),
-            'n6': np.array([20.0 * foot, 0.0 * foot, 11.5 * foot]),
-            'n7': np.array([0.0 * foot, 23.0 * foot, 11.5 * foot]),
-            'n8': np.array([20.0 * foot, 23.0 * foot, 11.5 * foot]),
-        },
-        "num_x_div": 2,     # Number of mesh divisions in X (dimensionless)
-        "num_y_div": 2,     # Number of mesh divisions in Y (dimensionless)
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
         "load_case_names": ['DL', 'LL', 'self_weight'],
-        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf]  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
-    }
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "first_floor_slab2": {
+        "points": [ "n18", "n19", "n23", "n22"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "first_floor_slab3": {
+        "points": [ "n19", "n20", "n24", "n23"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "first_floor_slab4": {
+        "points": [ "n21", "n22", "n26", "n25"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "first_floor_slab5": {
+        "points": [ "n22", "n23", "n27", "n26"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "first_floor_slab6": {
+        "points": [ "n25", "n26", "n30", "n29"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+
+    "first_floor_slab7": {
+        "points": [ "n26", "n27", "n31", "n30"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "first_floor_slab8": {
+        "points": [ "n27", "n28", "n32", "n31"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+
+    "second_floor_slab1": {
+        "points": [ "n33", "n34", "n38", "n37"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "second_floor_slab2": {
+        "points": [ "n34", "n35", "n39", "n38"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "second_floor_slab3": {
+        "points": [ "n35", "n36", "n40", "n39"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "second_floor_slab4": {
+        "points": [ "n37", "n38", "n42", "n41"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "second_floor_slab5": {
+        "points": [ "n38", "n39", "n43", "n42"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "second_floor_slab6": {
+        "points": [ "n41", "n42", "n46", "n45"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+
+    "second_floor_slab7": {
+        "points": [ "n42", "n43", "n47", "n46"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "second_floor_slab8": {
+        "points": [ "n43", "n44", "n48", "n47"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+
+    
+"third_floor_slab1": {
+        "points": [ "n49", "n50", "n54", "n53"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "third_floor_slab2": {
+        "points": [ "n50", "n51", "n55", "n54"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "third_floor_slab3": {
+        "points": [ "n51", "n52", "n56", "n55"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "third_floor_slab4": {
+        "points": [ "n53", "n54", "n58", "n57"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "third_floor_slab5": {
+        "points": [ "n54", "n55", "n59", "n58"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "third_floor_slab6": {
+        "points": [ "n57", "n58", "n62", "n61"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+
+    "third_floor_slab7": {
+        "points": [ "n58", "n59", "n63", "n62"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    "third_floor_slab8": {
+        "points": [ "n59", "n60", "n64", "n63"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
+    
+    "shear_wall1": {
+        "points": [ "n1", "n2", "n18", "n17"],
+        "section_name": "floor_slab1",  # Reference to section in sections_config
+        "add_shell": {},     # Can specify predefined shell elements here
+        "remove_shell": [],  # Shells to remove
+        "predefined_points": {},
+        "num_x_div": 3,     # Number of mesh divisions in X (dimensionless)
+        "num_y_div": 3,     # Number of mesh divisions in Y (dimensionless)
+        "load_case_names": ['DL', 'LL', 'self_weight'],
+        "pressures": [-0.02 * ksf, -0.045 * ksf, -0.075 * ksf],  # Dead load (20 psf = 0.02 ksf) and live load (40 psf = 0.04 ksf)
+        "thickness": 6*inch
+    },
 }
 
 # surface_configurations = {
@@ -510,26 +857,56 @@ load_cases={
 }
 
 nodal_load_entries = [
-        ["N10002", "DL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
-        ["N10003", "DL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
-        ["N10004", "DL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
-        ["n6", "DL", 0.0, 0.0, -0.5750000000000002, 0.0, 0.0, 0.0],
-        ["n5", "DL", 0.0, 0.0, -0.5750000000000002, 0.0, 0.0, 0.0],
-        ["N10006", "DL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
-        ["N10007", "DL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
-        ["n8", "DL", 0.0, 0.0, -0.5750000000000002, 0.0, 0.0, 0.0],
-        ["n7", "DL", 0.0, 0.0, -0.5750000000000002, 0.0, 0.0, 0.0],
-        ["N10002", "LL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
-        ["N10003", "LL", 0.0, 0.0, -4.600000000000001, 0.0, 0.0, 0.0],
-        ["N10004", "LL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
-        ["n6", "LL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
-        ["n5", "LL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
-        ["N10006", "LL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
-        ["N10007", "LL", 0.0, 0.0, -2.3000000000000007, 0.0, 0.0, 0.0],
-        ["n8", "LL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0],
-        ["n7", "LL", 0.0, 0.0, -1.1500000000000004, 0.0, 0.0, 0.0]
-    ]
-    
+    ["n10002", "DL", 1.2, -0.5, -1.15, 0.3, -0.4, 0.1],
+    ["n10003", "DL", -2.1, 0.7, -2.3, -0.2, 0.5, -0.3],
+    ["n10004", "DL", 0.8, 1.0, -1.15, 0.0, -0.6, 0.2],
+    ["n6", "DL", -1.4, 0.9, -0.575, 0.1, 0.3, -0.1],
+    ["n5", "DL", 1.1, -0.6, -0.575, -0.5, 0.2, 0.3],
+    ["n10006", "DL", -0.9, 1.2, -1.15, 0.4, -0.1, -0.2],
+    ["n8", "DL", -1.7, 0.3, -0.575, -0.2, -0.3, 0.1],
+    ["n7", "DL", 0.5, -0.4, -0.575, 0.2, 0.1, -0.1],
+    ["n10002", "LL", -1.3, 0.6, -2.3, 0.0, -0.4, 0.2],
+    ["n10003", "LL", 0.9, -0.8, -4.6, -0.1, 0.5, -0.2],
+    ["n10004", "LL", 1.5, 0.4, -2.3, 0.3, -0.3, 0.1],
+    ["n6", "LL", -1.0, 1.1, -1.15, -0.4, 0.2, 0.0],
+    ["n5", "LL", 0.6, -0.2, -1.15, 0.1, -0.5, 0.4],
+    ["n10006", "LL", -0.7, 0.8, -2.3, 0.2, 0.3, -0.1],
+    ["n8", "LL", 0.2, 0.5, -1.15, 0.0, 0.0, -0.2],
+    ["n7", "LL", -0.6, -0.3, -1.15, 0.4, -0.1, 0.2]
+]
+
+nodal_load_entries1 = [
+    ["n10007", "DL", 0.7, -0.3, -1.15, 0.2, -0.5, 0.0],
+    ["n10008", "DL", -1.6, 0.8, -0.575, -0.3, 0.1, -0.2],
+    ["n10007", "LL", 1.0, -0.5, -2.3, 0.1, -0.2, 0.3],
+    ["n10008", "LL", -0.8, 0.6, -1.15, -0.2, 0.4, -0.1]
+]
+
+nodal_load_entries2 = [
+    ["n10009", "DL", -1.2, 1.0, -0.575, 0.0, 0.2, 0.1],
+    ["n10010", "DL", 0.6, -0.9, -2.3, 0.3, -0.1, -0.3],
+    ["n10009", "LL", -1.1, 0.4, -1.15, -0.1, 0.0, 0.2],
+    ["n10010", "LL", 1.3, -0.7, -2.3, 0.5, -0.3, -0.2]
+]
+
+nodal_load_entries3 = [
+    ["n10011", "DL", 0.9, -0.2, -0.575, -0.4, 0.3, -0.1],
+    ["n10012", "DL", -1.4, 1.1, -1.15, 0.2, -0.2, 0.0],
+    ["n10011", "LL", 0.4, 0.7, -2.3, -0.3, 0.1, -0.2],
+    ["n10012", "LL", -0.5, -0.6, -1.15, 0.0, 0.5, 0.1]
+]
+
+nodal_load_entries4 = [
+    ["n10013", "DL", -0.8, 0.5, -2.3, 0.1, 0.0, -0.4],
+    ["n10014", "DL", 1.2, -0.4, -0.575, -0.2, 0.3, 0.2],
+    ["n10013", "LL", 0.6, 0.3, -1.15, 0.4, -0.1, -0.3],
+    ["n10014", "LL", -1.0, -0.9, -2.3, -0.1, 0.2, 0.0]
+]
+
+# Combine all load entries into a single list
+# all_nodal_load_entries = nodal_load_entries + nodal_load_entries1 + nodal_load_entries2 + nodal_load_entries3 + nodal_load_entries4
+
+all_nodal_load_entries = []
 
     
 # Process and save the load cases
@@ -551,7 +928,7 @@ element_loads1 = {
 }
 
 element_loads2 = {
-    "[5,6,7,8]": [
+    "[2,4,7,8]": [
         {
             "LoadCase": ["LL"],    
             "uniform": {"x": -0.0, "y": -0.0, "z": -10.0},
@@ -565,11 +942,80 @@ element_loads2 = {
     ]
 }
 
+element_loads2 = {
+    "[15,26,7,8,1,22]": [
+        {
+            "LoadCase": ["LL"],    
+            "uniform": {"x": -0.0, "y": -0.0, "z": -10.0},
+            "point": {"x": -0.0, "y": -0.0, "z": -10.0, "location": 0.5},
+            "temperature_points": [
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0}
+            ]
+        }
+    ]
+}
+
+all_element_loads = [element_loads1, element_loads2, element_loads2]
+
+simple_list = [
+    [5, ["DL"], [0.0, 0.0, -10.0], [0.0, 0.0, 0.0, 0.5], [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]],
+    [6, ["DL"], [0.0, 0.0, -10.0], [0.0, 0.0, 0.0, 0.5], [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]],
+    [7, ["DL"], [0.0, 0.0, -10.0], [0.0, 0.0, 0.0, 0.5], [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]],
+    [8, ["DL"], [0.0, 0.0, -10.0], [0.0, 0.0, 0.0, 0.5], [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]]
+]
 
 
 
 all_element_loads = [element_loads1, element_loads2]
 
+element_loads1 = {
+    "['bx62', 'bx63', 'by109', 'by110']": [
+        {
+            "LoadCase": ["DL"],    
+            "uniform": {"x": 0.0, "y": 0.0, "z": -10.0},
+            "point": {"x": 0.0, "y": 0.0, "z": 0.0, "location": 0.5},
+            "temperature_points": [
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0}
+            ]
+        }
+    ]
+}
+
+element_loads2 = {
+    "['cz2', 'bx61', 'by109', 'by110']": [
+        {
+            "LoadCase": ["LL"],    
+            "uniform": {"x": 0.0, "y": 0.0, "z": -10.0},
+            "point": {"x": 0.0, "y": 0.0, "z": -10.0, "location": 0.5},
+            "temperature_points": [
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0}
+            ]
+        }
+    ]
+}
+
+element_loads3 = {
+    "['by117', 'by126', 'by109', 'by110', 'cz1', 'by122']": [
+        {
+            "LoadCase": ["LL"],    
+            "uniform": {"x": 0.0, "y": 0.0, "z": -10.0},
+            "point": {"x": 0.0, "y": 0.0, "z": -10.0, "location": 0.5},
+            "temperature_points": [
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0},
+                {"temp": 0.0, "y": 0.0}
+            ]
+        }
+    ]
+}
+
+all_element_loads = [element_loads1, element_loads2, element_loads3]
 
 load_combinations = {
     "mass": [("DL", 1.0), ("LL", 0.5), ("self_weight", 0.0)],

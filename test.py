@@ -1,168 +1,89 @@
-data = {
-    "elements": {
-        "R10001": {
-            "id": 10001,
-            "type": "rectangle",
-            "nodes": [
-                "N10002",
-                "N10003",
-                "N10004",
-                "n6"
-            ],
-            "shell_section": "floor_slab",
-            "thickness": 10,
-        },
-        "R10002": {
-            "id": 10002,
-            "type": "rectangle",
-            "nodes": [
-                "n5",
-                "N10006",
-                "N10003",
-                "N10002"
-            ],
-            "shell_section": "floor_slab",
-            "thickness": 10,
-        },
-        "R10003": {
-            "id": 10003,
-            "type": "rectangle",
-            "nodes": [
-                "N10003",
-                "N10007",
-                "n8",
-                "N10004"
-            ],
-            "shell_section": "floor_slab",
-            "thickness": 10,
-        },
-        "R10004": {
-            "id": 10004,
-            "type": "rectangle",
-            "nodes": [
-                "N10006",
-                "n7",
-                "N10007",
-                "N10003"
-            ],
-            "shell_section": "floor_slab",
-            "thickness": 10,
-        }
-    },
-    "nodes": {
-        "N10002": {
-            "id": 10002,
-            "coordinates": [
-                10.0,
-                0.0,
-                11.5
-            ],
-            "is_predefined": False  # Changed from false to False
-        },
-        "N10003": {
-            "id": 10003,
-            "coordinates": [
-                10.0,
-                11.5,
-                11.5
-            ],
-            "is_predefined": False  # Changed from false to False
-        },
-        "N10004": {
-            "id": 10004,
-            "coordinates": [
-                20.0,
-                11.5,
-                11.5
-            ],
-            "is_predefined": False  # Changed from false to False
-        },
-        "N10006": {
-            "id": 10006,
-            "coordinates": [
-                0.0,
-                11.5,
-                11.5
-            ],
-            "is_predefined": False  # Changed from false to False
-        },
-        "N10007": {
-            "id": 10007,
-            "coordinates": [
-                10.0,
-                23.0,
-                11.5
-            ],
-            "is_predefined": False  # Changed from false to False
-        }
-    }
-}
+# from import_ import *
+# from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
+# # Clear any existing model
+# ops.wipe()
 
-def check_wall_orientation(data):
-    nodes = data['nodes']
-    x_values = [node['coordinates'][0] for node in nodes.values()]
-    y_values = [node['coordinates'][1] for node in nodes.values()]
-    z_values = [node['coordinates'][2] for node in nodes.values()]
+# # Create model
+# ops.model('basic', '-ndm', 3, '-ndf', 6)
+
+# # Define material properties
+# E = 200000.0      # Young's modulus (MPa)
+# nu = 0.3          # Poisson's ratio
+# h = 0.2           # Shell thickness (m)
+# rho = 2500.0      # Density (kg/m³)
+
+# # Create shell section
+# ops.section('ElasticMembranePlateSection', 1, E, nu, h, rho)
+
+# # Define nodes for a simple rectangular shell element
+# ops.node(1, 0.0, 0.0, 0.0)
+# ops.node(2, 2.0, 0.0, 0.0)
+# ops.node(3, 2.0, 2.0, 0.0)
+# ops.node(4, 0.0, 2.0, 0.0)
+
+# # Create shell element (ShellMITC4)
+# ops.element('ShellMITC4', 1, 1, 2, 3, 4, 1)
+
+# # Apply boundary conditions (fix one edge)
+# ops.fix(1, 1, 1, 1, 1, 1, 1)
+# ops.fix(4, 1, 1, 1, 1, 1, 1)
+
+# # Optional: Add some loading for visualization
+# ops.timeSeries('Linear', 1)
+# ops.pattern('Plain', 1, 1)
+# ops.load(2, 0, 0, -1000, 0, 0, 0)  # Downward load at node 2
+# ops.load(3, 0, 0, -1000, 0, 0, 0)  # Downward load at node 3
+
+# # Create analysis
+# ops.constraints('Plain')
+# ops.numberer('RCM')
+# ops.system('BandGeneral')
+# ops.algorithm('Linear')
+# ops.integrator('LoadControl', 1.0)
+# ops.analysis('Static')
+
+# # Run analysis
+# ops.analyze(1)
+
+# # ====================== VISUALIZATION ====================== #
+# fig = plt.figure(figsize=(10, 8))
+# ax = fig.add_subplot(111, projection='3d')
+
+# # Get all shell elements (in this case, just element 1)
+# shell_elements = ops.getEleTags()  # Returns [1]
+
+# for ele_tag in shell_elements:
+#     # Get node coordinates of the element
+#     ele_nodes = ops.eleNodes(ele_tag)
+#     node_coords = np.array([ops.nodeCoord(node) for node in ele_nodes])
     
-    if all(z == z_values[0] for z in z_values):
-        # Horizontal case (all z equal)
-        Dz = next(iter(data['elements'].values()))['thickness']
-        Dx = max(x_values) - min(x_values)
-        Dy = max(y_values) - min(y_values)
-        return {
-            "wall_type": "horizontal", 
-            "z_value": z_values[0],
-            "Dx": Dx,  # Planar x-dimension
-            "Dy": Dy,  # Planar y-dimension
-            "Dz": Dz   # Thickness (z-direction)
-        }
-    elif all(x == x_values[0] for x in x_values):
-        # Vertical along y-axis (all x equal)
-        Dx = next(iter(data['elements'].values()))['thickness']  # Thickness in x-direction
-        Dy = max(y_values) - min(y_values)  # Length along y-axis
-        Dz = max(z_values) - min(z_values)  # Height
-        return {
-            "wall_type": "vertical_y", 
-            "x_value": x_values[0],
-            "Dx": Dx,  # Thickness
-            "Dy": Dy,  # Length
-            "Dz": Dz   # Height
-        }
-    elif all(y == y_values[0] for y in y_values):
-        # Vertical along x-axis (all y equal)
-        Dy = next(iter(data['elements'].values()))['thickness']  # Thickness in y-direction
-        Dx = max(x_values) - min(x_values)  # Length along x-axis
-        Dz = max(z_values) - min(z_values)  # Height
-        return {
-            "wall_type": "vertical_x", 
-            "y_value": y_values[0],
-            "Dx": Dx,  # Length
-            "Dy": Dy,  # Thickness
-            "Dz": Dz   # Height
-        }
-    else:
-        return {
-            "wall_type": "irregular",
-            "x_values": x_values,
-            "y_values": y_values,
-            "z_values": z_values
-        }
+#     # Create a filled polygon
+#     poly = Poly3DCollection([node_coords], alpha=0.5, linewidth=1, edgecolor='k')
+    
+#     # Assign color (modify logic as needed)
+#     poly.set_facecolor('yellow')  # Single color for all elements
+    
+#     ax.add_collection3d(poly)
 
-result = check_wall_orientation(data)
-print(f"Wall orientation: {result['wall_type']}")
+# # Overlay the original model edges (optional)
+# opsv.plot_model(element_labels=0, node_labels=0, ax=ax, fmt_model={'color': 'k', 'linewidth': 1})
 
-if result['wall_type'] == "horizontal":
-    print(f"All nodes at Z = {result['z_value']}")
-    print(f"Dx (length): {result['Dx']}, Dy (width): {result['Dy']}, Dz (thickness): {result['Dz']}")
-elif result['wall_type'] == "vertical_y":
-    print(f"All nodes at X = {result['x_value']}")
-    print(f"Dx (thickness): {result['Dx']}, Dy (length): {result['Dy']}, Dz (height): {result['Dz']}")
-elif result['wall_type'] == "vertical_x":
-    print(f"All nodes at Y = {result['y_value']}")
-    print(f"Dx (length): {result['Dx']}, Dy (thickness): {result['Dy']}, Dz (height): {result['Dz']}")
-else:
-    print("Irregular wall with varying coordinates")
-    print(f"X range: {min(result['x_values'])} to {max(result['x_values'])}")
-    print(f"Y range: {min(result['y_values'])} to {max(result['y_values'])}")
-    print(f"Z range: {min(result['z_values'])} to {max(result['z_values'])}")
+# # Set axis labels and title
+# ax.set_xlabel('X (m)')
+# ax.set_ylabel('Y (m)')
+# ax.set_zlabel('Z (m)')
+# ax.set_title('3D Shell Element with Fill Color')
+
+# plt.tight_layout()
+# plt.show()
+
+
+
+
+
+
+
+
+
+

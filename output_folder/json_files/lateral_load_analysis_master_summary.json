@@ -1,0 +1,41 @@
+{
+  "analysis_summary": {
+    "total_load_combinations": 3,
+    "load_combinations_processed": [
+      "mass",
+      "Comb2",
+      "Comb1"
+    ],
+    "units_system": "ft-kips",
+    "material_properties": {
+      "E": "3600 ksi",
+      "poisson_ratio": 0.2,
+      "fc": "4.0 ksi"
+    },
+    "applied_forces": {
+      "Vx_total": "100 kips",
+      "Vy_total": "80 kips"
+    }
+  },
+  "file_structure": {
+    "input_data_directory": "output_folder\\json_files\\lateral_load_distribution",
+    "results_directory": "output_folder\\json_files\\lateral_load_distribution_results",
+    "result_files": [
+      "lateral_distribution_results_mass.json",
+      "lateral_distribution_results_Comb2.json",
+      "lateral_distribution_results_Comb1.json"
+    ]
+  },
+  "data_format_description": {
+    "file_contents": "Each file contains complete analysis results with detailed calculations and tabular format",
+    "structure": {
+      "load_combination": "Load combination name and factors",
+      "z_levels": "Results organized by z-level",
+      "per_z_level": {
+        "detailed_results": "All calculated parameters from lateral_load_distribution_enhanced",
+        "tabular_format": "Console table data with headers, units, and summary statistics",
+        "metadata": "Analysis parameters and units"
+      }
+    }
+  }
+}

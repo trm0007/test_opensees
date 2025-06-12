@@ -67,7 +67,7 @@ def assign_node_into_opensees(JSON_FOLDER):
     # 2. Load the combined structure data to get all node coordinates
     # Merge structural data
     data = merge_structures(structure, combined_data)
-    # print(f'Processed data structure: {data}')
+    print(f'Processed data structure: {data}')
 
     # Process nodes and create OpenSees nodes
     nodes = data['nodes']
@@ -212,14 +212,25 @@ def define_rc_section10_opensees(sec_tag, core_tag, cover_tag, steel_tag, H, B, 
     # Bottom primary reinforcement
     ops.layer('straight', steel_tag, n_bars_bot, 0.25*np.pi*dia_bot**2,
       *[-core_y, core_z], *[-core_y, -core_z])
-    
+    print("Debug ops.layer inputs:")
+    print("Type:", 'straight')
+    print("Material tag:", steel_tag)
+    print("Number of bars:", n_bars_secondary_top)
+    print("Area of one bar:", 0.25 * np.pi * dia_sec_top**2)
+    print("Start coord:", [core_y - offset, core_z])
+    print("End coord:", [core_y - offset, -core_z])
+
     # Secondary top reinforcement
-    ops.layer('straight', steel_tag, n_bars_secondary_top, 0.25*np.pi*dia_sec_top**2,
-          *[core_y - offset, core_z], *[core_y - offset, -core_z])
+    if n_bars_secondary_top > 0:
+        ops.layer('straight', steel_tag, n_bars_secondary_top,
+                0.25 * np.pi * dia_sec_top**2,
+                *[core_y - offset, core_z],
+                *[core_y - offset, -core_z])
+
     
-    # Secondary bottom reinforcement
-    ops.layer('straight', steel_tag, n_bars_secondary_bot, 0.25*np.pi*dia_sec_bot**2,
-          *[-core_y + offset, core_z], *[-core_y + offset, -core_z])
+        # Secondary bottom reinforcement
+        ops.layer('straight', steel_tag, n_bars_secondary_bot, 0.25*np.pi*dia_sec_bot**2,
+            *[-core_y + offset, core_z], *[-core_y + offset, -core_z])
     
     # Intermediate reinforcement (top and bottom)
     ops.layer('straight', steel_tag, n_bars_int // 2, 0.25*np.pi*dia_int**2,

@@ -1,0 +1,155 @@
+{
+    "R26001": {
+        "area": 11.111111111111112,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.22222222222222227
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.5
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.8333333333333334
+            }
+        }
+    },
+    "R26002": {
+        "area": 11.111111111111109,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.22222222222222218
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.4999999999999999
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.8333333333333331
+            }
+        }
+    },
+    "R26003": {
+        "area": 11.111111111111107,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.22222222222222215
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.4999999999999998
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.833333333333333
+            }
+        }
+    },
+    "R26004": {
+        "area": 11.111111111111112,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.22222222222222227
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.5
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.8333333333333334
+            }
+        }
+    },
+    "R26005": {
+        "area": 11.111111111111109,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.22222222222222218
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.4999999999999999
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.8333333333333331
+            }
+        }
+    },
+    "R26006": {
+        "area": 11.111111111111107,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.22222222222222215
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.4999999999999998
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.833333333333333
+            }
+        }
+    },
+    "R26007": {
+        "area": 11.11111111111111,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.2222222222222222
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.49999999999999994
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.8333333333333333
+            }
+        }
+    },
+    "R26008": {
+        "area": 11.111111111111107,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.22222222222222215
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.4999999999999998
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.833333333333333
+            }
+        }
+    },
+    "R26009": {
+        "area": 11.111111111111105,
+        "load_cases": {
+            "DL": {
+                "pressure": -0.02,
+                "total_force": 0.2222222222222221
+            },
+            "LL": {
+                "pressure": -0.045,
+                "total_force": 0.4999999999999997
+            },
+            "self_weight": {
+                "pressure": -0.075,
+                "total_force": 0.8333333333333329
+            }
+        }
+    }
+}

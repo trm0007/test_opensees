@@ -1,0 +1,188 @@
+LATERAL LOAD ANALYSIS RESULTS
+==================================================
+Load Combination: Comb2
+Z-Level: 10.0
+Building Dimensions: Lx = 33.0, Ly = 33.0
+Total Loads: Vx = 100, Vy = 80
+
+CENTERS
+--------------------------------------------------
+Center of Mass: X = 15.912, Y = 16.200
+Center of Rigidity: X = 16.167, Y = 16.167
+
+ECCENTRICITIES
+--------------------------------------------------
+Design Eccentricity: X = -0.255, Y = 0.033
+Total Eccentricity: X = -1.905, Y = 1.683
+
+TOTAL STIFFNESS MATRIX
+--------------------------------------------------
+X-axis: 777602.01, 0.00, -1.68e-09
+Y-axis: 0.00, 1749602.01, -9.55e-09
+Rotation: -1.68e-09, -9.55e-09, 290137695.23
+
+TORSIONAL PROPERTIES
+--------------------------------------------------
+Applied Torsional Moment: 320.66
+Total Torsional Rigidity (Jr): 290137695.23
+
+DISPLACEMENTS
+--------------------------------------------------
+X translation: 0.000129
+Y translation: 0.000046
+Rotation: 1.105213e-06
+
+TOTAL SHEAR DISTRIBUTION
+--------------------------------------------------
+X-direction: 100.00
+Y-direction: 80.00
+
+ELEMENT DETAILS
+--------------------------------------------------
+Element cz2:
+  Position: X = 0.0, Y = 0.0, Rotation = 0.0
+  Stiffness: Kxx = 0.50, Kyy = 0.50, Kxy = 0.00
+Element cz5:
+  Position: X = 10.0, Y = 0.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz8:
+  Position: X = 22.0, Y = 0.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz11:
+  Position: X = 33.0, Y = 0.0, Rotation = 0.0
+  Stiffness: Kxx = 0.50, Kyy = 0.50, Kxy = 0.00
+Element cz14:
+  Position: X = 0.0, Y = 10.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz17:
+  Position: X = 10.0, Y = 10.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz20:
+  Position: X = 22.0, Y = 10.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz23:
+  Position: X = 33.0, Y = 10.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz26:
+  Position: X = 0.0, Y = 22.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz29:
+  Position: X = 10.0, Y = 22.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz32:
+  Position: X = 22.0, Y = 22.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz35:
+  Position: X = 33.0, Y = 22.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz38:
+  Position: X = 0.0, Y = 33.0, Rotation = 0.0
+  Stiffness: Kxx = 0.50, Kyy = 0.50, Kxy = 0.00
+Element cz41:
+  Position: X = 10.0, Y = 33.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz44:
+  Position: X = 22.0, Y = 33.0, Rotation = 0.0
+  Stiffness: Kxx = 64800.00, Kyy = 145800.00, Kxy = 0.00
+Element cz47:
+  Position: X = 33.0, Y = 33.0, Rotation = 0.0
+  Stiffness: Kxx = 0.50, Kyy = 0.50, Kxy = 0.00
+
+SHEAR DISTRIBUTION BY ELEMENT
+--------------------------------------------------
+Element cz2:
+  Total Forces: Fx = 0.00, Fy = 0.00
+  Direct Translation: Fx = 0.00, Fy = 0.00
+  Torsional Components: Fx = 0.00, Fy = -0.00
+  Distance from COR: dx = -16.17, dy = -16.17
+
+Element cz5:
+  Total Forces: Fx = 9.49, Fy = 5.67
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = 1.16, Fy = -0.99
+  Distance from COR: dx = -6.17, dy = -16.17
+
+Element cz8:
+  Total Forces: Fx = 9.49, Fy = 7.61
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = 1.16, Fy = 0.94
+  Distance from COR: dx = 5.83, dy = -16.17
+
+Element cz11:
+  Total Forces: Fx = 0.00, Fy = 0.00
+  Direct Translation: Fx = 0.00, Fy = 0.00
+  Torsional Components: Fx = 0.00, Fy = 0.00
+  Distance from COR: dx = 16.83, dy = -16.17
+
+Element cz14:
+  Total Forces: Fx = 8.77, Fy = 4.06
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = 0.44, Fy = -2.61
+  Distance from COR: dx = -16.17, dy = -6.17
+
+Element cz17:
+  Total Forces: Fx = 8.77, Fy = 5.67
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = 0.44, Fy = -0.99
+  Distance from COR: dx = -6.17, dy = -6.17
+
+Element cz20:
+  Total Forces: Fx = 8.77, Fy = 7.61
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = 0.44, Fy = 0.94
+  Distance from COR: dx = 5.83, dy = -6.17
+
+Element cz23:
+  Total Forces: Fx = 8.77, Fy = 9.38
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = 0.44, Fy = 2.71
+  Distance from COR: dx = 16.83, dy = -6.17
+
+Element cz26:
+  Total Forces: Fx = 7.92, Fy = 4.06
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = -0.42, Fy = -2.61
+  Distance from COR: dx = -16.17, dy = 5.83
+
+Element cz29:
+  Total Forces: Fx = 7.92, Fy = 5.67
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = -0.42, Fy = -0.99
+  Distance from COR: dx = -6.17, dy = 5.83
+
+Element cz32:
+  Total Forces: Fx = 7.92, Fy = 7.61
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = -0.42, Fy = 0.94
+  Distance from COR: dx = 5.83, dy = 5.83
+
+Element cz35:
+  Total Forces: Fx = 7.92, Fy = 9.38
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = -0.42, Fy = 2.71
+  Distance from COR: dx = 16.83, dy = 5.83
+
+Element cz38:
+  Total Forces: Fx = 0.00, Fy = 0.00
+  Direct Translation: Fx = 0.00, Fy = 0.00
+  Torsional Components: Fx = -0.00, Fy = -0.00
+  Distance from COR: dx = -16.17, dy = 16.83
+
+Element cz41:
+  Total Forces: Fx = 7.13, Fy = 5.67
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = -1.21, Fy = -0.99
+  Distance from COR: dx = -6.17, dy = 16.83
+
+Element cz44:
+  Total Forces: Fx = 7.13, Fy = 7.61
+  Direct Translation: Fx = 8.33, Fy = 6.67
+  Torsional Components: Fx = -1.21, Fy = 0.94
+  Distance from COR: dx = 5.83, dy = 16.83
+
+Element cz47:
+  Total Forces: Fx = 0.00, Fy = 0.00
+  Direct Translation: Fx = 0.00, Fy = 0.00
+  Torsional Components: Fx = -0.00, Fy = 0.00
+  Distance from COR: dx = 16.83, dy = 16.83
+

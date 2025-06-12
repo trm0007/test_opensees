@@ -356,8 +356,29 @@ def structural_model_plot(ele_shapes, OUTPUT_FOLDER="postprocessing_folder", loa
     os.makedirs(STRUCTURAL_MODEL_FOLDER, exist_ok=True)
     
     # Model plot
-    plt.figure(figsize=(10, 8))
-    opsv.plot_model()
+    fig= plt.figure(figsize=(10, 8))
+    # Get all shell elements (in this case, just element 1)
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Get all shell elements (in this case, just element 1)
+    shell_elements = ops.getEleTags()  # Returns [1]
+
+    for ele_tag in shell_elements:
+        # Get node coordinates of the element
+        ele_nodes = ops.eleNodes(ele_tag)
+        node_coords = np.array([ops.nodeCoord(node) for node in ele_nodes])
+        
+        # Create a filled polygon
+        poly = Poly3DCollection([node_coords], alpha=0.5, linewidth=1, edgecolor='k')
+        
+        # Assign color (modify logic as needed)
+        poly.set_facecolor('yellow')  # Single color for all elements
+        
+        ax.add_collection3d(poly)
+
+    # Overlay the original model edges (optional)
+    opsv.plot_model(element_labels=0, node_labels=0, ax=ax, fmt_model={'color': 'k', 'linewidth': 1})
+    # opsv.plot_model()
     plt.title(f"Model - {load_combination}")
     filepath = os.path.join(STRUCTURAL_MODEL_FOLDER, f"model_{load_combination}.png")
     plt.savefig(filepath, dpi=300, bbox_inches='tight')
