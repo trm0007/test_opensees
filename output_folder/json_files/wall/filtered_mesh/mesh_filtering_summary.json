@@ -1,0 +1,28 @@
+{
+    "summary": {
+        "total_mesh_elements": 243,
+        "expected_z_levels": [
+            0.0,
+            10.0,
+            21.0,
+            31.0
+        ],
+        "found_z_levels": [
+            10.0,
+            21.0,
+            31.0
+        ],
+        "z_level_counts": {
+            "10.0": 81,
+            "21.0": 81,
+            "31.0": 81
+        },
+        "y_level_counts": {},
+        "x_level_counts": {},
+        "filtering_criteria": {
+            "z_direction": "All nodes must have same Z coordinate (horizontal elements)",
+            "y_direction": "All nodes must have same Y coordinate (vertical walls along X-Z)",
+            "x_direction": "All nodes must have same X coordinate (vertical walls along Y-Z)"
+        }
+    }
+}

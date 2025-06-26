@@ -1,0 +1,2307 @@
+{
+  "element_loads": [
+    {
+      "member_name": "['bx49', 'bx50', 'bx51', 'bx52', 'bx53', 'bx54', 'bx55', 'bx56', 'bx57', 'bx58', 'bx59', 'bx60', 'bx61', 'bx62', 'bx63', 'bx64', 'bx65', 'bx66', 'bx67', 'bx68', 'bx69', 'bx70', 'bx71', 'bx72', 'bx73', 'bx74', 'bx75', 'bx76', 'bx77', 'bx78', 'bx79', 'bx80', 'bx81', 'bx82', 'bx83', 'bx84', 'bx85', 'bx86', 'bx87', 'bx88', 'bx89', 'bx90', 'bx91', 'bx92', 'bx93', 'bx94', 'bx95', 'bx96']",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "DL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "DL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -1.5
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by97",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by98",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by99",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by100",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by101",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by102",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by103",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by104",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by105",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by106",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by107",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by108",
+      "member_id": -1,
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by109",
+      "member_id": 109,
+      "start_node_coords": [
+        0.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        0.0,
+        15.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by110",
+      "member_id": 110,
+      "start_node_coords": [
+        10.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        15.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by111",
+      "member_id": 111,
+      "start_node_coords": [
+        22.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        22.0,
+        15.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by112",
+      "member_id": 112,
+      "start_node_coords": [
+        42.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        42.0,
+        15.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by113",
+      "member_id": 113,
+      "start_node_coords": [
+        0.0,
+        15.0,
+        10.0
+      ],
+      "end_node_coords": [
+        0.0,
+        28.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by114",
+      "member_id": 114,
+      "start_node_coords": [
+        10.0,
+        15.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        28.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by115",
+      "member_id": 115,
+      "start_node_coords": [
+        22.0,
+        15.0,
+        10.0
+      ],
+      "end_node_coords": [
+        22.0,
+        28.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by116",
+      "member_id": 116,
+      "start_node_coords": [
+        42.0,
+        15.0,
+        10.0
+      ],
+      "end_node_coords": [
+        42.0,
+        28.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by117",
+      "member_id": 117,
+      "start_node_coords": [
+        0.0,
+        28.0,
+        10.0
+      ],
+      "end_node_coords": [
+        0.0,
+        48.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by118",
+      "member_id": 118,
+      "start_node_coords": [
+        10.0,
+        28.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        48.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by119",
+      "member_id": 119,
+      "start_node_coords": [
+        22.0,
+        28.0,
+        10.0
+      ],
+      "end_node_coords": [
+        22.0,
+        48.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by120",
+      "member_id": 120,
+      "start_node_coords": [
+        42.0,
+        28.0,
+        10.0
+      ],
+      "end_node_coords": [
+        42.0,
+        48.0,
+        10.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by121",
+      "member_id": 121,
+      "start_node_coords": [
+        0.0,
+        0.0,
+        21.0
+      ],
+      "end_node_coords": [
+        0.0,
+        15.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by122",
+      "member_id": 122,
+      "start_node_coords": [
+        10.0,
+        0.0,
+        21.0
+      ],
+      "end_node_coords": [
+        10.0,
+        15.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by123",
+      "member_id": 123,
+      "start_node_coords": [
+        22.0,
+        0.0,
+        21.0
+      ],
+      "end_node_coords": [
+        22.0,
+        15.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by124",
+      "member_id": 124,
+      "start_node_coords": [
+        42.0,
+        0.0,
+        21.0
+      ],
+      "end_node_coords": [
+        42.0,
+        15.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by125",
+      "member_id": 125,
+      "start_node_coords": [
+        0.0,
+        15.0,
+        21.0
+      ],
+      "end_node_coords": [
+        0.0,
+        28.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by126",
+      "member_id": 126,
+      "start_node_coords": [
+        10.0,
+        15.0,
+        21.0
+      ],
+      "end_node_coords": [
+        10.0,
+        28.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by127",
+      "member_id": 127,
+      "start_node_coords": [
+        22.0,
+        15.0,
+        21.0
+      ],
+      "end_node_coords": [
+        22.0,
+        28.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by128",
+      "member_id": 128,
+      "start_node_coords": [
+        42.0,
+        15.0,
+        21.0
+      ],
+      "end_node_coords": [
+        42.0,
+        28.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by129",
+      "member_id": 129,
+      "start_node_coords": [
+        0.0,
+        28.0,
+        21.0
+      ],
+      "end_node_coords": [
+        0.0,
+        48.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by130",
+      "member_id": 130,
+      "start_node_coords": [
+        10.0,
+        28.0,
+        21.0
+      ],
+      "end_node_coords": [
+        10.0,
+        48.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by131",
+      "member_id": 131,
+      "start_node_coords": [
+        22.0,
+        28.0,
+        21.0
+      ],
+      "end_node_coords": [
+        22.0,
+        48.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by132",
+      "member_id": 132,
+      "start_node_coords": [
+        42.0,
+        28.0,
+        21.0
+      ],
+      "end_node_coords": [
+        42.0,
+        48.0,
+        21.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by133",
+      "member_id": 133,
+      "start_node_coords": [
+        0.0,
+        0.0,
+        31.0
+      ],
+      "end_node_coords": [
+        0.0,
+        15.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by134",
+      "member_id": 134,
+      "start_node_coords": [
+        10.0,
+        0.0,
+        31.0
+      ],
+      "end_node_coords": [
+        10.0,
+        15.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by135",
+      "member_id": 135,
+      "start_node_coords": [
+        22.0,
+        0.0,
+        31.0
+      ],
+      "end_node_coords": [
+        22.0,
+        15.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by136",
+      "member_id": 136,
+      "start_node_coords": [
+        42.0,
+        0.0,
+        31.0
+      ],
+      "end_node_coords": [
+        42.0,
+        15.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by137",
+      "member_id": 137,
+      "start_node_coords": [
+        0.0,
+        15.0,
+        31.0
+      ],
+      "end_node_coords": [
+        0.0,
+        28.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by138",
+      "member_id": 138,
+      "start_node_coords": [
+        10.0,
+        15.0,
+        31.0
+      ],
+      "end_node_coords": [
+        10.0,
+        28.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by139",
+      "member_id": 139,
+      "start_node_coords": [
+        22.0,
+        15.0,
+        31.0
+      ],
+      "end_node_coords": [
+        22.0,
+        28.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by140",
+      "member_id": 140,
+      "start_node_coords": [
+        42.0,
+        15.0,
+        31.0
+      ],
+      "end_node_coords": [
+        42.0,
+        28.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by141",
+      "member_id": 141,
+      "start_node_coords": [
+        0.0,
+        28.0,
+        31.0
+      ],
+      "end_node_coords": [
+        0.0,
+        48.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by142",
+      "member_id": 142,
+      "start_node_coords": [
+        10.0,
+        28.0,
+        31.0
+      ],
+      "end_node_coords": [
+        10.0,
+        48.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by143",
+      "member_id": 143,
+      "start_node_coords": [
+        22.0,
+        28.0,
+        31.0
+      ],
+      "end_node_coords": [
+        22.0,
+        48.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "member_name": "by144",
+      "member_id": 144,
+      "start_node_coords": [
+        42.0,
+        28.0,
+        31.0
+      ],
+      "end_node_coords": [
+        42.0,
+        48.0,
+        31.0
+      ],
+      "load_case": [
+        "LL"
+      ],
+      "load_data": {
+        "LoadCase": [
+          "LL"
+        ],
+        "uniform": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -2.0
+        },
+        "point": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": -10.0,
+          "location": 0.5
+        },
+        "temperature_points": [
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          },
+          {
+            "temp": 0.0,
+            "y": 0.0
+          }
+        ]
+      }
+    }
+  ]
+}

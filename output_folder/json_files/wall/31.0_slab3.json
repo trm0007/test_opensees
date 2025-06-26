@@ -1,0 +1,202 @@
+{
+    "elements": {
+        "R30001": {
+            "id": 30001,
+            "type": "rectangle",
+            "nodes": [
+                "n30002",
+                "n30003",
+                "n30004",
+                "n52"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        },
+        "R30002": {
+            "id": 30002,
+            "type": "rectangle",
+            "nodes": [
+                "n30006",
+                "n30005",
+                "n30003",
+                "n30002"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        },
+        "R30003": {
+            "id": 30003,
+            "type": "rectangle",
+            "nodes": [
+                "n51",
+                "n29004",
+                "n30005",
+                "n30006"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        },
+        "R30004": {
+            "id": 30004,
+            "type": "rectangle",
+            "nodes": [
+                "n30003",
+                "n30009",
+                "n30010",
+                "n30004"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        },
+        "R30005": {
+            "id": 30005,
+            "type": "rectangle",
+            "nodes": [
+                "n30005",
+                "n30011",
+                "n30009",
+                "n30003"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        },
+        "R30006": {
+            "id": 30006,
+            "type": "rectangle",
+            "nodes": [
+                "n29004",
+                "n29010",
+                "n30011",
+                "n30005"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        },
+        "R30007": {
+            "id": 30007,
+            "type": "rectangle",
+            "nodes": [
+                "n30009",
+                "n30013",
+                "n56",
+                "n30010"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        },
+        "R30008": {
+            "id": 30008,
+            "type": "rectangle",
+            "nodes": [
+                "n30011",
+                "n30015",
+                "n30013",
+                "n30009"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        },
+        "R30009": {
+            "id": 30009,
+            "type": "rectangle",
+            "nodes": [
+                "n29010",
+                "n55",
+                "n30015",
+                "n30011"
+            ],
+            "shell_section": "floor_slab1",
+            "thickness": 6,
+            "load_case_names": [
+                "DL",
+                "LL",
+                "self_weight"
+            ],
+            "pressures": [
+                -0.02,
+                -0.045,
+                -0.075
+            ]
+        }
+    }
+}

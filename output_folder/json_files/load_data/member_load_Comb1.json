@@ -1,0 +1,2699 @@
+{
+  "element_loads": [
+    {
+      "member_name": "['bx49', 'bx50', 'bx51', 'bx52', 'bx53', 'bx54', 'bx55', 'bx56', 'bx57', 'bx58', 'bx59', 'bx60', 'bx61', 'bx62', 'bx63', 'bx64', 'bx65', 'bx66', 'bx67', 'bx68', 'bx69', 'bx70', 'bx71', 'bx72', 'bx73', 'bx74', 'bx75', 'bx76', 'bx77', 'bx78', 'bx79', 'bx80', 'bx81', 'bx82', 'bx83', 'bx84', 'bx85', 'bx86', 'bx87', 'bx88', 'bx89', 'bx90', 'bx91', 'bx92', 'bx93', 'bx94', 'bx95', 'bx96']",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by97",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by98",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by99",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by100",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by101",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by102",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by103",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by104",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by105",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by106",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by107",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by108",
+      "member": -1,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "end_node_coords": [
+        0,
+        0,
+        0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by109",
+      "member": 109,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        0.0,
+        15.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by110",
+      "member": 110,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        15.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by111",
+      "member": 111,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        22.0,
+        15.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by112",
+      "member": 112,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        42.0,
+        15.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by113",
+      "member": 113,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        15.0,
+        10.0
+      ],
+      "end_node_coords": [
+        0.0,
+        28.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by114",
+      "member": 114,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        15.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        28.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by115",
+      "member": 115,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        15.0,
+        10.0
+      ],
+      "end_node_coords": [
+        22.0,
+        28.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by116",
+      "member": 116,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        15.0,
+        10.0
+      ],
+      "end_node_coords": [
+        42.0,
+        28.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by117",
+      "member": 117,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        28.0,
+        10.0
+      ],
+      "end_node_coords": [
+        0.0,
+        48.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by118",
+      "member": 118,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        28.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        48.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by119",
+      "member": 119,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        28.0,
+        10.0
+      ],
+      "end_node_coords": [
+        22.0,
+        48.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by120",
+      "member": 120,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        28.0,
+        10.0
+      ],
+      "end_node_coords": [
+        42.0,
+        48.0,
+        10.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by121",
+      "member": 121,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        0.0,
+        21.0
+      ],
+      "end_node_coords": [
+        0.0,
+        15.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by122",
+      "member": 122,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        0.0,
+        21.0
+      ],
+      "end_node_coords": [
+        10.0,
+        15.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by123",
+      "member": 123,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        0.0,
+        21.0
+      ],
+      "end_node_coords": [
+        22.0,
+        15.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by124",
+      "member": 124,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        0.0,
+        21.0
+      ],
+      "end_node_coords": [
+        42.0,
+        15.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by125",
+      "member": 125,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        15.0,
+        21.0
+      ],
+      "end_node_coords": [
+        0.0,
+        28.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by126",
+      "member": 126,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        15.0,
+        21.0
+      ],
+      "end_node_coords": [
+        10.0,
+        28.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by127",
+      "member": 127,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        15.0,
+        21.0
+      ],
+      "end_node_coords": [
+        22.0,
+        28.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by128",
+      "member": 128,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        15.0,
+        21.0
+      ],
+      "end_node_coords": [
+        42.0,
+        28.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by129",
+      "member": 129,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        28.0,
+        21.0
+      ],
+      "end_node_coords": [
+        0.0,
+        48.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by130",
+      "member": 130,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        28.0,
+        21.0
+      ],
+      "end_node_coords": [
+        10.0,
+        48.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by131",
+      "member": 131,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        28.0,
+        21.0
+      ],
+      "end_node_coords": [
+        22.0,
+        48.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by132",
+      "member": 132,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        28.0,
+        21.0
+      ],
+      "end_node_coords": [
+        42.0,
+        48.0,
+        21.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by133",
+      "member": 133,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        0.0,
+        31.0
+      ],
+      "end_node_coords": [
+        0.0,
+        15.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by134",
+      "member": 134,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        0.0,
+        31.0
+      ],
+      "end_node_coords": [
+        10.0,
+        15.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by135",
+      "member": 135,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        0.0,
+        31.0
+      ],
+      "end_node_coords": [
+        22.0,
+        15.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by136",
+      "member": 136,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        0.0,
+        31.0
+      ],
+      "end_node_coords": [
+        42.0,
+        15.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by137",
+      "member": 137,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        15.0,
+        31.0
+      ],
+      "end_node_coords": [
+        0.0,
+        28.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by138",
+      "member": 138,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        15.0,
+        31.0
+      ],
+      "end_node_coords": [
+        10.0,
+        28.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by139",
+      "member": 139,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        15.0,
+        31.0
+      ],
+      "end_node_coords": [
+        22.0,
+        28.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by140",
+      "member": 140,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        15.0,
+        31.0
+      ],
+      "end_node_coords": [
+        42.0,
+        28.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by141",
+      "member": 141,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        28.0,
+        31.0
+      ],
+      "end_node_coords": [
+        0.0,
+        48.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by142",
+      "member": 142,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        28.0,
+        31.0
+      ],
+      "end_node_coords": [
+        10.0,
+        48.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by143",
+      "member": 143,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        22.0,
+        28.0,
+        31.0
+      ],
+      "end_node_coords": [
+        22.0,
+        48.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "member_name": "by144",
+      "member": 144,
+      "load_case": "Comb1",
+      "uniform": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        42.0,
+        28.0,
+        31.0
+      ],
+      "end_node_coords": [
+        42.0,
+        48.0,
+        31.0
+      ],
+      "point_coords": [
+        0,
+        0,
+        0
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "member_length": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}
