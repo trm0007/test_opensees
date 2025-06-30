@@ -1,0 +1,164 @@
+{
+  "element_loads": [
+    {
+      "member_name": "bx7",
+      "member": 7,
+      "load_case": "unfactored_load",
+      "uniform": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        0.0,
+        10.0
+      ]
+    },
+    {
+      "member_name": "bx8",
+      "member": 8,
+      "load_case": "unfactored_load",
+      "uniform": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        10.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "member_name": "by11",
+      "member": 11,
+      "load_case": "unfactored_load",
+      "uniform": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        0.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        0.0,
+        10.0,
+        10.0
+      ]
+    },
+    {
+      "member_name": "by12",
+      "member": 12,
+      "load_case": "unfactored_load",
+      "uniform": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "point": [
+        0.0,
+        0.0,
+        0.0,
+        0.5
+      ],
+      "temperature_points": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "start_node_coords": [
+        10.0,
+        0.0,
+        10.0
+      ],
+      "end_node_coords": [
+        10.0,
+        10.0,
+        10.0
+      ]
+    }
+  ]
+}

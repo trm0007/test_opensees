@@ -1,21 +1,15 @@
 {
     "summary": {
-        "total_mesh_elements": 243,
+        "total_mesh_elements": 9,
         "expected_z_levels": [
             0.0,
-            10.0,
-            21.0,
-            31.0
+            10.0
         ],
         "found_z_levels": [
-            10.0,
-            21.0,
-            31.0
+            10.0
         ],
         "z_level_counts": {
-            "10.0": 81,
-            "21.0": 81,
-            "31.0": 81
+            "10.0": 9
         },
         "y_level_counts": {},
         "x_level_counts": {},

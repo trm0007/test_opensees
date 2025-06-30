@@ -146,17 +146,17 @@ def apply_3d_beam_loads(eleTags, Wy=0.0, Wz=0.0, Wx=0.0, Py=0.0, Pz=0.0, Px=0.0,
 def get_node_results(OUTPUT_FOLDER = "postprocessing_folder", load_combination="combo"):
     node_tags = ops.getNodeTags()
     node_data = []
-    
+    print(f"Total nodes: {len(node_tags)}")
     for node_tag in node_tags:
         # Get node coordinates
         coords = ops.nodeCoord(node_tag)
         
         # Get displacements
         disp = ops.nodeDisp(node_tag)
-        
+        # print(f"Node {node_tag}: disp = {disp}")       
         # Get reactions (if available)
         reaction = ops.nodeReaction(node_tag)
-        
+        # print(f"Node {node_tag}: Reaction = {reaction}")
         node_data.append({
             'id': node_tag,
             'coordinates': coords,
@@ -172,11 +172,8 @@ def get_node_results(OUTPUT_FOLDER = "postprocessing_folder", load_combination="
     # Change to:
     JSON_FOLDER = os.path.join(OUTPUT_FOLDER, "json_files")
     JSON_FOLDER = os.path.join(JSON_FOLDER, load_combination)
-    IMAGE_FOLDER = os.path.join(OUTPUT_FOLDER, "images")
-    IMAGE_FOLDER = os.path.join(IMAGE_FOLDER, load_combination)
     output_file = os.path.join(JSON_FOLDER, f"nodes_results_{load_combination}.json")
     os.makedirs(JSON_FOLDER, exist_ok=True)
-    os.makedirs(IMAGE_FOLDER, exist_ok=True)
     # Save the data to JSON file
     with open(output_file, 'w') as f:
         json.dump(node_data, f, indent=4)
@@ -925,7 +922,7 @@ def calculate_beam_stresses_strains(JSON_FOLDER, nep=10):
 
 
 
-def calculate_slab_reinforcement_from_shell_forces(JSON_FOLDER, load_combination="combo2"):
+def calculate_slab_reinforcement_from_shell_forces(JSON_FOLDER, output_folder="postprocessing_folder", nep=5, load_combination="combo2"):
     """Calculate slab reinforcement from shell forces according to ACI 318 (FPS units)."""
     # Create output directories
     json_folder = "postprocessing_folder/json_files/slab_reinforcement"
@@ -933,7 +930,7 @@ def calculate_slab_reinforcement_from_shell_forces(JSON_FOLDER, load_combination
     os.makedirs(json_folder, exist_ok=True)
 
     # Extract shell forces (placeholder - replace with your actual data extraction)
-    results = extract_all_element_data(JSON_FOLDER, nep=5, output_folder="postprocessing_folder", load_combination="combo")
+    results = extract_all_element_data(JSON_FOLDER, nep=nep, output_folder=output_folder, load_combination=load_combination)
     shell_forces = results.get("shell_forces", {})
 
     # Material properties (FPS units - lb, in, psi)

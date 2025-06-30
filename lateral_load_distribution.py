@@ -1883,191 +1883,191 @@ def save_lateral_load_results(JSON_FOLDER, load_combinations, E, poisson_ratio, 
 #     return all_results
 
 
-# # Example usage with mesh-based walls
-# components = [
-#     {"wt": 629.4652, "xi": 314.9608, "yi": 246.063},
-#     {"wt": -18.88396, "xi": 551.1814, "yi": 462.598},
-#     {"wt": 25.898, "xi": 5.905515, "yi": 236.2206},
-#     {"wt": 25.898, "xi": 314.9608, "yi": 236.2206},
-#     {"wt": 25.898, "xi": 623.9961, "yi": 236.2206},
-#     {"wt": 25.898, "xi": 78.7402, "yi": 5.905515},
-#     {"wt": 25.898, "xi": 551.1814, "yi": 5.905515},
-#     {"wt": 25.898, "xi": 78.7402, "yi": 486.2206},
-#     {"wt": 25.898, "xi": 551.1814, "yi": 427.1655},
-# ]
+# Example usage with mesh-based walls
+components = [
+    {"wt": 629.4652, "xi": 314.9608, "yi": 246.063},
+    {"wt": -18.88396, "xi": 551.1814, "yi": 462.598},
+    {"wt": 25.898, "xi": 5.905515, "yi": 236.2206},
+    {"wt": 25.898, "xi": 314.9608, "yi": 236.2206},
+    {"wt": 25.898, "xi": 623.9961, "yi": 236.2206},
+    {"wt": 25.898, "xi": 78.7402, "yi": 5.905515},
+    {"wt": 25.898, "xi": 551.1814, "yi": 5.905515},
+    {"wt": 25.898, "xi": 78.7402, "yi": 486.2206},
+    {"wt": 25.898, "xi": 551.1814, "yi": 427.1655},
+]
 
-# wall_mesh_data = {
-#     "R34001": {
-#         "node_coordinates": [
-#             [10.0*12, 0.0*12, 6.666666666666666*12],
-#             [6.666666666666666*12, 0.0*12, 6.666666666666666*12],
-#             [6.666666666666666*12, 0.0*12, 10.0*12],
-#             [10.0*12, 0.0*12, 10.0*12]
-#         ]
-#     },
-#     "R34002": {
-#         "node_coordinates": [
-#             [10.0*12, 0.0, 3.3333333333333326*12],
-#             [6.666666666666666*12, 0.0, 3.3333333333333326*12],
-#             [6.666666666666666*12, 0.0, 6.666666666666666*12],
-#             [10.0*12, 0.0, 6.666666666666666*12]
-#         ]
-#     },
-#     "R34003": {
-#         "node_coordinates": [
-#             [10.0*12, 0.0, 0.0],
-#             [6.666666666666666*12, 0.0, 0.0],
-#             [6.666666666666666*12, 0.0, 3.3333333333333326*12],
-#             [10.0*12, 0.0, 3.3333333333333326*12]
-#         ]
-#     }
-# }
-#     # {
-#     #     "name": "W2-1",
-#     #     "type": "wall",
-#     #     "meshes": wall_mesh_data,
-#     #     "height": 157.4804,
-#     #     "x": 0.0,
-#     #     "y": 0.0,
-#     #     "thickness": 0.5,
-#     #     "rotation": None
-#     # },
+wall_mesh_data = {
+    "R34001": {
+        "node_coordinates": [
+            [10.0*12, 0.0*12, 6.666666666666666*12],
+            [6.666666666666666*12, 0.0*12, 6.666666666666666*12],
+            [6.666666666666666*12, 0.0*12, 10.0*12],
+            [10.0*12, 0.0*12, 10.0*12]
+        ]
+    },
+    "R34002": {
+        "node_coordinates": [
+            [10.0*12, 0.0, 3.3333333333333326*12],
+            [6.666666666666666*12, 0.0, 3.3333333333333326*12],
+            [6.666666666666666*12, 0.0, 6.666666666666666*12],
+            [10.0*12, 0.0, 6.666666666666666*12]
+        ]
+    },
+    "R34003": {
+        "node_coordinates": [
+            [10.0*12, 0.0, 0.0],
+            [6.666666666666666*12, 0.0, 0.0],
+            [6.666666666666666*12, 0.0, 3.3333333333333326*12],
+            [10.0*12, 0.0, 3.3333333333333326*12]
+        ]
+    }
+}
+    # {
+    #     "name": "W2-1",
+    #     "type": "wall",
+    #     "meshes": wall_mesh_data,
+    #     "height": 157.4804,
+    #     "x": 0.0,
+    #     "y": 0.0,
+    #     "thickness": 0.5,
+    #     "rotation": None
+    # },
 
-# Lx = 629.9216
-# Ly = 492.126
+Lx = 629.9216
+Ly = 492.126
 
 
-# elements = [
+elements = [
 
-#     {
-#         "name": "C1",
-#         "type": "circular_column",
-#         "diameter": 15.0,
-#         "height": 157.4804,
-#         "x": 200.0,
-#         "y": 200.0,
-#         "rotation": 0.0
-#     },
-#     {
-#         "name": "L1",
-#         "type": "L_shaped_column",
-#         "a": 12.0,
-#         "b": 12.0,
-#         "t": 4.0,
-#         "height": 157.4804,
-#         "x": 400.0,
-#         "y": 300.0,
-#         "rotation": 45.0
-#     },
-#     {
-#         "name": "R1",
-#         "type": "rectangular_column",
-#         "Dx": 18.0,
-#         "Dy": 12.0,
-#         "height": 157.4804,
-#         "x": 300.0,
-#         "y": 150.0,
-#         "rotation": 22.5
-#     },
-#     {
-#         "name": "R2",
-#         "type": "rectangular_column",
-#         "Dx": 12.0,
-#         "Dy": 18.0,
-#         "height": 157.4804,
-#         "x": 50.0,
-#         "y": 50.0,
-#         "rotation": 0.0
-#     },
-#     {
-#         "name": "R3",
-#         "type": "rectangular_column",
-#         "Dx": 12.0,
-#         "Dy": 18.0,
-#         "height": 157.4804,
-#         "x": 50.0,
-#         "y": Ly - 50.0,
-#         "rotation": 0.0
-#     },
-#     {
-#         "name": "R4",
-#         "type": "rectangular_column",
-#         "Dx": 12.0,
-#         "Dy": 18.0,
-#         "height": 157.4804,
-#         "x": Lx - 50.0,
-#         "y": 50.0,
-#         "rotation": 0.0
-#     },
-#     {
-#         "name": "R5",
-#         "type": "rectangular_column",
-#         "Dx": 12.0,
-#         "Dy": 18.0,
-#         "height": 157.4804,
-#         "x": Lx - 50.0,
-#         "y": Ly - 50.0,
-#         "rotation": 0.0
-#     },
-#     {
-#         "name": "R6",
-#         "type": "rectangular_column",
-#         "Dx": 12.0,
-#         "Dy": 18.0,
-#         "height": 157.4804,
-#         "x": Lx/2,
-#         "y": 50.0,
-#         "rotation": 0.0
-#     },
-#     {
-#         "name": "R7",
-#         "type": "rectangular_column",
-#         "Dx": 12.0,
-#         "Dy": 18.0,
-#         "height": 157.4804,
-#         "x": Lx/2,
-#         "y": Ly - 50.0,
-#         "rotation": 0.0
-#     },
-#     {
-#         "name": "R8",
-#         "type": "rectangular_column",
-#         "Dx": 12.0,
-#         "Dy": 18.0,
-#         "height": 157.4804,
-#         "x": 50.0,
-#         "y": Ly/2,
-#         "rotation": 0.0
-#     },
-#     {
-#         "name": "R9",
-#         "type": "rectangular_column",
-#         "Dx": 12.0,
-#         "Dy": 18.0,
-#         "height": 157.4804,
-#         "x": Lx - 50.0,
-#         "y": Ly/2,
-#         "rotation": 0.0
-#     }
-# ]
+    {
+        "name": "C1",
+        "type": "circular_column",
+        "diameter": 15.0,
+        "height": 157.4804,
+        "x": 200.0,
+        "y": 200.0,
+        "rotation": 0.0
+    },
+    {
+        "name": "L1",
+        "type": "L_shaped_column",
+        "a": 12.0,
+        "b": 12.0,
+        "t": 4.0,
+        "height": 157.4804,
+        "x": 400.0,
+        "y": 300.0,
+        "rotation": 45.0
+    },
+    {
+        "name": "R1",
+        "type": "rectangular_column",
+        "Dx": 18.0,
+        "Dy": 12.0,
+        "height": 157.4804,
+        "x": 300.0,
+        "y": 150.0,
+        "rotation": 22.5
+    },
+    {
+        "name": "R2",
+        "type": "rectangular_column",
+        "Dx": 12.0,
+        "Dy": 18.0,
+        "height": 157.4804,
+        "x": 50.0,
+        "y": 50.0,
+        "rotation": 0.0
+    },
+    {
+        "name": "R3",
+        "type": "rectangular_column",
+        "Dx": 12.0,
+        "Dy": 18.0,
+        "height": 157.4804,
+        "x": 50.0,
+        "y": Ly - 50.0,
+        "rotation": 0.0
+    },
+    {
+        "name": "R4",
+        "type": "rectangular_column",
+        "Dx": 12.0,
+        "Dy": 18.0,
+        "height": 157.4804,
+        "x": Lx - 50.0,
+        "y": 50.0,
+        "rotation": 0.0
+    },
+    {
+        "name": "R5",
+        "type": "rectangular_column",
+        "Dx": 12.0,
+        "Dy": 18.0,
+        "height": 157.4804,
+        "x": Lx - 50.0,
+        "y": Ly - 50.0,
+        "rotation": 0.0
+    },
+    {
+        "name": "R6",
+        "type": "rectangular_column",
+        "Dx": 12.0,
+        "Dy": 18.0,
+        "height": 157.4804,
+        "x": Lx/2,
+        "y": 50.0,
+        "rotation": 0.0
+    },
+    {
+        "name": "R7",
+        "type": "rectangular_column",
+        "Dx": 12.0,
+        "Dy": 18.0,
+        "height": 157.4804,
+        "x": Lx/2,
+        "y": Ly - 50.0,
+        "rotation": 0.0
+    },
+    {
+        "name": "R8",
+        "type": "rectangular_column",
+        "Dx": 12.0,
+        "Dy": 18.0,
+        "height": 157.4804,
+        "x": 50.0,
+        "y": Ly/2,
+        "rotation": 0.0
+    },
+    {
+        "name": "R9",
+        "type": "rectangular_column",
+        "Dx": 12.0,
+        "Dy": 18.0,
+        "height": 157.4804,
+        "x": Lx - 50.0,
+        "y": Ly/2,
+        "rotation": 0.0
+    }
+]
 
-# fc = 4.35
-# E = 57000 * math.sqrt(fc)
-# poisson_ratio = 0.25
-# Vx = -100.0
-# Vy = -0.0
+fc = 4.35
+E = 57000 * math.sqrt(fc)
+poisson_ratio = 0.25
+Vx = -100.0
+Vy = -0.0
 
-# results = lateral_load_distribution_enhanced(Lx, Ly, E, poisson_ratio, fc, Vx, Vy, components, elements)
+results = lateral_load_distribution_enhanced(Lx, Ly, E, poisson_ratio, fc, Vx, Vy, components, elements)
 
-# print("Element   Kxx         Kyy         Kxy    Total Fx    Total Fy    Fx_Trans    Fy_Trans    Fx_Torsion  Fy_Torsion")
-# print("------------------------------------------------------------------------------------------------------------------------------------------------------")
-# for item in results['shear_distribution']:
-#     print(f"{item['name']:<9} {item['Kxx']:<11.3f} {item['Kyy']:<11.3f} {item['Kxy']:<11.3f} {item['Fx']:<11.3f} {item['Fy']:<11.3f} {item['Fx_trans']:<11.3f} {item['Fy_trans']:<11.3f} {item['Fx_torsion']:<11.3f} {item['Fy_torsion']:<11.3f}")
+print("Element   Kxx         Kyy         Kxy    Total Fx    Total Fy    Fx_Trans    Fy_Trans    Fx_Torsion  Fy_Torsion")
+print("------------------------------------------------------------------------------------------------------------------------------------------------------")
+for item in results['shear_distribution']:
+    print(f"{item['name']:<9} {item['Kxx']:<11.3f} {item['Kyy']:<11.3f} {item['Kxy']:<11.3f} {item['Fx']:<11.3f} {item['Fy']:<11.3f} {item['Fx_trans']:<11.3f} {item['Fy_trans']:<11.3f} {item['Fx_torsion']:<11.3f} {item['Fy_torsion']:<11.3f}")
 
-# print("\n--- Summary ---")
-# print(f"Center of Mass (COM): X = {results['center_of_mass'][0]:.3f} in, Y = {results['center_of_mass'][1]:.3f} in")
-# print(f"Center of Rigidity (COR): X = {results['center_of_rigidity'][0]:.3f} in, Y = {results['center_of_rigidity'][1]:.3f} in")
-# print(f"Applied Torsional Moment: {results['torsional_moment_applied']:.3f} kip·in")
-# print(f"Global Displacements: Delta_x = {results['displacements'][0]:.6f} in, Delta_y = {results['displacements'][1]:.6f} in, Theta = {results['displacements'][2]:.8f} radians")
-# print(f"Total Distributed Shear: Fx = {results['total_shear_distributed'][0]:.3f} kips, Fy = {results['total_shear_distributed'][1]:.3f} kips")
-# print(f"Force Balance Check: Fx = {(Vx - results['total_shear_distributed'][0]):.6f}, Fy = {(Vy - results['total_shear_distributed'][1]):.6f}")
+print("\n--- Summary ---")
+print(f"Center of Mass (COM): X = {results['center_of_mass'][0]:.3f} in, Y = {results['center_of_mass'][1]:.3f} in")
+print(f"Center of Rigidity (COR): X = {results['center_of_rigidity'][0]:.3f} in, Y = {results['center_of_rigidity'][1]:.3f} in")
+print(f"Applied Torsional Moment: {results['torsional_moment_applied']:.3f} kip·in")
+print(f"Global Displacements: Delta_x = {results['displacements'][0]:.6f} in, Delta_y = {results['displacements'][1]:.6f} in, Theta = {results['displacements'][2]:.8f} radians")
+print(f"Total Distributed Shear: Fx = {results['total_shear_distributed'][0]:.3f} kips, Fy = {results['total_shear_distributed'][1]:.3f} kips")
+print(f"Force Balance Check: Fx = {(Vx - results['total_shear_distributed'][0]):.6f}, Fy = {(Vy - results['total_shear_distributed'][1]):.6f}")

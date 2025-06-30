@@ -9,20 +9,14 @@ second = 1.0                  # Time (s)
 g = 32.174 * foot/(second**2) # Gravitational acceleration (ft/s²)
 
 # Derived units
-pound_force = kip / 1000.0    # Force (lbf)
-pound_mass = pound_force / g  # Mass (lbm = lbf·s²/ft)
-slug = pound_force * second**2 / foot  # Consistent mass unit in FPS
-kip_mass = kip / g            # Mass equivalent of 1 kip (k·s²/ft)
+# pound_force = kip / 1000.0    # Force (lbf)
+
 
 # FPS Derived Units
 inch = foot / 12.0
 ksi = kip / (inch**2)
-psi = pound_force / (inch**2)
-psf = pound_force / (foot**2)
 ksf = kip / (foot**2)
-kipin = kip * inch
-kipft = kip * foot
-kcf = (kip / foot**3)
+kcf = kip / (foot**3)
 # =============================================
 # Module Imports and Initial Setup
 # =============================================
@@ -32,9 +26,9 @@ import numpy as np        # Numerical computing library
 # Structural Grid Definition
 # =============================================
 # Node spacing in X, Y, and Z directions
-x_spacing = [10.0 * foot, 12.0 * foot, 20.0 * foot]     # X-direction spacing
-y_spacing = [15.0 * foot, 13.0 * foot, 20.0 * foot]     # Y-direction spacing 
-z_spacing = [10.0 * foot, 11.0 * foot, 10.0 * foot]     # Story height
+x_spacing = [10.0 * foot]     # X-direction spacing
+y_spacing = [10.0 * foot]     # Y-direction spacing 
+z_spacing = [10.0 * foot]     # Story height
 
 
 # =============================================
@@ -157,7 +151,7 @@ section_definitions = {
             "dia_int": 0.5 * inch,
             "offset": 2.0 * inch,
             "area": 100.0 * inch * inch,
-            "unit_weight": 0.150,
+            "unit_weight": 0.150 * kcf,
             "rotation": 0.0,
         },
         "col2": {  # 12×12 inch column
@@ -182,7 +176,7 @@ section_definitions = {
             "dia_int": 0.5 * inch,
             "offset": 2.0 * inch,
             "area": 144.0 * inch * inch,
-            "unit_weight": 0.150,
+            "unit_weight": 0.150 * kcf,
             "rotation": 0.0,
         }
     },
@@ -214,7 +208,7 @@ section_definitions = {
             "dia_int": 0.5 * inch,
             "offset": 2.0 * inch,
             "area": 150.0 * inch * inch,
-            "unit_weight": 0.150,
+            "unit_weight": 0.150 * kcf,
             "rotation": 0.0,
         },
         "beam2": {  # 12×18 inch beam
@@ -239,7 +233,7 @@ section_definitions = {
             "dia_int": 0.5 * inch,
             "offset": 2.0 * inch,
             "area": 216.0 * inch * inch,
-            "unit_weight": 0.150,
+            "unit_weight": 0.150 * kcf,
             "rotation": 0.0,
         }
     },
@@ -262,7 +256,7 @@ section_definitions = {
             "nf_Cover_R": 4,
             "nf_Cover_T": 8,
             "area": 113.1 * inch * inch,
-            "unit_weight": 0.150,
+            "unit_weight": 0.150 * kcf,
             "rotation": 0.0,
         },
         "col4": {  # 18-inch diameter solid column
@@ -281,7 +275,7 @@ section_definitions = {
             "nf_Cover_R": 4,
             "nf_Cover_T": 12,
             "area": 254.5 * inch * inch,
-            "unit_weight": 0.150,
+            "unit_weight": 0.150 * kcf,
             "rotation": 0.0,
         }
     },
@@ -307,7 +301,7 @@ section_definitions = {
         "dia_horizontal_inner": 0.625 * inch,
         "corner_bar_dia": 0.75 * inch,
         "area": (24.0 * 6.0 + 18.0 * 6.0) * inch * inch,  # L-shape area
-        "unit_weight": 0.150,
+        "unit_weight": 0.150 * kcf,
         "rotation": 0.0,
     }
 }
@@ -315,777 +309,49 @@ section_definitions = {
 }
 
 member_section_mapping = {
+
     'col1': 
     [
         {
             "name": "cz1",
             "rotation": 0
         },
-        # {
-        #     "name": "cz4",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz7",
-        #     "rotation": 0
-        # },
-        {
-            "name": "cz10",
-            "rotation": 0
-        },
-        # {
-        #     "name": "cz13",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz16",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz19",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz22",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz25",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz28",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz31",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz34",
-        #     "rotation": 0
-        # },
-        {
-            "name": "cz37",
-            "rotation": 0
-        },
-        # {
-        #     "name": "cz40",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz43",
-        #     "rotation": 0
-        # },
-        {
-            "name": "cz46",
-            "rotation": 0
-        },
         {
             "name": "cz2",
-            "rotation": 0
-        },
-        # {
-        #     "name": "cz5",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz8",
-        #     "rotation": 0
-        # },
-        {
-            "name": "cz11",
-            "rotation": 0
-        },
-        # {
-        #     "name": "cz14",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz17",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz20",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz23",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz26",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz29",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz32",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz35",
-        #     "rotation": 0
-        # },
-        {
-            "name": "cz38",
-            "rotation": 0
-        },
-        # {
-        #     "name": "cz41",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz44",
-        #     "rotation": 0
-        # },
-        {
-            "name": "cz47",
             "rotation": 0
         },
         {
             "name": "cz3",
             "rotation": 0
         },
-        # {
-        #     "name": "cz6",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz9",
-        #     "rotation": 0
-        # },
         {
-            "name": "cz12",
-            "rotation": 0
-        },
-        # {
-        #     "name": "cz15",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz18",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz21",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz24",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz27",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz30",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz33",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz36",
-        #     "rotation": 0
-        # },
-        {
-            "name": "cz39",
-            "rotation": 0
-        },
-        # {
-        #     "name": "cz42",
-        #     "rotation": 0
-        # },
-        # {
-        #     "name": "cz45",
-        #     "rotation": 0
-        # },
-        {
-            "name": "cz48",
+            "name": "cz4",
             "rotation": 0
         }
     ],
     
-    'col2': 
-    [
-
-        {
-            "name": "cz4",
-            "rotation": 0
-        },
-        {
-            "name": "cz7",
-            "rotation": 90
-        },
-
  
-
-        {
-            "name": "cz5",
-            "rotation": 0
-        },
-        {
-            "name": "cz8",
-            "rotation": 90
-        },
-
-    
-
-        {
-            "name": "cz6",
-            "rotation": 0
-        },
-        {
-            "name": "cz9",
-            "rotation": 90
-        },
-
-    
-    ],
-    
-     'col5': 
-    [
-
-
-        {
-            "name": "cz40",
-            "rotation": 0
-        },
-        {
-            "name": "cz43",
-            "rotation": 0
-        },
-
-  
-
-        {
-            "name": "cz41",
-            "rotation": 0
-        },
-        {
-            "name": "cz44",
-            "rotation": 0
-        },
-
-
- 
-
-        {
-            "name": "cz42",
-            "rotation": 0
-        },
-        {
-            "name": "cz45",
-            "rotation": 0
-        },
-
-    ],
-    
-     'col3': 
-    [
-
-
-
-        {
-            "name": "cz13",
-            "rotation": 0
-        },
-        {
-            "name": "cz16",
-            "rotation": 0
-        },
-        {
-            "name": "cz19",
-            "rotation": 0
-        },
-        {
-            "name": "cz22",
-            "rotation": 0
-        },
-        {
-            "name": "cz25",
-            "rotation": 0
-        },
-        {
-            "name": "cz28",
-            "rotation": 0
-        },
-        {
-            "name": "cz31",
-            "rotation": 0
-        },
-        {
-            "name": "cz34",
-            "rotation": 0
-        },
-
-
-
-  
-        {
-            "name": "cz14",
-            "rotation": 0
-        },
-        {
-            "name": "cz17",
-            "rotation": 0
-        },
-        {
-            "name": "cz20",
-            "rotation": 0
-        },
-        {
-            "name": "cz23",
-            "rotation": 0
-        },
-        {
-            "name": "cz26",
-            "rotation": 0
-        },
-        {
-            "name": "cz29",
-            "rotation": 0
-        },
-        {
-            "name": "cz32",
-            "rotation": 0
-        },
-        {
-            "name": "cz35",
-            "rotation": 0
-        },
-
-
-
-        {
-            "name": "cz15",
-            "rotation": 0
-        },
-        {
-            "name": "cz18",
-            "rotation": 0
-        },
-        {
-            "name": "cz21",
-            "rotation": 0
-        },
-        {
-            "name": "cz24",
-            "rotation": 0
-        },
-        {
-            "name": "cz27",
-            "rotation": 0
-        },
-        {
-            "name": "cz30",
-            "rotation": 0
-        },
-        {
-            "name": "cz33",
-            "rotation": 0
-        },
-        {
-            "name": "cz36",
-            "rotation": 0
-        },
-
-
-    ],
-    
 
     'beam1':
     [
         {
-            "name": "bx49",
+            "name": "bx7",
             "rotation": 0
         },
         {
-            "name": "bx50",
-            "rotation": 0
-        },
-        {
-            "name": "bx51",
-            "rotation": 0
-        },
-        {
-            "name": "bx52",
-            "rotation": 0
-        },
-        {
-            "name": "bx53",
-            "rotation": 0
-        },
-        {
-            "name": "bx54",
-            "rotation": 0
-        },
-        {
-            "name": "bx55",
-            "rotation": 0
-        },
-        {
-            "name": "bx56",
-            "rotation": 0
-        },
-        {
-            "name": "bx57",
-            "rotation": 0
-        },
-        {
-            "name": "bx58",
-            "rotation": 0
-        },
-        {
-            "name": "bx59",
-            "rotation": 0
-        },
-        {
-            "name": "bx60",
-            "rotation": 0
-        },
-        {
-            "name": "bx61",
-            "rotation": 0
-        },
-        {
-            "name": "bx62",
-            "rotation": 0
-        },
-        {
-            "name": "bx63",
-            "rotation": 0
-        },
-        {
-            "name": "bx64",
-            "rotation": 0
-        },
-        {
-            "name": "bx65",
-            "rotation": 0
-        },
-        {
-            "name": "bx66",
-            "rotation": 0
-        },
-        {
-            "name": "bx67",
-            "rotation": 0
-        },
-        {
-            "name": "bx68",
-            "rotation": 0
-        },
-        {
-            "name": "bx69",
-            "rotation": 0
-        },
-        {
-            "name": "bx70",
-            "rotation": 0
-        },
-        {
-            "name": "bx71",
-            "rotation": 0
-        },
-        {
-            "name": "bx72",
-            "rotation": 0
-        },
-        {
-            "name": "bx73",
-            "rotation": 0
-        },
-        {
-            "name": "bx74",
-            "rotation": 0
-        },
-        {
-            "name": "bx75",
-            "rotation": 0
-        },
-        {
-            "name": "bx76",
-            "rotation": 0
-        },
-        {
-            "name": "bx77",
-            "rotation": 0
-        },
-        {
-            "name": "bx78",
-            "rotation": 0
-        },
-        {
-            "name": "bx79",
-            "rotation": 0
-        },
-        {
-            "name": "bx80",
-            "rotation": 0
-        },
-        {
-            "name": "bx81",
-            "rotation": 0
-        },
-        {
-            "name": "bx82",
-            "rotation": 0
-        },
-        {
-            "name": "bx83",
-            "rotation": 0
-        },
-        {
-            "name": "bx84",
-            "rotation": 0
-        },
-        {
-            "name": "bx85",
-            "rotation": 0
-        },
-        {
-            "name": "bx86",
-            "rotation": 0
-        },
-        {
-            "name": "bx87",
-            "rotation": 0
-        },
-        {
-            "name": "bx88",
-            "rotation": 0
-        },
-        {
-            "name": "bx89",
-            "rotation": 0
-        },
-        {
-            "name": "bx90",
-            "rotation": 0
-        },
-        {
-            "name": "bx91",
-            "rotation": 0
-        },
-        {
-            "name": "bx92",
-            "rotation": 0
-        },
-        {
-            "name": "bx93",
-            "rotation": 0
-        },
-        {
-            "name": "bx94",
-            "rotation": 0
-        },
-        {
-            "name": "bx95",
-            "rotation": 0
-        },
-        {
-            "name": "bx96",
+            "name": "bx8",
             "rotation": 0
         }
     ],
-
-       'beam2': [
-{
-            "name": "by97",
+       
+       'beam2': 
+[
+        {
+            "name": "by11",
             "rotation": 0
         },
         {
-            "name": "by98",
-            "rotation": 0
-        },
-        {
-            "name": "by99",
-            "rotation": 0
-        },
-        {
-            "name": "by100",
-            "rotation": 0
-        },
-        {
-            "name": "by101",
-            "rotation": 0
-        },
-        {
-            "name": "by102",
-            "rotation": 0
-        },
-        {
-            "name": "by103",
-            "rotation": 0
-        },
-        {
-            "name": "by104",
-            "rotation": 0
-        },
-        {
-            "name": "by105",
-            "rotation": 0
-        },
-        {
-            "name": "by106",
-            "rotation": 0
-        },
-        {
-            "name": "by107",
-            "rotation": 0
-        },
-        {
-            "name": "by108",
-            "rotation": 0
-        },
-        {
-            "name": "by109",
-            "rotation": 0
-        },
-        {
-            "name": "by110",
-            "rotation": 0
-        },
-        {
-            "name": "by111",
-            "rotation": 0
-        },
-        {
-            "name": "by112",
-            "rotation": 0
-        },
-        {
-            "name": "by113",
-            "rotation": 0
-        },
-        {
-            "name": "by114",
-            "rotation": 0
-        },
-        {
-            "name": "by115",
-            "rotation": 0
-        },
-        {
-            "name": "by116",
-            "rotation": 0
-        },
-        {
-            "name": "by117",
-            "rotation": 0
-        },
-        {
-            "name": "by118",
-            "rotation": 0
-        },
-        {
-            "name": "by119",
-            "rotation": 0
-        },
-        {
-            "name": "by120",
-            "rotation": 0
-        },
-        {
-            "name": "by121",
-            "rotation": 0
-        },
-        {
-            "name": "by122",
-            "rotation": 0
-        },
-        {
-            "name": "by123",
-            "rotation": 0
-        },
-        {
-            "name": "by124",
-            "rotation": 0
-        },
-        {
-            "name": "by125",
-            "rotation": 0
-        },
-        {
-            "name": "by126",
-            "rotation": 0
-        },
-        {
-            "name": "by127",
-            "rotation": 0
-        },
-        {
-            "name": "by128",
-            "rotation": 0
-        },
-        {
-            "name": "by129",
-            "rotation": 0
-        },
-        {
-            "name": "by130",
-            "rotation": 0
-        },
-        {
-            "name": "by131",
-            "rotation": 0
-        },
-        {
-            "name": "by132",
-            "rotation": 0
-        },
-        {
-            "name": "by133",
-            "rotation": 0
-        },
-        {
-            "name": "by134",
-            "rotation": 0
-        },
-        {
-            "name": "by135",
-            "rotation": 0
-        },
-        {
-            "name": "by136",
-            "rotation": 0
-        },
-        {
-            "name": "by137",
-            "rotation": 0
-        },
-        {
-            "name": "by138",
-            "rotation": 0
-        },
-        {
-            "name": "by139",
-            "rotation": 0
-        },
-        {
-            "name": "by140",
-            "rotation": 0
-        },
-        {
-            "name": "by141",
-            "rotation": 0
-        },
-        {
-            "name": "by142",
-            "rotation": 0
-        },
-        {
-            "name": "by143",
-            "rotation": 0
-        },
-        {
-            "name": "by144",
+            "name": "by12",
             "rotation": 0
         }
     ],
@@ -1103,37 +369,17 @@ create_new_members = {}
 # Define nodes/members to remove from model
 delete_nodes = []
 delete_members = [
-        "bx49",
-        "bx50",
-        "bx51",
-        "bx52",
-        "bx53",
-        "bx54",
-        "bx55",
-        "bx56",
-        "bx57",
-        "bx58",
-        "bx59",
-        "bx60",
-        "by97",
-        "by98",
-        "by99",
-        "by100",
-        "by101",
-        "by102",
-        "by103",
-        "by104",
-        "by105",
-        "by106",
-        "by107",
-        "by108",
+        "bx5",
+        "bx6",
+        "by9",
+        "by10",
         ]  # Members to be removed
 
 # =============================================
 # FIXITY DATA
 # =============================================
 fixity_data = {
-    "base_nodes1": {"nodes": ["n1", "n2", "n3", "n4", "n5", "n6", "n7", "n8", "n9", "n10", "n11", "n12", "n13", "n14", "n15", "n16",], "vals": [1, 1, 1, 1, 1, 1]},
+    "base_nodes1": {"nodes": ["n1", "n2", "n3", "n4"], "vals": [1, 1, 1, 1, 1, 1]},
     # "base_nodes2": {"nodes": [], "vals": [0, 1, 1, 0, 1, 0]},
     # "base_nodes3": {"nodes": [], "vals": [1, 0, 0, 1, 0, 1]},
 }
@@ -1181,12 +427,12 @@ sections_config = {
 # Define shell element surfaces
 surface_configurations = {
     
-       "10.0_slab1": {
+    "10.0_slab1": {
         "points": [
-            "n17",
-            "n18",
-            "n22",
-            "n21"
+            "n5",
+            "n6",
+            "n8",
+            "n7"
         ],
         "section_name": "floor_slab1",
         "add_shell": {},
@@ -1200,659 +446,9 @@ surface_configurations = {
             "self_weight"
         ],
         "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "10.0_slab2": {
-        "points": [
-            "n18",
-            "n19",
-            "n23",
-            "n22"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "10.0_slab3": {
-        "points": [
-            "n19",
-            "n20",
-            "n24",
-            "n23"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "10.0_slab4": {
-        "points": [
-            "n21",
-            "n22",
-            "n26",
-            "n25"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "10.0_slab5": {
-        "points": [
-            "n22",
-            "n23",
-            "n27",
-            "n26"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "10.0_slab6": {
-        "points": [
-            "n23",
-            "n24",
-            "n28",
-            "n27"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "10.0_slab7": {
-        "points": [
-            "n25",
-            "n26",
-            "n30",
-            "n29"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "10.0_slab8": {
-        "points": [
-            "n26",
-            "n27",
-            "n31",
-            "n30"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "10.0_slab9": {
-        "points": [
-            "n27",
-            "n28",
-            "n32",
-            "n31"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab1": {
-        "points": [
-            "n33",
-            "n34",
-            "n38",
-            "n37"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab2": {
-        "points": [
-            "n34",
-            "n35",
-            "n39",
-            "n38"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab3": {
-        "points": [
-            "n35",
-            "n36",
-            "n40",
-            "n39"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab4": {
-        "points": [
-            "n37",
-            "n38",
-            "n42",
-            "n41"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab5": {
-        "points": [
-            "n38",
-            "n39",
-            "n43",
-            "n42"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab6": {
-        "points": [
-            "n39",
-            "n40",
-            "n44",
-            "n43"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab7": {
-        "points": [
-            "n41",
-            "n42",
-            "n46",
-            "n45"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab8": {
-        "points": [
-            "n42",
-            "n43",
-            "n47",
-            "n46"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "21.0_slab9": {
-        "points": [
-            "n43",
-            "n44",
-            "n48",
-            "n47"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab1": {
-        "points": [
-            "n49",
-            "n50",
-            "n54",
-            "n53"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab2": {
-        "points": [
-            "n50",
-            "n51",
-            "n55",
-            "n54"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab3": {
-        "points": [
-            "n51",
-            "n52",
-            "n56",
-            "n55"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab4": {
-        "points": [
-            "n53",
-            "n54",
-            "n58",
-            "n57"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab5": {
-        "points": [
-            "n54",
-            "n55",
-            "n59",
-            "n58"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab6": {
-        "points": [
-            "n55",
-            "n56",
-            "n60",
-            "n59"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab7": {
-        "points": [
-            "n57",
-            "n58",
-            "n62",
-            "n61"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab8": {
-        "points": [
-            "n58",
-            "n59",
-            "n63",
-            "n62"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
-        ],
-        "thickness": 6
-    },
-    "31.0_slab9": {
-        "points": [
-            "n59",
-            "n60",
-            "n64",
-            "n63"
-        ],
-        "section_name": "floor_slab1",
-        "add_shell": {},
-        "remove_shell": [],
-        "predefined_points": {},
-        "num_x_div": 3,
-        "num_y_div": 3,
-        "load_case_names": [
-            "DL",
-            "LL",
-            "self_weight"
-        ],
-        "pressures": [
-            -0.02,
-            -0.045,
-            -0.075
+            -0.02 * ksf,
+            -0.045 * ksf,
+            -0.075 * ksf
         ],
         "thickness": 6
     }
@@ -1903,109 +499,17 @@ all_nodal_load_entries = nodal_load_entries1 + nodal_load_entries2 + nodal_load_
 
 
 beamx= [
-        "bx49",
-        "bx50",
-        "bx51",
-        "bx52",
-        "bx53",
-        "bx54",
-        "bx55",
-        "bx56",
-        "bx57",
-        "bx58",
-        "bx59",
-        "bx60",
-        "bx61",
-        "bx62",
-        "bx63",
-        "bx64",
-        "bx65",
-        "bx66",
-        "bx67",
-        "bx68",
-        "bx69",
-        "bx70",
-        "bx71",
-        "bx72",
-        "bx73",
-        "bx74",
-        "bx75",
-        "bx76",
-        "bx77",
-        "bx78",
-        "bx79",
-        "bx80",
-        "bx81",
-        "bx82",
-        "bx83",
-        "bx84",
-        "bx85",
-        "bx86",
-        "bx87",
-        "bx88",
-        "bx89",
-        "bx90",
-        "bx91",
-        "bx92",
-        "bx93",
-        "bx94",
-        "bx95",
-        "bx96",
-    ],
+        "bx7",
+        "bx8",
+    ]
 beamy= [
-        "by97",
-        "by98",
-        "by99",
-        "by100",
-        "by101",
-        "by102",
-        "by103",
-        "by104",
-        "by105",
-        "by106",
-        "by107",
-        "by108",
-        "by109",
-        "by110",
-        "by111",
-        "by112",
-        "by113",
-        "by114",
-        "by115",
-        "by116",
-        "by117",
-        "by118",
-        "by119",
-        "by120",
-        "by121",
-        "by122",
-        "by123",
-        "by124",
-        "by125",
-        "by126",
-        "by127",
-        "by128",
-        "by129",
-        "by130",
-        "by131",
-        "by132",
-        "by133",
-        "by134",
-        "by135",
-        "by136",
-        "by137",
-        "by138",
-        "by139",
-        "by140",
-        "by141",
-        "by142",
-        "by143",
-        "by144"
+        "by11",
+        "by12",
     ]
 
 loading1 = [{
     "LoadCase": ["DL"],
-    "uniform": {"x": 0.0, "y": 0.0, "z": -1.5},
+    "uniform": {"x": 0.0, "y": 0.0, "z": -1.0},
     "point": {"x": 0.0, "y": 0.0, "z": 0.0, "location": 0.5},
     "temperature_points": [
         {"temp": 0.0, "y": 0.0},
@@ -2016,8 +520,8 @@ loading1 = [{
 
 loading2 = [{
     "LoadCase": ["LL"],
-    "uniform": {"x": 0.0, "y": 0.0, "z": -2.0},
-    "point": {"x": 0.0, "y": 0.0, "z": -10.0, "location": 0.5},
+    "uniform": {"x": 0.0, "y": 0.0, "z": -1.0},
+    "point": {"x": 0.0, "y": 0.0, "z": 0.0, "location": 0.5},
     "temperature_points": [
         {"temp": 0.0, "y": 0.0},
         {"temp": 0.0, "y": 0.0},
@@ -2033,8 +537,48 @@ loading_mapping = [(beamx, loading1), (beamy, loading2)]
 load_combinations = {
     "mass": [("DL", 1.0), ("LL", 0.25), ("self_weight", 1.0)],
     "Comb2": [("DL", 1.2), ("LL", 1.6), ("self_weight", 1.2)],
-    "Comb1": [("DL", 1.4), ("self_weight", 1.4)]
+    "Comb1": [("DL", 1.4), ("self_weight", 1.4)],
+    "unfactored_load": [("DL", 1.0), ("LL", 1.0),  ("self_weight", 1.0)],
 }
+
+
+zero_length_nodes = [
+    {"name": "n1",  "Kx": "1e8", "Ky": "1e8", "Kz": "1e8"},
+    {"name": "n2",  "Kx": "1e8", "Ky": "1e8", "Kz": "1e8"},
+    {"name": "n3",  "Kx": "1e8", "Ky": "1e8", "Kz": "1e8"},
+    {"name": "n4",  "Kx": "1e8", "Ky": "1e8", "Kz": "1e8"},
+]
+
+# create_zero_length_elements(JSON_FOLDER, zero_length_nodes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '''
 # =============================================

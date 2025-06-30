@@ -2,6 +2,7 @@ from import_ import *
 from input import *
 from load_combinations import *
 from Grid_and_structure_creation import *
+from post_processing import calculate_slab_reinforcement_from_shell_forces, get_node_results, structural_model_plot
 from wall_meshing import *
 from sections_function import *
 from units import *
@@ -223,122 +224,6 @@ def define_circular_rc_section10_opensees(sec_tag, core_tag, cover_tag, steel_ta
     ops.layer('circ', steel_tag, num_Bars_Sec, bar_area_Sec, 0, 0, rc, 0, 360)
 
 
-# def define_L_rc_section10_opensees(sec_tag, core_tag, cover_tag, steel_tag, H, B, t, cover_H, cover_B, offset,
-#                                   n_bars_vertical, dia_vertical, n_bars_horizontal, dia_horizontal,
-#                                   n_bars_corner, dia_corner):
-#     """
-#     Define an L-shaped RC section in OpenSees.
-    
-#     Parameters:
-#     -----------
-#     sec_tag : int
-#         Tag for the section
-#     core_tag : int
-#         Material tag for core concrete
-#     cover_tag : int
-#         Material tag for cover concrete
-#     steel_tag : int
-#         Material tag for reinforcement steel
-#     H : float
-#         Total height of the L-section
-#     B : float
-#         Total width of the L-section
-#     t : float
-#         Thickness of the L-section legs
-#     cover_H : float
-#         Cover thickness in vertical direction
-#     cover_B : float
-#         Cover thickness in horizontal direction
-#     offset : float
-#         Offset for secondary reinforcement from primary reinforcement
-#     n_bars_vertical : int
-#         Number of vertical reinforcement bars
-#     dia_vertical : float
-#         Diameter of vertical reinforcement bars
-#     n_bars_horizontal : int
-#         Number of horizontal reinforcement bars
-#     dia_horizontal : float
-#         Diameter of horizontal reinforcement bars
-#     n_bars_corner : int
-#         Number of corner reinforcement bars
-#     dia_corner : float
-#         Diameter of corner reinforcement bars
-#     """
-#     # Calculate coordinates for core and cover
-#     core_y1 = 0
-#     core_y2 = H - cover_H
-#     core_z1 = 0
-#     core_z2 = t - cover_B  # Vertical leg
-#     core_z3 = B - cover_B  # Horizontal leg
-    
-#     # Create the OpenSees fiber section
-#     ops.section('Fiber', sec_tag, '-GJ', 1.0e9)
-    
-#     # Define core patches for vertical and horizontal legs
-#     # Vertical leg core
-#     ops.patch('quad', core_tag, 10, 10,
-#               core_z1, core_y1,
-#               core_z2, core_y1,
-#               core_z2, core_y2,
-#               core_z1, core_y2)
-    
-#     # Horizontal leg core
-#     ops.patch('quad', core_tag, 10, 10,
-#               core_z1, core_y1,
-#               core_z3, core_y1,
-#               core_z3, t - cover_H,
-#               core_z1, t - cover_H)
-    
-#     # Define cover patches
-#     # Vertical leg left cover
-#     ops.patch('quad', cover_tag, 2, 10,
-#               0, 0,
-#               cover_B, 0,
-#               cover_B, H,
-#               0, H)
-    
-#     # Vertical leg right cover
-#     ops.patch('quad', cover_tag, 2, 10,
-#               t - cover_B, 0,
-#               t, 0,
-#               t, H,
-#               t - cover_B, H)
-    
-#     # Horizontal leg bottom cover
-#     ops.patch('quad', cover_tag, 10, 2,
-#               0, 0,
-#               B, 0,
-#               B, cover_H,
-#               0, cover_H)
-    
-#     # Horizontal leg top cover
-#     ops.patch('quad', cover_tag, 10, 2,
-#               0, t - cover_H,
-#               B, t - cover_H,
-#               B, t,
-#               0, t)
-    
-#     # Define reinforcement layers
-#     bar_area_vertical = 0.25 * np.pi * dia_vertical**2
-#     bar_area_horizontal = 0.25 * np.pi * dia_horizontal**2
-#     bar_area_corner = 0.25 * np.pi * dia_corner**2
-    
-#     # Vertical reinforcement
-#     vert_bar_x = t - cover_B - offset
-#     ops.layer('straight', steel_tag, n_bars_vertical, bar_area_vertical,
-#               vert_bar_x, cover_H,
-#               vert_bar_x, H - cover_H)
-    
-#     # Horizontal reinforcement
-#     horiz_bar_y = t - cover_H - offset
-#     ops.layer('straight', steel_tag, n_bars_horizontal, bar_area_horizontal,
-#               cover_B, horiz_bar_y,
-#               B - cover_B, horiz_bar_y)
-    
-#     # Corner reinforcement (placed at intersection of vertical and horizontal bars)
-#     ops.layer('straight', steel_tag, n_bars_corner, bar_area_corner,
-#               vert_bar_x, horiz_bar_y,
-#               vert_bar_x, horiz_bar_y)
   
 def define_L_rc_section10_opensees(sec_tag, core_tag, cover_tag, steel_tag, H, B, t, cover_H, cover_B,
                                   n_bars_vertical_outer, dia_vertical_outer, 
@@ -925,7 +810,9 @@ def assign_opensees_loads(JSON_FOLDER, combo_name="Comb2"):
             if any(elem["uniform"]):
                 print(f"Assigned uniform load to member {member_id}: {elem['uniform']}")
                 # Correct order: wx, wy, wz (no reordering needed)
-                ops.eleLoad('-ele', member_id, '-type', '-BeamUniform', elem['uniform'])
+                # ops.eleLoad('-ele', member_id, '-type', '-beamUniform', elem['uniform'][0], elem['uniform'][1], elem['uniform'][2])
+
+                ops.eleLoad('-ele', member_id, '-type', '-beamUniform', elem['uniform'][2], elem['uniform'][1], 0)
                 print("Successfully assigned member uniform load")
             
             # Point loads - corrected syntax for OpenSees beamPoint
@@ -934,55 +821,323 @@ def assign_opensees_loads(JSON_FOLDER, combo_name="Comb2"):
                 # OpenSees beamPoint syntax: Py, Pz, xDivL, Px
                 # Your data format: [Px, Py, Pz, location]
                 px, py, pz, location = elem["point"]
-                ops.eleLoad('-ele', member_id, '-type', '-BeamPoint', py, pz, location, px)
+                ops.eleLoad('-ele', member_id, '-type', '-beamPoint', pz, py, location, px)
                 print("Successfully assigned member point load")
 
 # Analysis Functions - Improved with better recorder handling
 def ensure_output_dir():
     """Ensure output directory exists."""
     os.makedirs('FGU_RC3DF_files', exist_ok=True)
+
+
+
+# =============================================
+# create_rigid_diaphragms
+# =============================================
+
+def create_rigid_diaphragms(JSON_FOLDER: str, ndm: int = 3, ndf: int = 6) -> bool:
+    output_path = os.path.join(JSON_FOLDER, "center_of_mass_results.json")
+    print(f"\n=== DEBUG: Loading COM results from {output_path} ===")  # Debug 1
+    
+    try:
+        with open(output_path) as f:
+            com_results = json.load(f)
+        print(f"DEBUG: Found {len(com_results)} diaphragm levels in COM results")  # Debug 2
+    except Exception as e:
+        print(f"ERROR: Failed to load COM results - {str(e)}")  # Debug 3
+        return False
+
+    success = True
+    all_existing_nodes = ops.getNodeTags()
+    print(f"DEBUG: Total existing nodes before diaphragms: {len(all_existing_nodes)}")  # Debug 4
+
+    for z_level, level_data in com_results.items():
+        print(f"\nDEBUG: Processing z-level {z_level}")  # Debug 5
+        try:
+            com_node = level_data['com_node']
+            nodes_at_level = level_data['nodes_at_level']
+            print(f"DEBUG: Level has {len(nodes_at_level)} candidate nodes")  # Debug 6
+
+            rNodeTag = int(com_node['id'])
+            x, y, z = float(com_node['x']), float(com_node['y']), float(com_node['z'])
+            print(f"DEBUG: Master node {rNodeTag} at ({x:.2f}, {y:.2f}, {z:.2f})")  # Debug 7
+
+            existing_nodes = ops.getNodeTags()
+            if rNodeTag not in existing_nodes:
+                print(f"DEBUG: Creating new master node {rNodeTag}")  # Debug 8
+                ops.node(rNodeTag, x, y, z)
+                ops.fix(rNodeTag, 0, 0, 1, 1, 1, 0)
+
+            # Verify master node creation
+            try:
+                master_coords = ops.nodeCoord(rNodeTag)
+                print(f"DEBUG: Verified master node {rNodeTag} at {master_coords}")  # Debug 9
+            except:
+                print(f"ERROR: Master node {rNodeTag} creation failed!")  # Debug 10
+                success = False
+                continue
+
+            candidate_nodes = []
+            for node in nodes_at_level:
+                nid = int(node['id'])
+                if nid in existing_nodes:
+                    candidate_nodes.append(nid)
+                    coord = ops.nodeCoord(nid)
+                    print(f"DEBUG: Node {nid} at {coord} - will be constrained")  # Debug 11
+                else:
+                    print(f"WARNING: Node {nid} not found in model!")  # Debug 12
+
+            if len(candidate_nodes) < 3:
+                print(f"ERROR: Insufficient nodes ({len(candidate_nodes)}) for diaphragm at z={z}")  # Debug 13
+                success = False
+                continue
+
+            print(f"DEBUG: Creating diaphragm with {len(candidate_nodes)} nodes")  # Debug 14
+            ops.rigidDiaphragm(3, rNodeTag, *candidate_nodes)
+            
+            # Verify diaphragm creation
+            try:
+                constrained_nodes = ops.getFixedNodes(rNodeTag)
+                print(f"DEBUG: Diaphragm created - master {rNodeTag} constrains {len(constrained_nodes)} nodes")  # Debug 15
+            except:
+                print(f"ERROR: Diaphragm creation failed for master {rNodeTag}")  # Debug 16
+                success = False
+
+        except Exception as e:
+            print(f"ERROR: Exception at z-level {z_level} - {str(e)}")  # Debug 17
+            success = False
+
+    final_nodes = ops.getNodeTags()
+    print(f"\nDEBUG: Total nodes after diaphragms: {len(final_nodes)}")  # Debug 18
+    return success
+# =============================================
+# calculate_and_apply_nodal_masses
+# =============================================
+# def calculate_and_apply_nodal_masses(JSON_FOLDER, g):
+#     """Calculate and apply nodal masses from both element and nodal load combinations for mass case"""
+    
+#     nodes_data,_,_ = create_combined_structure_json(JSON_FOLDER)
+#     # File paths
+#     element_mass_file = os.path.join(JSON_FOLDER, "load_data", "member_load_mass.json")
+#     nodal_mass_file = os.path.join(JSON_FOLDER, "load_data", "nodal_loads_mass.json")
+    
+#     # Initialize nodal masses dictionary
+#     nodal_masses = defaultdict(lambda: np.zeros(6))  # 6 DOFs
+    
+#     try:
+#         # 1. Process element loads (convert to nodal masses)
+#         with open(element_mass_file, 'r') as f:
+#             element_loads = json.load(f)
+            
+#             for load in element_loads.get("element_loads", []):
+#                 start_coords = np.array(load.get("start_node_coords", [0, 0, 0]))
+#                 end_coords = np.array(load.get("end_node_coords", [0, 0, 0]))
+#                 member_length = np.linalg.norm(end_coords - start_coords)
+                
+#                 # Find corresponding nodes
+#                 start_node = next((n for n in nodes_data if np.allclose(
+#                     [n['x'], n['y'], n['z']], start_coords)), None)
+#                 end_node = next((n for n in nodes_data if np.allclose(
+#                     [n['x'], n['y'], n['z']], end_coords)), None)
+                
+#                 if not start_node or not end_node:
+#                     continue
+                
+#                 # Convert loads to masses (negative because loads are typically downward)
+#                 uniform_mass = np.array(load.get("uniform", [0, 0, 0])) * member_length
+#                 point_mass = np.array(load.get("point", [0, 0, 0, 0.5]))[:3]  # Default to midspan
+#                 point_loc = load.get("point", [0,0,0,0.5])[3]
+                
+#                 # Distribute to nodes
+#                 nodal_masses[start_node['id']][:3] += uniform_mass * 0.5  # 50% to each end
+#                 nodal_masses[end_node['id']][:3] += uniform_mass * 0.5
+#                 nodal_masses[start_node['id']][:3] += point_mass * (1 - point_loc)
+#                 nodal_masses[end_node['id']][:3] += point_mass * point_loc
+        
+#         # 2. Add direct nodal masses from nodal_loads_mass.json
+#         with open(nodal_mass_file, 'r') as f:
+#             direct_nodal_masses = json.load(f)
+            
+#             for node_id, mass_values in direct_nodal_masses.items():
+#                 try:
+#                     node_id = int(node_id)
+#                     if len(mass_values) >= 6:
+#                         nodal_masses[node_id] += np.array(mass_values[:6])
+#                     else:
+#                         nodal_masses[node_id][:len(mass_values)] += np.array(mass_values)
+#                 except (ValueError, KeyError):
+#                     continue
+        
+#         # 3. Generate mass commands
+#         mass_commands = []
+#         for node in nodes_data:
+#             node_id = node['id']
+#             # mass_values = nodal_masses.get(node_id, [0]*6)
+#             mass_values = [round(m / g, 6) for m in nodal_masses.get(node_id, [0]*6)]
+#             mass_commands.append(f"mass {node_id} {' '.join(map(str, mass_values))}")
+        
+#         return mass_commands
+    
+#     except Exception as e:
+#         print(f"Error processing mass files: {e}")
+#         return None
+
+import openseespy.opensees as ops
+import os
+import json
+import numpy as np
+from collections import defaultdict
+
+import os
+import json
+import numpy as np
+from collections import defaultdict
+
+# def calculate_and_apply_nodal_masses(JSON_FOLDER, g):
+#     """Calculate and apply nodal masses from member and nodal loads (Z-direction only)"""
+    
+#     # Get nodes data from combined structure
+#     nodes_data, members_data, _ = create_combined_structure_json(JSON_FOLDER)
+    
+#     # File paths
+#     element_mass_file = os.path.join(JSON_FOLDER, "load_data", "member_load_mass.json")
+#     nodal_mass_file = os.path.join(JSON_FOLDER, "load_data", "nodal_loads_mass.json")
+    
+#     # Initialize nodal masses dictionary with zeros
+#     nodal_masses = defaultdict(float)  # Only storing Z-direction masses now
+    
+#     # Process element loads (convert to nodal masses)
+#     with open(element_mass_file, 'r') as f:
+#         element_loads = json.load(f)
+        
+#         for load in element_loads["element_loads"]:
+#             # Get uniform load in Z-direction (index 2)
+#             uniform_z = load["uniform"][2]  # Already in kN/m or similar units
+            
+#             # Get member length from actual member data (not from start/end coords)
+#             member_id = load["member"]
+#             member = [m for m in members_data if m["id"] == member_id][0]
+#             start_node = [n for n in nodes_data if n["id"] == member["start_node"]][0]
+#             end_node = [n for n in nodes_data if n["id"] == member["end_node"]][0]
+            
+#             # Calculate member length
+#             start_coords = np.array([start_node["x"], start_node["y"], start_node["z"]])
+#             end_coords = np.array([end_node["x"], end_node["y"], end_node["z"]])
+#             member_length = np.linalg.norm(end_coords - start_coords)
+            
+#             # Calculate total uniform load
+#             total_uniform_z = uniform_z * member_length
+            
+#             # Distribute uniformly to end nodes (50% each)
+#             nodal_masses[start_node["id"]] += total_uniform_z * 0.5
+#             nodal_masses[end_node["id"]] += total_uniform_z * 0.5
+            
+#             # Handle point load if exists (Z-direction only)
+#             point_z = load["point"][2]
+#             if point_z != 0:
+#                 point_loc = load["point"][3]  # Location along member (0-1)
+#                 nodal_masses[start_node["id"]] += point_z * (1 - point_loc)
+#                 nodal_masses[end_node["id"]] += point_z * point_loc
+    
+#     # Process direct nodal loads (Z-direction only)
+#     with open(nodal_mass_file, 'r') as f:
+#         direct_nodal_masses = json.load(f)
+        
+#         for node_identifier, mass_values in direct_nodal_masses.items():
+#             # Find node by either ID or name
+#             node = [n for n in nodes_data if str(n["id"]) == node_identifier or n["name"] == node_identifier][0]
+#             nodal_masses[node["id"]] += mass_values[2]  # Only Z-direction
+    
+#     # Apply masses to OpenSees model (only Z-direction matters)
+#     for node in nodes_data:
+#         node_id = node["id"]
+#         mz = nodal_masses.get(node_id, 0) / g  # Convert load to mass
+#         ops.mass(node_id, mz, mz, 0, 0, 0, 0)
+#         print(f"Applied mass to node {node_id}: [{mz}, {mz}, 0, 0, 0, 0]")
+    
+#     print(f"Completed mass application for {len(nodes_data)} nodes")
+
+def calculate_and_apply_nodal_masses(JSON_FOLDER, g):
+    """Calculate and apply nodal masses from member and nodal loads (Z-direction only)"""
+    
+    # Get nodes data from combined structure
+    nodes_data, _, _ = create_combined_structure_json(JSON_FOLDER)
+    
+    # File paths
+    element_mass_file = os.path.join(JSON_FOLDER, "load_data", "member_load_mass.json")
+    nodal_mass_file = os.path.join(JSON_FOLDER, "load_data", "nodal_loads_mass.json")
+    
+    # Initialize nodal masses dictionary with zeros
+    nodal_masses = defaultdict(float)  # Only storing Z-direction masses
+    
+    # Process element loads (convert to nodal masses)
+    with open(element_mass_file, 'r') as f:
+        element_loads = json.load(f)
+        
+        for load in element_loads["element_loads"]:
+            # Get uniform load in Z-direction (index 2)
+            uniform_z = load["uniform"][2]
+            
+            # Use coordinate-based approach from original code
+            start_coords = np.array(load["start_node_coords"])
+            end_coords = np.array(load["end_node_coords"])
+            member_length = np.linalg.norm(end_coords - start_coords)
+            
+            # Find nodes by coordinates
+            start_nodes = [n for n in nodes_data if np.allclose([n['x'], n['y'], n['z']], start_coords)]
+            end_nodes = [n for n in nodes_data if np.allclose([n['x'], n['y'], n['z']], end_coords)]
+            
+            if not start_nodes or not end_nodes:
+                print(f"Warning: Could not find nodes for member with coords {start_coords} to {end_coords}")
+                continue
+                
+            start_node = start_nodes[0]
+            end_node = end_nodes[0]
+            
+            # Calculate total uniform load
+            total_uniform_z = uniform_z * member_length
+            
+            # Distribute uniformly to end nodes (50% each)
+            nodal_masses[start_node["id"]] += total_uniform_z * 0.5
+            nodal_masses[end_node["id"]] += total_uniform_z * 0.5
+            
+            # Handle point load if exists (Z-direction only)
+            point_z = load["point"][2]
+            if point_z != 0:
+                point_loc = load["point"][3]  # Location along member (0-1)
+                nodal_masses[start_node["id"]] += point_z * (1 - point_loc)
+                nodal_masses[end_node["id"]] += point_z * point_loc
+    
+    # Process direct nodal loads (Z-direction only)
+    with open(nodal_mass_file, 'r') as f:
+        direct_nodal_masses = json.load(f)
+        
+        for node_identifier, mass_values in direct_nodal_masses.items():
+            # Find node by either ID or name
+            matching_nodes = [n for n in nodes_data if str(n["id"]) == node_identifier or n["name"] == node_identifier]
+            
+            if not matching_nodes:
+                print(f"Warning: Node {node_identifier} not found in model")
+                continue
+                
+            node = matching_nodes[0]
+            nodal_masses[node["id"]] += mass_values[2]  # Only Z-direction
+    
+    # Apply masses to OpenSees model (only Z-direction matters)
+    for node in nodes_data:
+        node_id = node["id"]
+        mz = nodal_masses.get(node_id, 0) / g  # Convert load to mass
+        # mz = -1.1217343451270942
+        ops.mass(node_id, -1*mz, -1*mz, 0, 0, 0, 0)
+        # print(f"Applied mass to node {node_id}: [{mz}, {mz}, 0, 0, 0, 0]")
+    
+    print(f"Completed mass application for {len(nodes_data)} nodes")
+
 # =============================================
 # 6. run_gravity
 # =============================================
-# def run_gravity(JSON_FOLDER, steps=10, comb_name=None):
-#     """Run gravity analysis with dynamic recorder naming."""
-#     ensure_output_dir()
-#     reaction_file = os.path.join(JSON_FOLDER, "post_processing", f"Gravity_Reactions_{comb_name}.out" if comb_name else "Gravity_Reactions.out")
-#     # reaction_file = f"Gravity_Reactions_{comb_name}.out" if comb_name else "Gravity_Reactions.out"
-#     reaction_path = os.path.join('FGU_RC3DF_files', reaction_file)
-    
-#     # ops.recorder('Node', '-file', reaction_path,
-#     #             '-time', '-node', '-dof', 'reaction')
 
-
-
-
-#     ops.constraints('Transformation')
-#     ops.numberer('RCM')
-#     ops.system('BandGeneral')
-#     # ops.test('NormDispIncr', 1.0e-6, 100, 0, 2)
-#     ops.test('NormDispIncr', 1.0e-4, 200, 0, 2)
-#     ops.algorithm('Newton')
-#     # ops.algorithm('NewtonLineSearch') 
-#     # ops.algorithm('KrylovNewton')
-#     ops.integrator('LoadControl', 1/steps)
-#     # ops.integrator('LoadControl', 1/(steps*2))
-#     ops.analysis('Static')
-#     # ops.analyze(steps)  # e.g., steps=10
-    
-#     ops.record()
-    
-#     ok = ops.analyze(steps)
-#     ops.reactions()     # Must call to update reactions!
-    
-#     if ok == 0:
-#         print(f"Gravity analysis {'for ' + comb_name if comb_name else ''} completed successfully")
-#         return True
-#     else:
-#         print(f"Gravity analysis {'for ' + comb_name if comb_name else ''} failed")
-#         return False
-
-def run_gravity(JSON_FOLDER, steps=10, comb_name="Comb2"):
+def run_gravity(JSON_FOLDER, steps=10, nep=5, OUTPUT_FOLDER = "postprocessing_folder", load_combination="combo_name"):
         
     """
     Runs gravity analysis.
@@ -996,9 +1151,9 @@ def run_gravity(JSON_FOLDER, steps=10, comb_name="Comb2"):
     
     ops.initialize()
     # Records the response of a number of nodes at every converged step
-    ops.recorder('Node', '-file', 
-                os.path.join('FGU_RC3DF_files','Gravity_Reactions.out'),
-        '-time','-node', *list(range(1,5)), '-dof', *list(range(1,7)), 'reaction')
+    # ops.recorder('Node', '-file', 
+    #             os.path.join('FGU_RC3DF_files','Gravity_Reactions.out'),
+    #     '-time','-node', *list(range(1,5)), '-dof', *list(range(1,7)), 'reaction')
 
     # enforces the constraints using the transformation method
     ops.constraints('Transformation')
@@ -1026,10 +1181,20 @@ def run_gravity(JSON_FOLDER, steps=10, comb_name="Comb2"):
     ops.record()
     # Performs the analysis
     ops.analyze(steps)    
-    
+    ops.reactions()
+    # ops.printModel()
     print("Gravity analysis Done!")   
-
-
+    # Right after ops.analyze()
+    # for node_tag in range(1, 5):  # nodes 1-16
+    #     reaction = ops.nodeReaction(node_tag)
+    #     print(f"Node {node_tag} reaction: {reaction}")
+    # for node_tag in range(1, 9):  # nodes 1-16
+    #     nodeDisp = ops.nodeDisp(node_tag)
+    #     print(f"Node {node_tag} nodeDisp: {nodeDisp}")
+    # extract_all_element_data(JSON_FOLDER, nep=5, output_folder="postprocessing_folder", load_combination=combo_name)
+    get_node_results(OUTPUT_FOLDER = "postprocessing_folder", load_combination=load_combination)
+    calculate_slab_reinforcement_from_shell_forces(JSON_FOLDER, nep=5, load_combination=load_combination)
+    structural_model_plot(OUTPUT_FOLDER="postprocessing_folder", load_combination=load_combination)
  
 # =============================================
 # 7. run_modal

@@ -7,7 +7,7 @@
                 "n10002",
                 "n10003",
                 "n10004",
-                "n18"
+                "n6"
             ],
             "shell_section": "floor_slab1",
             "thickness": 6,
@@ -48,7 +48,7 @@
             "id": 10003,
             "type": "rectangle",
             "nodes": [
-                "n17",
+                "n5",
                 "n10008",
                 "n10005",
                 "n10006"
@@ -138,7 +138,7 @@
             "nodes": [
                 "n10009",
                 "n10013",
-                "n22",
+                "n8",
                 "n10010"
             ],
             "shell_section": "floor_slab1",
@@ -181,7 +181,7 @@
             "type": "rectangle",
             "nodes": [
                 "n10012",
-                "n21",
+                "n7",
                 "n10015",
                 "n10011"
             ],

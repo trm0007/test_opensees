@@ -276,7 +276,15 @@ def calculate_nodal_loads_from_mesh(nodes_data, mesh_data, nodal_load_entries, J
 
     return output
 
+'''
+    OUTPUT_FOLDER = "output_folder"  # Main output directory
+    JSON_FOLDER = os.path.join(OUTPUT_FOLDER, "json_files")
+    LOAD_FOLDER = os.path.join(JSON_FOLDER, "load_data")
+    filepath = os.path.join(LOAD_FOLDER, "nodal_loads_from_slab.json")
 
+    with open(filepath, 'r') as f:
+        load_data = json.load(f)
+'''
 def create_nodal_load_combinations(nodal_loads, load_combinations, JSON_FOLDER):
     """
     Creates load combinations from individual load cases and saves them to JSON files.
@@ -286,400 +294,236 @@ def create_nodal_load_combinations(nodal_loads, load_combinations, JSON_FOLDER):
         load_combinations (dict): Dictionary of load combinations with factors
         JSON_FOLDER (str): Path to the JSON output folder
     """
-    tolerance = 1e-6
+
+    # Create output directory if it doesn't exist
+    save_dir = os.path.join(JSON_FOLDER, "load_data")
+    os.makedirs(save_dir, exist_ok=True)
     
-    # Validate inputs
-    if not nodal_loads:
-        raise ValueError("nodal_loads cannot be empty")
-    
-    if not os.path.exists(JSON_FOLDER):
-        raise ValueError(f"JSON_FOLDER does not exist: {JSON_FOLDER}")
+    all_success = True
     
     # Process each combination
     for combo_name, components in load_combinations.items():
         combined_loads = defaultdict(lambda: np.zeros(6))
         
-        # Combine load cases with factors
-        for load_case, factor in components:
-            if load_case not in nodal_loads:
-                print(f"Warning: Load case '{load_case}' not found in nodal_loads, skipping for combination '{combo_name}'")
-                continue
-                
-            if (factor) < tolerance:
-                continue  # Skip zero factors
-                
-            for node_id, loads in nodal_loads[load_case].items():
-                # Convert loads to numpy array if it's a list
-                loads_array = np.array(loads) if isinstance(loads, (list, tuple)) else loads
-                combined_loads[node_id] += loads_array * factor
-        
-        # Prepare output data
-        output = {}
-        for node_id, loads in combined_loads.items():
-            # Convert numpy array back to list for JSON serialization
-            output[node_id] = loads.tolist()
-        
-        # Save the combination
-        save_dir = os.path.join(JSON_FOLDER, "load_data")
-        os.makedirs(save_dir, exist_ok=True)
-        
-        # Create filename based on combination name
-        filename = f"nodal_loads_{combo_name.lower()}.json"
-        save_path = os.path.join(save_dir, filename)
-        
         try:
+            # Combine load cases with factors
+            for load_case, factor in components:
+                if load_case not in nodal_loads:
+                    raise KeyError(f"Load case '{load_case}' not found in nodal_loads")
+                
+                for node_id, loads in nodal_loads[load_case].items():
+                    loads_array = np.array(loads) if isinstance(loads, (list, tuple)) else loads
+                    combined_loads[node_id] += loads_array * factor
+            
+            # Prepare output data
+            output = {
+                node_id: loads.tolist()
+                for node_id, loads in combined_loads.items()
+            }
+            
+            # Create filename based on combination name
+            filename = f"nodal_loads_{combo_name.lower()}.json"
+            save_path = os.path.join(save_dir, filename)
+            
             with open(save_path, 'w') as f:
                 json.dump(output, f, indent=2)
             print(f"Successfully saved combination '{combo_name}' to: {save_path}")
-        except (IOError, OSError) as e:
-            print(f"Warning: Failed to save combination '{combo_name}': {e}")
+            
+        except (IOError, OSError, KeyError) as e:
+            all_success = False
+            print(f"Warning: Failed to process combination '{combo_name}': {e}")
     
-    return True
+    return all_success
 
 
-# def process_element_loads_with_node_coordinates(all_element_loads, nodes_data, members_data, JSON_FOLDER):
-#     """
-#     Combines member-node coordinate mapping and element load processing into a single function.
-#     Now includes calculation of point load coordinates based on their location along the member.
-    
-#     Args:
-#         all_element_loads: List of element load dictionaries
-#         nodes_data: List of node data dictionaries
-#         members_data: List of member data dictionaries
-        
-#     Returns:
-#         Dictionary containing combined element loads with node coordinates and point load coordinates
-#     """
-#     wall_dir = os.path.join(JSON_FOLDER, 'load_data')
-#     os.makedirs(wall_dir, exist_ok=True)
 
-#     # 1. First create the node coordinate mapping
-#     node_coords = {node['id']: [node['x'], node['y'], node['z']] for node in nodes_data}
-    
-#     # 2. Create member name to node coordinates mapping and name to ID mapping
+# def process_element_loads_with_node_coordinates(loading_mapping, nodes_data, members_data, JSON_FOLDER):
+
 #     member_nodes = {}
-#     name_to_id = {}
 #     for member in members_data:
-#         member_nodes[member['name']] = {
-#             'id': member['id'],
-#             'start_node': node_coords.get(member['start_node_id']),
-#             'end_node': node_coords.get(member['end_node_id'])
+#         member_name = str(member.get('name'))
+        
+#         # Try to determine the correct coordinate keys
+#         coord_keys = []
+#         for key in member.keys():
+#             if any(coord in key.lower() for coord in ['x', 'y', 'z', 'coord']):
+#                 coord_keys.append(key)
+               
+#         # Attempt to extract coordinates based on common patterns
+#         start_coords = [0, 0, 0]  # Default values
+#         end_coords = [0, 0, 0]    # Default values
+        
+#         # Try different possible key patterns
+#         coord_patterns = [
+#             # Pattern 1: x1, y1, z1, x2, y2, z2
+#             (['x1', 'y1', 'z1'], ['x2', 'y2', 'z2']),
+#             # Pattern 2: start_x, start_y, start_z, end_x, end_y, end_z
+#             (['start_x', 'start_y', 'start_z'], ['end_x', 'end_y', 'end_z']),
+#             # Pattern 3: xi, yi, zi, xj, yj, zj
+#             (['xi', 'yi', 'zi'], ['xj', 'yj', 'zj']),
+#             # Pattern 4: x_start, y_start, z_start, x_end, y_end, z_end
+#             (['x_start', 'y_start', 'z_start'], ['x_end', 'y_end', 'z_end']),
+#             # Pattern 5: node_i_x, node_i_y, node_i_z, node_j_x, node_j_y, node_j_z
+#             (['node_i_x', 'node_i_y', 'node_i_z'], ['node_j_x', 'node_j_y', 'node_j_z']),
+#         ]
+        
+#         found_pattern = False
+#         for start_keys, end_keys in coord_patterns:
+#             if all(key in member for key in start_keys + end_keys):
+#                 start_coords = [member[key] for key in start_keys]
+#                 end_coords = [member[key] for key in end_keys]
+#                 print(f"    Using pattern: {start_keys} -> {end_keys}")
+#                 found_pattern = True
+#                 break
+        
+#         if not found_pattern:
+#             # Try to get coordinates from node references if available
+#             if 'start_node_id' in member and 'end_node_id' in member:
+#                 start_node_id = member['start_node_id']
+#                 end_node_id = member['end_node_id']
+                
+#                 # Look up coordinates in nodes_data
+#                 for node in nodes_data:
+#                     if node.get('id') == start_node_id or node.get('name') == start_node_id:
+#                         start_coords = [node.get('x'), node.get('y'), node.get('z')]
+#                     if node.get('id') == end_node_id or node.get('name') == end_node_id:
+#                         end_coords = [node.get('x'), node.get('y'), node.get('z')]
+        
+#         member_nodes[member_name] = {
+#             'id': member.get('id', -1),
+#             'start_node': start_coords,
+#             'end_node': end_coords
 #         }
-#         name_to_id[member['name']] = member['id']
-    
-#     # 3. Process element loads with the coordinate data
+
+
+#     print("\n4. Processing element loads:")
 #     final_json = {"element_loads": []}
-#     existing_entries = {}
+    
+#     for member_list, loads in loading_mapping:
+        
+#         # Handle different types of member_list
+#         if isinstance(member_list, (list, tuple)):
+#             members_to_process = member_list
+#         else:
+#             # If it's a single member, wrap it in a list
+#             members_to_process = [member_list]
+        
+#         for member_name in members_to_process:
+            
+#             # Convert to string if needed
+#             lookup_key = str(member_name) if not isinstance(member_name, str) else member_name
+            
+#             member_data = member_nodes.get(lookup_key, {
+#                 'id': -1,
+#                 'start_node': [0, 0, 0],
+#                 'end_node': [0, 0, 0]
+#             })
 
-#     for element_load in all_element_loads:
-#         for key, loads in element_load.items():
-#             member_names = eval(key)  # Convert string representation of list to actual list
 #             for load in loads:
-#                 loadcase = tuple(load["LoadCase"])
-#                 uniform = load["uniform"]
-#                 point = load["point"]
-#                 temp_points = [[tp["temp"], tp["y"]] for tp in load["temperature_points"]]
+                
+#                 # Create the load entry
+#                 load_entry = {
+#                     "member_name": lookup_key,
+#                     "member_id": member_data['id'],
+#                     "start_node_coords": member_data['start_node'],
+#                     "end_node_coords": member_data['end_node'],
+#                     "load_case": load.get('LoadCase', 'UNKNOWN'),
+#                     "load_data": load
+#                 }
+                
+#                 final_json["element_loads"].append(load_entry)
 
-#                 for member_name in member_names:
-#                     # Get coordinates and ID for this member
-#                     member_data = member_nodes.get(member_name, {
-#                         'id': -1,
-#                         'start_node': [0, 0, 0],
-#                         'end_node': [0, 0, 0]
-#                     })
-#                     member_id = member_data['id']
-#                     coords = {
-#                         'start_node': member_data['start_node'],
-#                         'end_node': member_data['end_node']
-#                     }
-                    
-#                     # Calculate point load coordinates
-#                     location = point["location"]  # Fractional location along member (0-1)
-#                     start_coords = coords['start_node']
-#                     end_coords = coords['end_node']
-                    
-#                     # Linear interpolation between start and end coordinates
-#                     point_coords = [
-#                         start_coords[0] + location * (end_coords[0] - start_coords[0]),
-#                         start_coords[1] + location * (end_coords[1] - start_coords[1]),
-#                         start_coords[2] + location * (end_coords[2] - start_coords[2])
-#                     ]
-
-#                     # Calculate the center point
-#                     center = [(start_coords[0] + end_coords[0]) / 2,
-#                             (start_coords[1] + end_coords[1]) / 2,
-#                             (start_coords[2] + end_coords[2]) / 2]
-                    
-#                     # Calculate the length of the element
-#                     member_length = math.sqrt(
-#                         (end_coords[0] - start_coords[0])**2 +
-#                         (end_coords[1] - start_coords[1])**2 +
-#                         (end_coords[2] - start_coords[2])**2
-#                     )
-
-#                     entry_key = (member_id, loadcase)
-                    
-#                     if entry_key in existing_entries:
-#                         entry = existing_entries[entry_key]
-#                         entry["uniform"][0] += uniform["x"]
-#                         entry["uniform"][1] += uniform["y"]
-#                         entry["uniform"][2] += uniform["z"]
-#                         entry["point"][0] += point["x"]
-#                         entry["point"][1] += point["y"]
-#                         entry["point"][2] += point["z"]
-#                         # Update point coordinates by weighted average
-#                         if "point_coords" in entry:
-#                             entry["point_coords"] = point_coords
-
-#                         if "center" in entry:
-#                             entry["center"] = center
-
-#                         if "member_length" in entry:
-#                             entry["member_length"] = member_length
-#                     else:
-#                         new_entry = {
-#                             "member": member_id,
-#                             "member_name": member_name,  # Add member name to output
-#                             "load_case": list(loadcase),
-#                             "uniform": [uniform["x"], uniform["y"], uniform["z"]],
-#                             "point": [point["x"], point["y"], point["z"], point["location"]],
-#                             "temperature_points": temp_points,
-#                             "start_node_coords": coords['start_node'],
-#                             "end_node_coords": coords['end_node'],
-#                             "point_coords": point_coords,  # Add calculated point coordinates
-#                             "center": center,  # Add calculated center
-#                             "member_length": member_length,
-#                         }
-#                         existing_entries[entry_key] = new_entry
-#                         final_json["element_loads"].append(new_entry)
-
-#     # Create filename and save
-#     members_load_combination_filename = f"member_loads.json"
-#     output_path = os.path.join(wall_dir, members_load_combination_filename)
+   
+#     # Optionally save to file
+#     try:
+#         import json
+#         import os
+#         output_file = os.path.join(JSON_FOLDER, "element_loads_with_coordinates.json")
+#         with open(output_file, 'w') as f:
+#             json.dump(final_json, f, indent=2)
+#         print(f"Results saved to: {output_file}")
+#     except Exception as e:
+#         print(f"Could not save to file: {e}")
     
-#     with open(output_path, 'w') as f:
-#         json.dump(final_json, f, indent=2)
-    
-#     print(f"Saved load combination to {output_path}")
-
-
 #     return final_json
 
+import json
+import os
 
 def process_element_loads_with_node_coordinates(loading_mapping, nodes_data, members_data, JSON_FOLDER):
-    print("\n=== DEBUG START ===")
-    print("1. Checking loading_mapping structure:")
-    for i, (members, loads) in enumerate(loading_mapping):
-        print(f"  Group {i}:")
-        print(f"  Members type: {type(members)}, first member: {members[0] if members else 'empty'}")
-        print(f"  Loads count: {len(loads)}")
 
-    print("\n2. Inspecting members_data structure:")
-    if members_data:
-        first_member = members_data[0]
-        print(f"  First member keys: {list(first_member.keys())}")
-        print(f"  First member content: {first_member}")
-    
-    print("\n3. Building member_nodes dictionary:")
+    # Create node lookup dictionaries
+    node_by_id = {node['id']: node for node in nodes_data}
+    node_by_name = {node['name']: node for node in nodes_data}
+
+    # Build member_nodes dictionary
     member_nodes = {}
     for member in members_data:
-        # print(f"  Processing member: {member.get('name', 'NO_NAME')} (type: {type(member.get('name', 'NO_NAME'))})")
-        member_name = str(member.get('name', '')) if member.get('name') is not None else ''
+        member_name = member['name']
+        member_id = member['id']
         
-        # Try to determine the correct coordinate keys
-        coord_keys = []
-        for key in member.keys():
-            if any(coord in key.lower() for coord in ['x', 'y', 'z', 'coord']):
-                coord_keys.append(key)
+        # Get start node
+        start_node = (node_by_id.get(member['start_node_id']) or 
+                     node_by_name.get(member['start_node_name']))
         
-        # print(f"    Available coordinate-related keys: {coord_keys}")
-        
-        # Attempt to extract coordinates based on common patterns
-        start_coords = [0, 0, 0]  # Default values
-        end_coords = [0, 0, 0]    # Default values
-        
-        # Try different possible key patterns
-        coord_patterns = [
-            # Pattern 1: x1, y1, z1, x2, y2, z2
-            (['x1', 'y1', 'z1'], ['x2', 'y2', 'z2']),
-            # Pattern 2: start_x, start_y, start_z, end_x, end_y, end_z
-            (['start_x', 'start_y', 'start_z'], ['end_x', 'end_y', 'end_z']),
-            # Pattern 3: xi, yi, zi, xj, yj, zj
-            (['xi', 'yi', 'zi'], ['xj', 'yj', 'zj']),
-            # Pattern 4: x_start, y_start, z_start, x_end, y_end, z_end
-            (['x_start', 'y_start', 'z_start'], ['x_end', 'y_end', 'z_end']),
-            # Pattern 5: node_i_x, node_i_y, node_i_z, node_j_x, node_j_y, node_j_z
-            (['node_i_x', 'node_i_y', 'node_i_z'], ['node_j_x', 'node_j_y', 'node_j_z']),
-        ]
-        
-        found_pattern = False
-        for start_keys, end_keys in coord_patterns:
-            if all(key in member for key in start_keys + end_keys):
-                start_coords = [member[key] for key in start_keys]
-                end_coords = [member[key] for key in end_keys]
-                print(f"    Using pattern: {start_keys} -> {end_keys}")
-                found_pattern = True
-                break
-        
-        if not found_pattern:
-            # print(f"    WARNING: No coordinate pattern found for member {member_name}")
-            # Try to get coordinates from node references if available
-            if 'start_node_id' in member and 'end_node_id' in member:
-                start_node_id = member['start_node_id']
-                end_node_id = member['end_node_id']
-                
-                # Look up coordinates in nodes_data
-                for node in nodes_data:
-                    if node.get('id') == start_node_id or node.get('name') == start_node_id:
-                        start_coords = [node.get('x', 0), node.get('y', 0), node.get('z', 0)]
-                    if node.get('id') == end_node_id or node.get('name') == end_node_id:
-                        end_coords = [node.get('x', 0), node.get('y', 0), node.get('z', 0)]
-                # print(f"    Using node references: start_node={start_node_id}, end_node={end_node_id}")
-        
-        member_nodes[member_name] = {
-            'id': member.get('id', -1),
-            'start_node': start_coords,
-            'end_node': end_coords
-        }
-        # print(f"    Stored: {member_nodes[member_name]}")
+        # Get end node
+        end_node = (node_by_id.get(member['end_node_id']) or 
+                   node_by_name.get(member['end_node_name']))
 
-    print("\n4. Processing element loads:")
+        member_nodes[member_name] = {
+            'id': member_id,
+            'start_node': [start_node['x'], start_node['y'], start_node['z']],
+            'end_node': [end_node['x'], end_node['y'], end_node['z']]
+        }
+
+    # Process loads
     final_json = {"element_loads": []}
     
-    for member_list, loads in loading_mapping:
-        # print(f"\nProcessing member list: {type(member_list)} with {len(member_list) if hasattr(member_list, '__len__') else 'unknown'} members")
-        
-        # Handle different types of member_list
-        if isinstance(member_list, (list, tuple)):
-            members_to_process = member_list
-        else:
-            # If it's a single member, wrap it in a list
-            members_to_process = [member_list]
-        
-        for member_name in members_to_process:
-            # print(f"  Current member: {member_name} (type: {type(member_name)})")
-            
-            # Convert to string if needed
-            lookup_key = str(member_name) if not isinstance(member_name, str) else member_name
-            # print(f"  Lookup key: {lookup_key}")
-            
-            member_data = member_nodes.get(lookup_key, {
-                'id': -1,
-                'start_node': [0, 0, 0],
-                'end_node': [0, 0, 0]
-            })
-            # print(f"  Found member data: ID={member_data['id']}, Start={member_data['start_node']}, End={member_data['end_node']}")
+    for member_name_list, loads in loading_mapping:
+        print("member_name_list, loads")
+        print(member_name_list, loads)
 
+        # Process each individual member
+        for member_name_str in member_name_list:
+            print("member_name_str")
+            print(member_name_str)
+            member_name_str = str(member_name_str).strip()
+            print("member_name_str")
+            print(member_name_str)
+            member_data = member_nodes[member_name_str]
+            
             for load in loads:
-                # print(f"    Processing load case: {load.get('LoadCase', 'UNKNOWN')}")
-                
-                # Create the load entry
-                load_entry = {
-                    "member_name": lookup_key,
+                final_json["element_loads"].append({
+                    "member_name": member_name_str,
                     "member_id": member_data['id'],
                     "start_node_coords": member_data['start_node'],
-                    "end_node_coords": member_data['end_node'],
-                    "load_case": load.get('LoadCase', 'UNKNOWN'),
+                    "end_node_coords": member_data['end_node'],  
+                    "load_case": load['LoadCase'],
                     "load_data": load
-                }
-                
-                final_json["element_loads"].append(load_entry)
+                })
+            print("final_json")
+            print(final_json)
 
-    print(f"\n5. Final result: {len(final_json['element_loads'])} load entries created")
-    print("=== DEBUG END ===\n")
-    
-    # Optionally save to file
-    try:
-        import json
-        import os
-        output_file = os.path.join(JSON_FOLDER, "element_loads_with_coordinates.json")
-        with open(output_file, 'w') as f:
-            json.dump(final_json, f, indent=2)
-        print(f"Results saved to: {output_file}")
-    except Exception as e:
-        print(f"Could not save to file: {e}")
+    # Save to file
+    output_file = os.path.join(JSON_FOLDER, "element_loads_with_coordinates.json")
+    with open(output_file, 'w') as f:
+        json.dump(final_json, f, indent=2)
     
     return final_json
 
-# def apply_member_load_combinations(final_json_with_coords, load_combinations, JSON_FOLDER):
-#     """Apply load combinations to member loads and save combined results to files"""
-#     wall_dir = os.path.join(JSON_FOLDER, 'load_data')
-#     os.makedirs(wall_dir, exist_ok=True)
 
-#     for combo_name, factors in load_combinations.items():
-#         combined_results = {}
-#         combo_loads = defaultdict(list)
-
-#         total_uniform = [0.0, 0.0, 0.0]
-#         total_point = [0.0, 0.0, 0.0]
-
-#         for member_load in final_json_with_coords["element_loads"]:
-#             member_id = member_load["member"]
-#             member_name = member_load["member_name"]
-#             combined_load = {
-#                 "member_name": member_name,
-#                 "member": member_id,
-#                 "load_case": combo_name,
-#                 "uniform": [0.0, 0.0, 0.0],
-#                 "point": [0.0, 0.0, 0.0, 0.0],  # x,y,z,location
-#                 "temperature_points": [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]],
-#                 "start_node_coords": member_load["start_node_coords"],
-#                 "end_node_coords": member_load["end_node_coords"],
-#                 "point_coords": member_load.get("point_coords", [0, 0, 0]),
-#                 "center": member_load.get("center", [0, 0, 0]),
-#                 "member_length": member_load.get("member_length", [0, 0, 0]),
-
-#             }
-
-#             for load_case, factor in factors:
-#                 if load_case in member_load["load_case"]:
-#                     combined_load["uniform"][0] += member_load["uniform"][0] * factor
-#                     combined_load["uniform"][1] += member_load["uniform"][1] * factor
-#                     combined_load["uniform"][2] += member_load["uniform"][2] * factor
-
-#                     combined_load["point"][0] += member_load["point"][0] * factor
-#                     combined_load["point"][1] += member_load["point"][1] * factor
-#                     combined_load["point"][2] += member_load["point"][2] * factor
-#                     combined_load["point"][3] = member_load["point"][3]
-
-#                     for i, (temp, y) in enumerate(member_load["temperature_points"]):
-#                         combined_load["temperature_points"][i][0] += temp * factor
-#                         combined_load["temperature_points"][i][1] = y
-
-#             total_uniform[0] += combined_load["uniform"][0]
-#             total_uniform[1] += combined_load["uniform"][1]
-#             total_uniform[2] += combined_load["uniform"][2]
-
-#             total_point[0] += combined_load["point"][0]
-#             total_point[1] += combined_load["point"][1]
-#             total_point[2] += combined_load["point"][2]
-
-#             combo_loads[member_id].append(combined_load)
-
-#         output_data = {"element_loads": []}
-#         for member_id, loads in combo_loads.items():
-#             output_data["element_loads"].extend(loads)
-
-#         members_load_combination_filename = f"member_load_{combo_name}.json"
-#         output_path = os.path.join(wall_dir, members_load_combination_filename)
-
-#         with open(output_path, 'w') as f:
-#             json.dump(output_data, f, indent=2)
-
-#         print(f"Saved load combination '{combo_name}' to {output_path}")
-#         print(f"sum total load for {combo_name} for uniform load = {total_uniform}")
-#         print(f"sum total load for {combo_name} for point load = {total_point}")
-
-#     return True
-
-
-def apply_member_load_combinations(final_json_with_coords, load_combinations, JSON_FOLDER):
+def apply_member_load_combinations(load_combinations, JSON_FOLDER):
     """Apply load combinations to member loads and save combined results to files"""
     
-    # First, let's debug the structure of final_json_with_coords
-    print("\n=== DEBUGGING apply_member_load_combinations ===")
-    print(f"final_json_with_coords keys: {list(final_json_with_coords.keys())}")
-    
+    # Load the element loads with coordinates file
+    input_file = os.path.join(JSON_FOLDER, "element_loads_with_coordinates.json")
+    try:
+        with open(input_file, 'r') as f:
+            final_json_with_coords = json.load(f)
+    except Exception as e:
+        print(f"Error loading element loads file: {e}")
+        return False
+
     if "element_loads" in final_json_with_coords and final_json_with_coords["element_loads"]:
         first_load = final_json_with_coords["element_loads"][0]
         print(f"First element_load keys: {list(first_load.keys())}")
@@ -690,20 +534,22 @@ def apply_member_load_combinations(final_json_with_coords, load_combinations, JS
     
     for combo_name, factors in load_combinations.items():
         print(f"\nProcessing load combination: {combo_name}")
-        combined_results = {}
-        combo_loads = defaultdict(list)
+        print(f"Load combination factors: {factors}")
         
+        combo_loads = defaultdict(list)
         total_uniform = [0.0, 0.0, 0.0]
         total_point = [0.0, 0.0, 0.0]
         
         for member_load in final_json_with_coords["element_loads"]:
-            # Fix: Use the correct key names based on your data structure
-            member_id = member_load.get("member_id", member_load.get("member", -1))
+            member_id = member_load.get("member_id", -1)
             member_name = member_load.get("member_name", f"member_{member_id}")
             
-            # Extract load data from the nested structure
-            load_data = member_load.get("load_data", {})
+            # Handle load case (could be string or list)
             load_case = member_load.get("load_case", "")
+            if isinstance(load_case, list) and len(load_case) > 0:
+                load_case = load_case[0]
+            
+            load_data = member_load.get("load_data", {})
             
             # Initialize combined load structure
             combined_load = {
@@ -715,97 +561,63 @@ def apply_member_load_combinations(final_json_with_coords, load_combinations, JS
                 "temperature_points": [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]],
                 "start_node_coords": member_load.get("start_node_coords", [0, 0, 0]),
                 "end_node_coords": member_load.get("end_node_coords", [0, 0, 0]),
-                "point_coords": member_load.get("point_coords", [0, 0, 0]),
-                "center": member_load.get("center", [0, 0, 0]),
-                "member_length": member_load.get("member_length", [0, 0, 0]),
             }
+
+            # Extract uniform loads - handle both dict and list formats
+            uniform_loads = [0.0, 0.0, 0.0]
+            if 'uniform' in load_data:
+                if isinstance(load_data['uniform'], dict):
+                    uniform_loads = [
+                        load_data['uniform'].get('x', 0.0),
+                        load_data['uniform'].get('y', 0.0),
+                        load_data['uniform'].get('z', 0.0)
+                    ]
+                elif isinstance(load_data['uniform'], list):
+                    uniform_loads = list(load_data['uniform'])[:3]
+            
+            # Extract point loads - handle both dict and list formats
+            point_loads = [0.0, 0.0, 0.0, 0.0]
+            if 'point' in load_data:
+                if isinstance(load_data['point'], dict):
+                    point_loads = [
+                        load_data['point'].get('x', 0.0),
+                        load_data['point'].get('y', 0.0),
+                        load_data['point'].get('z', 0.0),
+                        load_data['point'].get('location', 0.0)
+                    ]
+                elif isinstance(load_data['point'], list):
+                    point_loads = list(load_data['point'])[:4]
+            
+            # Extract temperature points
+            temp_points = [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+            if 'temperature_points' in load_data:
+                if isinstance(load_data['temperature_points'], list):
+                    for i, tp in enumerate(load_data['temperature_points'][:3]):
+                        if isinstance(tp, dict):
+                            temp_points[i] = [tp.get('temp', 0.0), tp.get('y', 0.0)]
+                        elif isinstance(tp, (list, tuple)):
+                            temp_points[i] = list(tp)[:2]
             
             # Apply load combination factors
             for load_case_name, factor in factors:
-                if load_case_name == load_case or load_case_name in str(load_case):
-                    # Extract load values from load_data structure
-                    # Adjust these based on your actual load_data structure
-                    uniform_loads = [0.0, 0.0, 0.0]
-                    point_loads = [0.0, 0.0, 0.0, 0.0]
-                    temp_points = [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+                if str(load_case_name).lower() == str(load_case).lower():
+                    print(f"Applying factor {factor} to load case '{load_case}' for member {member_name}")
                     
-                    # Try to extract loads from different possible structures
-                    if isinstance(load_data, dict):
-                        # Case 1: Direct load values
-                        if "uniform" in load_data:
-                            if isinstance(load_data["uniform"], (list, tuple)):
-                                uniform_loads = list(load_data["uniform"])[:3] + [0.0] * (3 - len(load_data["uniform"]))
-                        
-                        if "point" in load_data:
-                            if isinstance(load_data["point"], (list, tuple)):
-                                point_loads = list(load_data["point"])[:4] + [0.0] * (4 - len(load_data["point"]))
-                        
-                        if "temperature_points" in load_data:
-                            temp_points = load_data["temperature_points"]
-                        
-                        # Case 2: Load values in nested structure
-                        for key, value in load_data.items():
-                            try:
-                                if key.lower() in ['fx', 'fy', 'fz', 'force_x', 'force_y', 'force_z']:
-                                    if key.lower() in ['fx', 'force_x']:
-                                        uniform_loads[0] = float(value)
-                                    elif key.lower() in ['fy', 'force_y']:
-                                        uniform_loads[1] = float(value)
-                                    elif key.lower() in ['fz', 'force_z']:
-                                        uniform_loads[2] = float(value)
-                                
-                                # Handle point loads
-                                if key.lower() in ['px', 'py', 'pz', 'point_x', 'point_y', 'point_z']:
-                                    if key.lower() in ['px', 'point_x']:
-                                        point_loads[0] = float(value)
-                                    elif key.lower() in ['py', 'point_y']:
-                                        point_loads[1] = float(value)
-                                    elif key.lower() in ['pz', 'point_z']:
-                                        point_loads[2] = float(value)
-                            except (ValueError, TypeError):
-                                # Skip non-numeric values
-                                print(f"Warning: Could not convert {key}={value} to float")
-                                continue
+                    # Apply factors to uniform loads
+                    combined_load["uniform"][0] += float(uniform_loads[0]) * factor
+                    combined_load["uniform"][1] += float(uniform_loads[1]) * factor
+                    combined_load["uniform"][2] += float(uniform_loads[2]) * factor
                     
-                    # Apply factors to loads with type checking
-                    try:
-                        combined_load["uniform"][0] += float(uniform_loads[0]) * factor
-                        combined_load["uniform"][1] += float(uniform_loads[1]) * factor
-                        combined_load["uniform"][2] += float(uniform_loads[2]) * factor
-                        
-                        combined_load["point"][0] += float(point_loads[0]) * factor
-                        combined_load["point"][1] += float(point_loads[1]) * factor
-                        combined_load["point"][2] += float(point_loads[2]) * factor
-                        if len(point_loads) > 3:
-                            combined_load["point"][3] = float(point_loads[3])
-                    except (ValueError, TypeError) as e:
-                        print(f"Warning: Error applying load factors: {e}")
-                        print(f"  uniform_loads: {uniform_loads}")
-                        print(f"  point_loads: {point_loads}")
-                        print(f"  factor: {factor}")
-                        continue
+                    # Apply factors to point loads (except location)
+                    combined_load["point"][0] += float(point_loads[0]) * factor
+                    combined_load["point"][1] += float(point_loads[1]) * factor
+                    combined_load["point"][2] += float(point_loads[2]) * factor
+                    combined_load["point"][3] = float(point_loads[3])  # Location doesn't get factored
                     
                     # Apply factors to temperature points
-                    for i, temp_point in enumerate(temp_points):
-                        if i < len(combined_load["temperature_points"]):
-                            # Handle different temperature point formats
-                            if isinstance(temp_point, (list, tuple)) and len(temp_point) >= 2:
-                                temp, y = temp_point[0], temp_point[1]
-                            elif isinstance(temp_point, (int, float)):
-                                temp, y = temp_point, 0.0
-                            else:
-                                temp, y = 0.0, 0.0
-                            
-                            # Ensure temp is numeric
-                            try:
-                                temp_val = float(temp) if temp is not None else 0.0
-                                y_val = float(y) if y is not None else 0.0
-                                combined_load["temperature_points"][i][0] += temp_val * factor
-                                combined_load["temperature_points"][i][1] = y_val
-                            except (ValueError, TypeError):
-                                # If conversion fails, skip this temperature point
-                                print(f"Warning: Could not convert temperature point {temp_point} to numeric values")
-                                continue
+                    for i in range(3):
+                        combined_load["temperature_points"][i][0] += float(temp_points[i][0]) * factor
+                        combined_load["temperature_points"][i][1] = float(temp_points[i][1])
             
             # Add to totals
             total_uniform[0] += combined_load["uniform"][0]
@@ -836,8 +648,6 @@ def apply_member_load_combinations(final_json_with_coords, load_combinations, JS
     
     print("=== END DEBUGGING ===")
     return True
-
-
 
 import os
 import json
@@ -887,6 +697,166 @@ def filter_nodes_at_z_levels(
 
 
 
+# def calculate_center_of_mass(
+#     JSON_FOLDER: str,
+#     z_spacing: List[float],
+#     mass_from_positive_loads: bool = False
+# ) -> Dict:
+#     """
+#     Enhanced center of mass calculation with additional features.
+#     Assigns unique names and IDs to center of mass points, checking against existing node data.
+    
+#     Args:
+#         JSON_FOLDER: Path to folder containing structural data
+#         z_spacing: List of z-spacing values
+#         mass_from_positive_loads: If True, treats positive Z loads as mass
+        
+#     Returns:
+#         Dictionary with center of mass results for each level, including COM node info
+#     """
+#     # Load structural data
+#     nodes_data, members_data, mesh_data = create_combined_structure_json(JSON_FOLDER)
+    
+#     # Get filtered level data
+#     level_data = filter_nodes_at_z_levels(nodes_data, members_data, z_spacing)
+#     # print(f'level_data={level_data}')
+#     # Save filtered data
+#     filtered_path = os.path.join(JSON_FOLDER, "filtered_nodes_members_at_z_levels.json")
+#     with open(filtered_path, 'w') as f:
+#         json.dump(level_data, f, indent=2)
+    
+#     # Load load data with error handling
+#     try:
+#         with open(os.path.join(JSON_FOLDER, "load_data", "nodal_loads_from_slab.json")) as f:
+#             nodal_loads = json.load(f)
+#     except (FileNotFoundError, json.JSONDecodeError):
+#         nodal_loads = {}
+    
+#     try:
+#         with open(os.path.join(JSON_FOLDER, "load_data", "member_loads.json")) as f:
+#             member_loads = json.load(f)
+#             if isinstance(member_loads, list):
+#                 member_loads = {"element_loads": member_loads}
+#     except (FileNotFoundError, json.JSONDecodeError):
+#         member_loads = {"element_loads": []}
+    
+#     # Create optimized node mappings
+#     node_id_to_coords = {n['id']: np.array([n['x'], n['y'], n['z']]) for n in nodes_data}
+#     node_name_to_id = {n['name']: n['id'] for n in nodes_data}
+    
+#     # Find the next available ID for COM nodes (starting from 100000 to avoid conflicts)
+#     existing_ids = {n['id'] for n in nodes_data}
+#     com_id_start = 10000000
+#     while com_id_start in existing_ids:
+#         com_id_start += 1
+    
+#     results = {}
+#     tol = 0.01
+    
+#     for z_level in level_data.keys():
+#         print(f"\nProcessing z_level: {z_level:.2f}")
+        
+#         total_mass = 0.0
+#         weighted_sum = np.zeros(3)  # For x, y, z coordinates
+        
+#         # Process nodal loads
+#         for load_case, nodes in nodal_loads.items():
+#             for node_name, load in nodes.items():
+#                 if node_name not in node_name_to_id:
+#                     continue
+                    
+#                 node_coords = node_id_to_coords.get(node_name_to_id[node_name])
+#                 if node_coords is None or abs(node_coords[2] - z_level) >= tol:
+#                     continue
+                
+#                 # Handle mass calculation direction
+#                 mass = load[2] if mass_from_positive_loads else abs(load[2])
+#                 if mass <= 0:
+#                     continue
+                    
+#                 total_mass += mass
+#                 weighted_sum += mass * node_coords
+        
+#         # Process member loads
+#         for member_load in member_loads.get("element_loads", []):
+#             start = np.array(member_load.get("start_node_coords", [0, 0, 0]))
+#             end = np.array(member_load.get("end_node_coords", [0, 0, 0]))
+            
+#             # Skip members not at this level
+#             if all(abs(coord[2] - z_level) >= tol for coord in [start, end]):
+#                 continue
+                
+#             # Calculate member properties
+#             length = np.linalg.norm(end - start)
+#             if length < 1e-6:
+#                 continue
+                
+#             # Get uniform load mass
+#             uniform = member_load.get("uniform", [0, 0, 0])
+#             uniform_z = uniform.get("z", 0) if isinstance(uniform, dict) else uniform[2]
+#             mass_per_length = uniform_z if mass_from_positive_loads else abs(uniform_z)
+            
+#             if mass_per_length > 0:
+#                 total_mass += mass_per_length * length
+#                 center = np.array(member_load.get("center", (start + end) / 2))
+#                 weighted_sum += mass_per_length * length * center
+            
+#             # Process point loads
+#             point_load = member_load.get("point", [0, 0, 0, 0])
+#             if isinstance(point_load, dict):
+#                 point_mass = point_load.get("z", 0) if mass_from_positive_loads else abs(point_load.get("z", 0))
+#                 point_coords = np.array(member_load.get("point_coords", [0, 0, 0]))
+#             else:
+#                 point_mass = point_load[2] if mass_from_positive_loads else abs(point_load[2])
+#                 point_coords = np.array(member_load.get("point_coords", [0, 0, 0]))
+            
+#             if point_mass > 0 and abs(point_coords[2] - z_level) < tol:
+#                 total_mass += point_mass
+#                 weighted_sum += point_mass * point_coords
+        
+#         # Calculate center of mass
+#         com = weighted_sum / total_mass if total_mass > 0 else np.array([0, 0, z_level])
+        
+#         # Generate unique name and ID for COM point
+#         com_name = f"COM_{z_level:.2f}"
+#         com_id = com_id_start
+#         com_id_start += 1
+        
+#         # Ensure name is unique
+#         while com_name in node_name_to_id:
+#             com_name = f"COM_{z_level:.2f}_{com_id}"
+        
+#         print(f"Total mass: {total_mass:.2f} kg")
+#         print(f"Center of mass: ({com[0]:.2f}, {com[1]:.2f}, {com[2]:.2f})")
+#         print(f"Assigned COM node: {com_name} (ID: {com_id})")
+        
+#         # Create COM node data
+#         com_node = {
+#             'id': com_id,
+#             'name': com_name,
+#             'x': float(com[0]),
+#             'y': float(com[1]),
+#             'z': float(com[2]),
+#             'is_com_node': True,
+#             'mass': total_mass
+#         }
+        
+#         results[z_level] = {
+#             'total_mass': total_mass,
+#             'center_of_mass': com.tolist(),
+#             'z_level': z_level,
+#             'com_node': com_node,
+#             'nodes_at_level': level_data[z_level]['nodes'],
+
+#         }
+    
+#     # Save results
+#     output_path = os.path.join(JSON_FOLDER, "center_of_mass_results.json")
+#     with open(output_path, 'w') as f:
+#         json.dump(results, f, indent=2)
+    
+    
+#     return results
 def calculate_center_of_mass(
     JSON_FOLDER: str,
     z_spacing: List[float],
@@ -895,6 +865,7 @@ def calculate_center_of_mass(
     """
     Enhanced center of mass calculation with additional features.
     Assigns unique names and IDs to center of mass points, checking against existing node data.
+    Only uses x and y coordinates from nodes for COM calculation, z comes from level data.
     
     Args:
         JSON_FOLDER: Path to folder containing structural data
@@ -909,7 +880,7 @@ def calculate_center_of_mass(
     
     # Get filtered level data
     level_data = filter_nodes_at_z_levels(nodes_data, members_data, z_spacing)
-    print(f'level_data={level_data}')
+    # print(f'level_data={level_data}')
     # Save filtered data
     filtered_path = os.path.join(JSON_FOLDER, "filtered_nodes_members_at_z_levels.json")
     with open(filtered_path, 'w') as f:
@@ -936,7 +907,7 @@ def calculate_center_of_mass(
     
     # Find the next available ID for COM nodes (starting from 100000 to avoid conflicts)
     existing_ids = {n['id'] for n in nodes_data}
-    com_id_start = 100000
+    com_id_start = 10000000
     while com_id_start in existing_ids:
         com_id_start += 1
     
@@ -947,7 +918,8 @@ def calculate_center_of_mass(
         print(f"\nProcessing z_level: {z_level:.2f}")
         
         total_mass = 0.0
-        weighted_sum = np.zeros(3)  # For x, y, z coordinates
+        weighted_sum_x = 0.0  # For x coordinate only
+        weighted_sum_y = 0.0  # For y coordinate only
         
         # Process nodal loads
         for load_case, nodes in nodal_loads.items():
@@ -965,7 +937,8 @@ def calculate_center_of_mass(
                     continue
                     
                 total_mass += mass
-                weighted_sum += mass * node_coords
+                weighted_sum_x += mass * node_coords[0]  # Only x coordinate
+                weighted_sum_y += mass * node_coords[1]  # Only y coordinate
         
         # Process member loads
         for member_load in member_loads.get("element_loads", []):
@@ -989,7 +962,8 @@ def calculate_center_of_mass(
             if mass_per_length > 0:
                 total_mass += mass_per_length * length
                 center = np.array(member_load.get("center", (start + end) / 2))
-                weighted_sum += mass_per_length * length * center
+                weighted_sum_x += mass_per_length * length * center[0]  # Only x
+                weighted_sum_y += mass_per_length * length * center[1]  # Only y
             
             # Process point loads
             point_load = member_load.get("point", [0, 0, 0, 0])
@@ -1002,10 +976,18 @@ def calculate_center_of_mass(
             
             if point_mass > 0 and abs(point_coords[2] - z_level) < tol:
                 total_mass += point_mass
-                weighted_sum += point_mass * point_coords
+                weighted_sum_x += point_mass * point_coords[0]  # Only x
+                weighted_sum_y += point_mass * point_coords[1]  # Only y
         
-        # Calculate center of mass
-        com = weighted_sum / total_mass if total_mass > 0 else np.array([0, 0, z_level])
+        # Calculate center of mass (x and y only)
+        if total_mass > 0:
+            com_x = weighted_sum_x / total_mass
+            com_y = weighted_sum_y / total_mass
+        else:
+            com_x, com_y = 0.0, 0.0
+        
+        # Use the z_level for the z-coordinate
+        com_z = z_level
         
         # Generate unique name and ID for COM point
         com_name = f"COM_{z_level:.2f}"
@@ -1017,27 +999,26 @@ def calculate_center_of_mass(
             com_name = f"COM_{z_level:.2f}_{com_id}"
         
         print(f"Total mass: {total_mass:.2f} kg")
-        print(f"Center of mass: ({com[0]:.2f}, {com[1]:.2f}, {com[2]:.2f})")
+        print(f"Center of mass: ({com_x:.2f}, {com_y:.2f}, {com_z:.2f})")
         print(f"Assigned COM node: {com_name} (ID: {com_id})")
         
         # Create COM node data
         com_node = {
             'id': com_id,
             'name': com_name,
-            'x': float(com[0]),
-            'y': float(com[1]),
-            'z': float(com[2]),
+            'x': float(com_x),
+            'y': float(com_y),
+            'z': float(com_z),
             'is_com_node': True,
             'mass': total_mass
         }
         
         results[z_level] = {
             'total_mass': total_mass,
-            'center_of_mass': com.tolist(),
+            'center_of_mass': [com_x, com_y, com_z],
             'z_level': z_level,
             'com_node': com_node,
             'nodes_at_level': level_data[z_level]['nodes'],
-
         }
     
     # Save results
@@ -1045,102 +1026,50 @@ def calculate_center_of_mass(
     with open(output_path, 'w') as f:
         json.dump(results, f, indent=2)
     
-    
     return results
 
 
-def create_rigid_diaphragms(JSON_FOLDER: str, ndm: int = 3, ndf: int = 6) -> bool:
-    """
-    Creates rigid diaphragms at each level using center of mass nodes as master nodes.
-    Properly initializes OpenSees model dimensions before creating nodes and constraints.
 
-    Args:
-        JSON_FOLDER: Path to folder containing structural data
-        ndm: Number of model dimensions (default=3 for 3D models)
-        ndf: Number of degrees of freedom (default=6 for 3D models)
+        
+def create_zero_length_elements(JSON_FOLDER, zero_length_nodes):
 
-    Returns:
-        bool: True if all rigid diaphragms were successfully created, False otherwise
-    """
-    # Load center of mass results
-    output_path = os.path.join(JSON_FOLDER, "center_of_mass_results.json")
-    try:
-        with open(output_path) as f:
-            com_results = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"Error loading center of mass results: {e}")
-        return False
+    nodes_data, _, _ = create_combined_structure_json(JSON_FOLDER)
 
-    # Initialize model dimensions
-    ops.model('BasicBuilder', '-ndm', ndm, '-ndf', ndf)
-    print(f"Initialized model with ndm={ndm}, ndf={ndf}")
-
-    success = True
-
-    for z_level, level_data in com_results.items():
-        try:
-            # Extract COM node and level nodes
-            com_node = level_data['com_node']
-            nodes_at_level = level_data['nodes_at_level']
-
-            # Create master node in OpenSees
-            rNodeTag = int(com_node['id'])
-            x, y, z = float(com_node['x']), float(com_node['y']), float(com_node['z'])
-            ops.node(rNodeTag, x, y, z)
-            print(f"Created master node {rNodeTag} at ({x:.2f}, {y:.2f}, {z:.2f})")
-
-            # Prepare constrained nodes (must exist in model already)
-            cNodeTags = [int(node['id']) for node in nodes_at_level]
-
-            # Create rigid diaphragm (perpDirn=3 for XY plane constraint)
-            ops.rigidDiaphragm(3, rNodeTag, *cNodeTags)
-
-            print(f"Created rigid diaphragm at z-level {z_level}:")
-            print(f"  Master node: {rNodeTag}")
-            print(f"  Constrained nodes: {len(cNodeTags)} nodes\n")
-
-        except Exception as e:
-            print(f"\nERROR creating diaphragm at z-level {z_level}: {str(e)}")
-            print("Possible issues:")
-            print("- Constrained nodes don't exist in model")
-            print("- Duplicate node definitions")
-            print("- Invalid node coordinates")
-            success = False
-
-    return success
-
-
-def create_zero_length_elements(nodes, K):
-    import openseespy.opensees as ops
-
-    # Define soil materials for 3 directions
-    ops.uniaxialMaterial("ENT", 1, K)         # vertical (Z)
-    ops.uniaxialMaterial("ENT", 2, K * 0.5)   # horizontal X
-    ops.uniaxialMaterial("ENT", 3, K * 0.3)   # horizontal Y
+    name_to_node = {n["name"]: n for n in nodes_data}
 
     spring_tags = []
     spring_node_start = 10001
     element_tag_start = 20001
+    mat_tag_start = 1
 
-    for i, node in enumerate(nodes):
+    for i, zl_node in enumerate(zero_length_nodes):
+        name = zl_node["name"]
+        node = name_to_node[name]
         node_id = node["id"]
-        x, y, z = node["coord"]
+        x, y, z = node["x"], node["y"], node["z"]
+        Kx = float(zl_node["Kx"])
+        Ky = float(zl_node["Ky"])
+        Kz = float(zl_node["Kz"])
 
-        # Foundation node
         ops.node(node_id, x, y, z)
 
-        # Spring node
         spring_node_id = node_id + spring_node_start
         ops.node(spring_node_id, x, y, z)
         ops.fix(spring_node_id, 1, 1, 1, 1, 1, 1)
 
-        # zeroLength element with 3 directions: X (1), Y (2), Z (3)
+        mat_x = mat_tag_start + i * 3
+        mat_y = mat_tag_start + i * 3 + 1
+        mat_z = mat_tag_start + i * 3 + 2
+        ops.uniaxialMaterial("ENT", mat_x, Kx)
+        ops.uniaxialMaterial("ENT", mat_y, Ky)
+        ops.uniaxialMaterial("ENT", mat_z, Kz)
+
         element_id = element_tag_start + i
         ops.element("zeroLength", element_id, node_id, spring_node_id,
-                    "-mat", 2, 3, 1,
+                    "-mat", mat_x, mat_y, mat_z,
                     "-dir", 1, 2, 3)
 
-        print(f"element zeroLength {element_id} {node_id} {spring_node_id} -mat 2 3 1 -dir 1 2 3")
+        print(f"element zeroLength {element_id} {node_id} {spring_node_id} -mat {mat_x} {mat_y} {mat_z} -dir 1 2 3")
 
         spring_tags.append({
             "spring_node": spring_node_id,
@@ -1149,14 +1078,9 @@ def create_zero_length_elements(nodes, K):
 
     return spring_tags
 
-K = 1e8
 
-nodes = [
-    {"id": 1, "name": "n1", "coord": [0.0, 0.0, 0.0]},
-    {"id": 2, "name": "n2", "coord": [1.0, 0.0, 0.0]},
-    {"id": 3, "name": "n3", "coord": [1.0, 1.0, 0.0]},
-    {"id": 4, "name": "n4", "coord": [0.0, 1.0, 0.0]},
-]
+
+
 
 # spring_tags = create_zero_length_elements(nodes, K)
 

@@ -325,15 +325,32 @@ def build_model(x_spacing, y_spacing, z_spacing, materials, section_definitions,
     # =============================================
     # Visualization Shell Mesh Generation (if needed)
     # =============================================
-    if "all" in run_parts or "shell_mesh_visualization" in run_parts:
-        converted_surface_configurations = convert_surface_configurations(JSON_FOLDER, surface_configurations)
-        # plot_mesh_data(JSON_FOLDER, IMAGE_FOLDER, z_spacing)
-        pass
-        # if converted_surface_configurations:  # Proper if statement
-        #     for config_name, config_data in converted_surface_configurations.items():
-        #         plot_mesh_data(JSON_FOLDER, config_name, IMAGE_FOLDER, z_spacing)
-                # pass
+    plot_mesh_data(JSON_FOLDER, IMAGE_FOLDER, z_spacing)
 
+
+
+    # # =============================================
+    # # Apply diaphragm
+    # # =============================================
+    
+
+    # # Step 2: Create rigid diaphragms
+    # create_rigid_diaphragms(JSON_FOLDER)
+
+
+
+    # # =============================================
+    # # Apply zero length element
+    # # =============================================
+    # # Step 3: Manually define foundation nodes in the required format
+    # foundation_nodes = [
+    #     {"id": 1, "name": "n1", "coord": [0.0, 0.0, 0.0]},
+    #     {"id": 2, "name": "n2", "coord": [1.0, 0.0, 0.0]},
+    #     {"id": 3, "name": "n3", "coord": [1.0, 1.0, 0.0]},
+    #     {"id": 4, "name": "n4", "coord": [0.0, 1.0, 0.0]},
+    # ]
+
+    # spring_tags = create_zero_length_elements(foundation_nodes, K)
     # =============================================
     # Apply Loads
     # =============================================
@@ -344,14 +361,14 @@ def build_model(x_spacing, y_spacing, z_spacing, materials, section_definitions,
         # final_json_with_coords = process_element_loads_with_node_coordinates(all_element_loads, nodes_data, members_data, JSON_FOLDER)
         final_json_with_coords = process_element_loads_with_node_coordinates(loading_mapping, nodes_data, members_data, JSON_FOLDER)
 
-        apply_member_load_combinations(final_json_with_coords, load_combinations, JSON_FOLDER)
+        apply_member_load_combinations(load_combinations, JSON_FOLDER)
 
 
         mesh_nodal_loads = calculate_nodal_loads_from_mesh(nodes_data, mesh_data, nodal_load_entries, JSON_FOLDER)
 
         create_nodal_load_combinations(mesh_nodal_loads, load_combinations, JSON_FOLDER)
-        
-        # calculate_center_of_mass(JSON_FOLDER, z_spacing)
+        calculate_center_of_mass(JSON_FOLDER, z_spacing)
+
         
         # print("\nOperation completed successfully!")
         # create_rigid_diaphragms(JSON_FOLDER)
