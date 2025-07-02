@@ -134,13 +134,13 @@ def structural_model_plot(OUTPUT_FOLDER="postprocessing_folder", load_combinatio
     print(f"All plots saved to {STRUCTURAL_MODEL_FOLDER}")
 
 
-def apply_3d_beam_loads(eleTags, Wy=0.0, Wz=0.0, Wx=0.0, Py=0.0, Pz=0.0, Px=0.0, xL=0.5, pattern_tag=1001, time_series_tag=1):
-    ops.pattern("Plain", pattern_tag, time_series_tag)
-    for eleTag in eleTags:
-        if Wy != 0.0 or Wz != 0.0 or Wx != 0.0:
-            ops.eleLoad("-ele", eleTag, "-type", "-beamUniform", Wy, Wz, Wx)
-        if Py != 0.0 or Pz != 0.0 or Px != 0.0:
-            ops.eleLoad("-ele", eleTag, "-type", "-beamPoint", Py, Pz, xL, Px)
+# def apply_3d_beam_loads(eleTags, Wy=0.0, Wz=0.0, Wx=0.0, Py=0.0, Pz=0.0, Px=0.0, xL=0.5, pattern_tag=1001, time_series_tag=1):
+#     ops.pattern("Plain", pattern_tag, time_series_tag)
+#     for eleTag in eleTags:
+#         if Wy != 0.0 or Wz != 0.0 or Wx != 0.0:
+#             ops.eleLoad("-ele", eleTag, "-type", "-beamUniform", Wy, Wz, Wx)
+#         if Py != 0.0 or Pz != 0.0 or Px != 0.0:
+#             ops.eleLoad("-ele", eleTag, "-type", "-beamPoint", Py, Pz, xL, Px)
 
 
 def get_node_results(OUTPUT_FOLDER = "postprocessing_folder", load_combination="combo"):
@@ -274,150 +274,7 @@ def extract_element_results(JSON_FOLDER, nep=5):
     return results
 
 
-# def extract_beam_results(ele_tag, nep, JSON_FOLDER):
-#     """
-#     Extract forces, stresses, and strains for a beam element
-    
-#     Args:
-#         ele_tag: Element tag
-#         nep: Number of evaluation points
-#         element_data: Dictionary containing pre-loaded element properties
-        
-#     Returns:
-#         Dictionary containing beam results
-        
-#     Raises:
-#         ValueError: If required section properties are missing
-#     """
-#     json_file_path = os.path.join(JSON_FOLDER, "element_data.json")
-#     with open(json_file_path, 'r') as f:
-#         element_data = json.load(f)
-#     # Find the element in the pre-loaded data
-#     element = None
-#     for el in element_data["elements"]:
-#         if el["eleTag"] == ele_tag:
-#             element = el
-#             break
-    
-#     if element is None:
-#         raise ValueError(f"Element with tag {ele_tag} not found in element data")
-    
-#     # Get required section properties (no defaults)
-#     try:
-#         A = element["area"]
-#         Iy = element["Iy"]
-#         Iz = element["Iz"]
-#         B = element["B"]  # Width
-#         H = element["H"]  # Depth
-#     except KeyError as e:
-#         raise ValueError(f"Missing required section property: {str(e)}")
-    
-#     # Get element geometry
-#     node_tags = ops.eleNodes(ele_tag)
-#     ecrd = np.array([ops.nodeCoord(node_tags[0]), ops.nodeCoord(node_tags[1])])
-#     L = np.linalg.norm(ecrd[1] - ecrd[0])
-    
-#     # Get element forces
-#     forces = ops.eleResponse(ele_tag, 'localForces')
-    
-#     # Process distributed loads
-#     Ew = get_Ew_data_from_ops_domain_3d()
-#     eload_data = Ew.get(ele_tag, [['-beamUniform', 0., 0., 0.]])
-    
-#     # Get force distribution
-#     s, xl, _ = section_force_distribution_3d(ecrd, forces, nep, eload_data)
-    
-#     # Organize forces
-#     force_results = []
-#     for i in range(len(xl)):
-#         force_results.append({
-#             'position': float(xl[i]),
-#             'N': float(s[i,0]),
-#             'Vy': float(s[i,1]),
-#             'Vz': float(s[i,2]),
-#             'T': float(s[i,3]),
-#             'My': float(s[i,4]),
-#             'Mz': float(s[i,5])
-#         })
-    
-#     # Calculate torsional constant for rectangular section
-#     if B > 0 and H > 0:
-#         if B == H:  # Square section
-#             J = 0.141 * B * H**3
-#         else:  # Rectangular section
-#             J = (B * H**3) * (1/3 - 0.21*(H/B)*(1 - (H**4)/(12*B**4)))
-#     else:
-#         raise ValueError("Section dimensions B and H must be positive")
-    
-#     # Material properties (steel defaults)
-#     E = 2.1e11  # Pa
-#     G = 8.1e10  # Pa
-    
-#     # Calculate stresses and strains at each point
-#     stress_results = []
-#     strain_results = []
-    
-#     for i in range(len(xl)):
-#         # Current forces
-#         N = s[i,0]
-#         Vy = s[i,1]
-#         Vz = s[i,2]
-#         T = s[i,3]
-#         My = s[i,4]
-#         Mz = s[i,5]
-        
-#         # Calculate stresses
-#         σ_axial = N/A
-#         σ_bending_y = My * (H/2) / Iy
-#         σ_bending_z = Mz * (B/2) / Iz
-#         τ_torsion = T * (H/2) / J
-        
-#         # Shear stresses
-#         Qy = A*H/8  # First moment of area
-#         Qz = A*B/8
-#         τ_shear_y = Vy*Qz/(Iz*B)
-#         τ_shear_z = Vz*Qy/(Iy*H)
-        
-#         # Von Mises stress
-#         σ_vm = np.sqrt((σ_axial + σ_bending_y + σ_bending_z)**2 + 
-#                      3*(max(τ_shear_y, τ_shear_z, τ_torsion))**2)
-        
-#         # Calculate strains
-#         ε_axial = σ_axial/E
-#         ε_bending_y = σ_bending_y/E
-#         ε_bending_z = σ_bending_z/E
-#         γ_shear_y = τ_shear_y/G
-#         γ_shear_z = τ_shear_z/G
-#         γ_torsion = τ_torsion/G
-        
-#         # Store results
-#         stress_results.append({
-#             'position': float(xl[i]),
-#             'σ_axial': float(σ_axial),
-#             'σ_bending_y': float(σ_bending_y),
-#             'σ_bending_z': float(σ_bending_z),
-#             'τ_shear_y': float(τ_shear_y),
-#             'τ_shear_z': float(τ_shear_z),
-#             'τ_torsion': float(τ_torsion),
-#             'von_mises': float(σ_vm)
-#         })
-        
-#         strain_results.append({
-#             'position': float(xl[i]),
-#             'ε_axial': float(ε_axial),
-#             'ε_bending_y': float(ε_bending_y),
-#             'ε_bending_z': float(ε_bending_z),
-#             'γ_shear_y': float(γ_shear_y),
-#             'γ_shear_z': float(γ_shear_z),
-#             'γ_torsion': float(γ_torsion)
-#         })
-    
-#     return {
-#         'length': float(L),
-#         'forces': force_results,
-#         'stresses': stress_results,
-#         'strains': strain_results
-#     }
+
 
 def extract_beam_results(ele_tag, nep, JSON_FOLDER):
     """
@@ -1090,3 +947,150 @@ def calculate_reinforcement_with_spacing(Mu: float, d: float, fc: float, fy: flo
     practical_spacing = round(selected_bar[1] * 2) / 2
     
     return (As_req, practical_spacing, selected_bar[0])
+
+
+
+# def extract_beam_results(ele_tag, nep, JSON_FOLDER):
+#     """
+#     Extract forces, stresses, and strains for a beam element
+    
+#     Args:
+#         ele_tag: Element tag
+#         nep: Number of evaluation points
+#         element_data: Dictionary containing pre-loaded element properties
+        
+#     Returns:
+#         Dictionary containing beam results
+        
+#     Raises:
+#         ValueError: If required section properties are missing
+#     """
+#     json_file_path = os.path.join(JSON_FOLDER, "element_data.json")
+#     with open(json_file_path, 'r') as f:
+#         element_data = json.load(f)
+#     # Find the element in the pre-loaded data
+#     element = None
+#     for el in element_data["elements"]:
+#         if el["eleTag"] == ele_tag:
+#             element = el
+#             break
+    
+#     if element is None:
+#         raise ValueError(f"Element with tag {ele_tag} not found in element data")
+    
+#     # Get required section properties (no defaults)
+#     try:
+#         A = element["area"]
+#         Iy = element["Iy"]
+#         Iz = element["Iz"]
+#         B = element["B"]  # Width
+#         H = element["H"]  # Depth
+#     except KeyError as e:
+#         raise ValueError(f"Missing required section property: {str(e)}")
+    
+#     # Get element geometry
+#     node_tags = ops.eleNodes(ele_tag)
+#     ecrd = np.array([ops.nodeCoord(node_tags[0]), ops.nodeCoord(node_tags[1])])
+#     L = np.linalg.norm(ecrd[1] - ecrd[0])
+    
+#     # Get element forces
+#     forces = ops.eleResponse(ele_tag, 'localForces')
+    
+#     # Process distributed loads
+#     Ew = get_Ew_data_from_ops_domain_3d()
+#     eload_data = Ew.get(ele_tag, [['-beamUniform', 0., 0., 0.]])
+    
+#     # Get force distribution
+#     s, xl, _ = section_force_distribution_3d(ecrd, forces, nep, eload_data)
+    
+#     # Organize forces
+#     force_results = []
+#     for i in range(len(xl)):
+#         force_results.append({
+#             'position': float(xl[i]),
+#             'N': float(s[i,0]),
+#             'Vy': float(s[i,1]),
+#             'Vz': float(s[i,2]),
+#             'T': float(s[i,3]),
+#             'My': float(s[i,4]),
+#             'Mz': float(s[i,5])
+#         })
+    
+#     # Calculate torsional constant for rectangular section
+#     if B > 0 and H > 0:
+#         if B == H:  # Square section
+#             J = 0.141 * B * H**3
+#         else:  # Rectangular section
+#             J = (B * H**3) * (1/3 - 0.21*(H/B)*(1 - (H**4)/(12*B**4)))
+#     else:
+#         raise ValueError("Section dimensions B and H must be positive")
+    
+#     # Material properties (steel defaults)
+#     E = 2.1e11  # Pa
+#     G = 8.1e10  # Pa
+    
+#     # Calculate stresses and strains at each point
+#     stress_results = []
+#     strain_results = []
+    
+#     for i in range(len(xl)):
+#         # Current forces
+#         N = s[i,0]
+#         Vy = s[i,1]
+#         Vz = s[i,2]
+#         T = s[i,3]
+#         My = s[i,4]
+#         Mz = s[i,5]
+        
+#         # Calculate stresses
+#         σ_axial = N/A
+#         σ_bending_y = My * (H/2) / Iy
+#         σ_bending_z = Mz * (B/2) / Iz
+#         τ_torsion = T * (H/2) / J
+        
+#         # Shear stresses
+#         Qy = A*H/8  # First moment of area
+#         Qz = A*B/8
+#         τ_shear_y = Vy*Qz/(Iz*B)
+#         τ_shear_z = Vz*Qy/(Iy*H)
+        
+#         # Von Mises stress
+#         σ_vm = np.sqrt((σ_axial + σ_bending_y + σ_bending_z)**2 + 
+#                      3*(max(τ_shear_y, τ_shear_z, τ_torsion))**2)
+        
+#         # Calculate strains
+#         ε_axial = σ_axial/E
+#         ε_bending_y = σ_bending_y/E
+#         ε_bending_z = σ_bending_z/E
+#         γ_shear_y = τ_shear_y/G
+#         γ_shear_z = τ_shear_z/G
+#         γ_torsion = τ_torsion/G
+        
+#         # Store results
+#         stress_results.append({
+#             'position': float(xl[i]),
+#             'σ_axial': float(σ_axial),
+#             'σ_bending_y': float(σ_bending_y),
+#             'σ_bending_z': float(σ_bending_z),
+#             'τ_shear_y': float(τ_shear_y),
+#             'τ_shear_z': float(τ_shear_z),
+#             'τ_torsion': float(τ_torsion),
+#             'von_mises': float(σ_vm)
+#         })
+        
+#         strain_results.append({
+#             'position': float(xl[i]),
+#             'ε_axial': float(ε_axial),
+#             'ε_bending_y': float(ε_bending_y),
+#             'ε_bending_z': float(ε_bending_z),
+#             'γ_shear_y': float(γ_shear_y),
+#             'γ_shear_z': float(γ_shear_z),
+#             'γ_torsion': float(γ_torsion)
+#         })
+    
+#     return {
+#         'length': float(L),
+#         'forces': force_results,
+#         'stresses': stress_results,
+#         'strains': strain_results
+#     }

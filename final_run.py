@@ -10,290 +10,11 @@ import matplotlib.pyplot as plt
 from ipywidgets import widgets
 from run_function import *
 from post_processing import *
+from test4 import CQC, calculate_floor_masses, calculate_floor_stiffness, extract_and_combine_forces, extract_node_data, model, plot, response_spectrum_analysis
 
 
 
 
-
-import openseespy.opensees as ops
-import numpy as np
-
-
-def modal_analysis_with_participation():
-    """
-    Performs modal analysis and calculates mass participation factors.
-    Only considers X and Y directions.
-    CORRECTED VERSION - fixes the double counting issue in mass participation calculation.
-    """
-    print("=== MODAL ANALYSIS WITH MASS PARTICIPATION FACTORS ===")
-
-    # Set up the system for eigenvalue analysis
-    ops.wipeAnalysis()
-    ops.system('BandGeneral')  # or 'FullGeneral' for smaller models
-    ops.numberer('RCM')
-    ops.constraints('Transformation')
-    ops.integrator('LoadControl', 1.0)
-    ops.algorithm('Linear')
-    ops.analysis('Static')
-
-    # Perform eigenvalue analysis
-    Nmodos = 3
-    eigenValues = np.array(ops.eigen(Nmodos))
-    ops.modalProperties('-print', '-file', 'ModalReport.txt', '-unorm')
-    # Check if eigenvalue analysis was successful
-    if len(eigenValues) == 0:
-        print("ERROR: Eigenvalue analysis failed!")
-        return
-
-    # Calculate frequencies and periods
-    w_i = np.sqrt(eigenValues)  # Use abs to handle potential numerical errors
-    T_i = 2 * np.pi / w_i
-    f_i = w_i / (2 * np.pi)
-
-    print("Modal Analysis Results:")
-    for i in range(len(eigenValues)):
-        print(f"Mode {i+1}:")
-        print(f"  Eigenvalue: {eigenValues[i]:.6e}")
-        print(f"  Frequency: {f_i[i]:.4f} Hz")
-        print(f"  Period: {T_i[i]:.4f} sec")
-
-    print("\n=== MODAL MASS PARTICIPATION FACTORS ===")
-
-    # Get all node tags
-    node_tags = ops.getNodeTags()
-    print(f"Total nodes: {len(node_tags)}")
-
-    if len(node_tags) == 0:
-        print("ERROR: No nodes found in the model!")
-        return
-
-    # Initialize arrays for mass participation calculation
-    total_mass_x = 0.0
-    total_mass_y = 0.0
-
-    # Arrays to store modal participation factors
-    L_x = np.zeros(Nmodos)  # Modal participation factor in X direction
-    L_y = np.zeros(Nmodos)  # Modal participation factor in Y direction
-
-    M_eff_x = np.zeros(Nmodos)  # Effective modal mass in X direction
-    M_eff_y = np.zeros(Nmodos)  # Effective modal mass in Y direction
-
-    # Get nodal masses and calculate total mass
-    nodal_masses = {}
-    valid_nodes = []
-    
-    for node in node_tags:
-        mass = ops.nodeMass(node)
-        print(f"Node {node}: mass = {mass}")
-
-        
-        if mass and len(mass) >= 2:  # At least 2D
-            nodal_masses[node] = mass[:2]  # Take only X and Y components
-            valid_nodes.append(node)
-            
-            total_mass_x += mass[0]
-            total_mass_y += mass[1]
-        else:
-            print(f"Warning: Node {node} has no mass or invalid mass definition")
-
-    print(f"Valid nodes with mass: {len(valid_nodes)}")
-    print(f"Total mass in X direction: {total_mass_x:.6f}")
-    print(f"Total mass in Y direction: {total_mass_y:.6f}")
-
-    if len(valid_nodes) == 0:
-        print("ERROR: No nodes with valid mass found!")
-        return
-
-    if total_mass_x <= 0 or total_mass_y <= 0:
-        print("ERROR: Total mass must be positive in both directions!")
-        return
-
-    # Calculate modal participation factors for each mode
-    for mode in range(Nmodos):
-        mode_num = mode + 1
-        
-        # Initialize sums for this mode
-        sum_m_phi_x = 0.0  # Σ(m_i * φ_i,x)
-        sum_m_phi_y = 0.0  # Σ(m_i * φ_i,y)
-        
-        # CORRECTED: Separate modal mass calculations for each direction
-        modal_mass_x = 0.0  # Σ(m_i * φ_i,x^2) - for X direction normalization
-        modal_mass_y = 0.0  # Σ(m_i * φ_i,y^2) - for Y direction normalization
-        
-        # Get mode shape for all nodes
-        mode_shapes = {}
-        for node in valid_nodes:
-            # Get the mode shape (eigenvector) for this node and mode
-            phi = ops.nodeEigenvector(node, mode_num)
-            
-            if phi and len(phi) >= 2:
-                mode_shapes[node] = phi[:2]  # Take only X and Y components
-            else:
-                print(f"Warning: Invalid mode shape for node {node}, mode {mode_num}")
-                continue
-        
-        # Calculate participation factors and modal masses
-        for node in valid_nodes:
-            if node not in mode_shapes:
-                continue
-                
-            mass = nodal_masses[node]
-            phi = mode_shapes[node]
-            
-            # Modal participation factor components: L = Σ(m_i * φ_i)
-            sum_m_phi_x += mass[0] * phi[0]
-            sum_m_phi_y += mass[1] * phi[1]
-            
-            # CORRECTED: Separate modal mass for each direction
-            modal_mass_x += mass[0] * phi[0]**2
-            modal_mass_y += mass[1] * phi[1]**2
-        
-        # Store modal participation factors
-        L_x[mode] = sum_m_phi_x
-        L_y[mode] = sum_m_phi_y
-        
-        # CORRECTED: Calculate effective modal masses separately for each direction
-        # M_eff = L^2 / (φ^T * M * φ) where φ^T * M * φ is calculated per direction
-        if modal_mass_x > 1e-12:  # Avoid division by very small numbers
-            M_eff_x[mode] = (sum_m_phi_x**2) / modal_mass_x
-        else:
-            print(f"Warning: Very small modal mass in X direction for mode {mode_num}")
-            M_eff_x[mode] = 0.0
-            
-        if modal_mass_y > 1e-12:  # Avoid division by very small numbers
-            M_eff_y[mode] = (sum_m_phi_y**2) / modal_mass_y
-        else:
-            print(f"Warning: Very small modal mass in Y direction for mode {mode_num}")
-            M_eff_y[mode] = 0.0
-
-    # Calculate mass participation ratios (percentages)
-    mass_participation_x = (M_eff_x / total_mass_x) * 100 
-    mass_participation_y = (M_eff_y / total_mass_y) * 100 
-
-    # Print results
-    print("\nModal Mass Participation Factors:")
-    print("=" * 60)
-    print(f"{'Mode':<6} {'Freq(Hz)':<10} {'Period(s)':<10} {'UX(%)':<10} {'UY(%)':<10}")
-    print("=" * 60)
-
-    cumulative_x = 0.0
-    cumulative_y = 0.0
-
-    for i in range(Nmodos):
-        cumulative_x += mass_participation_x[i]
-        cumulative_y += mass_participation_y[i]
-        
-        print(f"{i+1:<6} {f_i[i]:<10.4f} {T_i[i]:<10.4f} {mass_participation_x[i]:<10.2f} "
-              f"{mass_participation_y[i]:<10.2f}")
-
-    print("=" * 60)
-    print(f"{'Total':<26} {cumulative_x:<10.2f} {cumulative_y:<10.2f}")
-
-    # Additional detailed output
-    print("\nDetailed Modal Information:")
-    print("=" * 60)
-    for i in range(Nmodos):
-        print(f"\nMode {i+1}:")
-        print(f"  Eigenvalue: {eigenValues[i]:.6e}")
-        print(f"  Frequency: {f_i[i]:.4f} Hz")
-        print(f"  Period: {T_i[i]:.4f} sec")
-        print(f"  Modal participation factor Lx: {L_x[i]:.6f}")
-        print(f"  Modal participation factor Ly: {L_y[i]:.6f}")
-        print(f"  Effective modal mass Mx: {M_eff_x[i]:.6f}")
-        print(f"  Effective modal mass My: {M_eff_y[i]:.6f}")
-        print(f"  Mass participation UX: {mass_participation_x[i]:.2f}%")
-        print(f"  Mass participation UY: {mass_participation_y[i]:.2f}%")
-
-    # Verification: Check that effective modal masses sum correctly
-    print(f"\nVerification:")
-    print(f"Sum of effective modal masses in X: {np.sum(M_eff_x):.6f}")
-    print(f"Total mass in X: {total_mass_x:.6f}")
-    print(f"Sum of effective modal masses in Y: {np.sum(M_eff_y):.6f}")
-    print(f"Total mass in Y: {total_mass_y:.6f}")
-
-    # Check if sufficient mass participation is achieved
-    print("\n" + "=" * 60)
-    print("MASS PARTICIPATION SUMMARY:")
-    print("=" * 60)
-    print(f"Cumulative mass participation in X direction: {cumulative_x:.2f}%")
-    print(f"Cumulative mass participation in Y direction: {cumulative_y:.2f}%")
-
-    # Check adequacy (typically 90% is required)
-    adequacy_threshold = 90.0
-    
-    if cumulative_x >= adequacy_threshold:
-        print(f"✓ X direction: Sufficient mass participation (≥{adequacy_threshold}%)")
-    else:
-        print(f"⚠ X direction: Insufficient mass participation (<{adequacy_threshold}%)")
-        print(f"  Consider increasing the number of modes or checking model stiffness in X direction")
-        
-    if cumulative_y >= adequacy_threshold:
-        print(f"✓ Y direction: Sufficient mass participation (≥{adequacy_threshold}%)")
-    else:
-        print(f"⚠ Y direction: Insufficient mass participation (<{adequacy_threshold}%)")
-        print(f"  Consider increasing the number of modes or checking model stiffness in Y direction")
-
-    # Additional warnings for potential issues
-    print("\n" + "=" * 60)
-    print("DIAGNOSTIC INFORMATION:")
-    print("=" * 60)
-    
-    # Check for very similar frequencies (potential numerical issues)
-    freq_tolerance = 1e-6
-    for i in range(len(f_i)-1):
-        if abs(f_i[i] - f_i[i+1]) < freq_tolerance:
-            print(f"⚠ Warning: Modes {i+1} and {i+2} have very similar frequencies")
-            print(f"  This might indicate numerical issues or repeated eigenvalues")
-    
-    # Check for very low participation in any direction
-    if cumulative_x < 50.0:
-        print(f"⚠ Warning: Very low mass participation in X direction ({cumulative_x:.2f}%)")
-        print(f"  This might indicate excessive stiffness or modeling issues in X direction")
-    
-    if cumulative_y < 50.0:
-        print(f"⚠ Warning: Very low mass participation in Y direction ({cumulative_y:.2f}%)")
-        print(f"  This might indicate excessive stiffness or modeling issues in Y direction")
-
-    # Return results for further analysis if needed
-    results = {
-        'eigenvalues': eigenValues,
-        'frequencies': f_i,
-        'periods': T_i,
-        'modal_participation_factors': {'Lx': L_x, 'Ly': L_y},
-        'effective_modal_masses': {'Mx': M_eff_x, 'My': M_eff_y},
-        'mass_participation_percentages': {'UX': mass_participation_x, 'UY': mass_participation_y},
-        'cumulative_participation': {'X': cumulative_x, 'Y': cumulative_y},
-        'total_masses': {'X': total_mass_x, 'Y': total_mass_y}
-    }
-    
-    return results
-
-# # Alternative function for debugging mode shapes and masses
-# def debug_modal_analysis(mode_num=1):
-#     """
-#     Debug function to examine mode shapes and masses in detail for a specific mode.
-#     """
-#     print(f"=== DEBUGGING MODE {mode_num} ===")
-    
-#     node_tags = ops.getNodeTags()
-#     print(f"Total nodes: {len(node_tags)}")
-    
-#     # Check a few nodes in detail
-#     sample_nodes = node_tags[:min(5, len(node_tags))]
-    
-#     for node in sample_nodes:
-#         mass = ops.nodeMass(node)
-#         phi = ops.nodeEigenvector(node, mode_num)
-        
-#         print(f"\nNode {node}:")
-#         print(f"  Mass: {mass}")
-#         print(f"  Mode shape: {phi}")
-        
-#         if mass and phi and len(mass) >= 2 and len(phi) >= 2:
-#             print(f"  Mass*phi_x: {mass[0] * phi[0]:.6f}")
-#             print(f"  Mass*phi_y: {mass[1] * phi[1]:.6f}")
-#             print(f"  Mass*phi_x^2: {mass[0] * phi[0]**2:.6f}")
-#             print(f"  Mass*phi_y^2: {mass[1] * phi[1]**2:.6f}")
 
 
 
@@ -362,16 +83,46 @@ def final_run(JSON_FOLDER, materials_list, section_definitions, materials_config
     # # =============================================
     # # Loading and Analysis
     # # =============================================
-    # 1. First create the time series and load pattern
-    ops.timeSeries('Linear', 1, '-factor', 1.0)
-    ops.pattern('Plain', 1, 1)  # Create load pattern with tag 1
+    # # 1. First create the time series and load pattern
+    # ops.timeSeries('Linear', 1, '-factor', 1.0)
+    # ops.pattern('Plain', 1, 1)  # Create load pattern with tag 1
 
-    assign_opensees_loads(JSON_FOLDER, combo_name=combo_name)
-    calculate_and_apply_nodal_masses(JSON_FOLDER, g)
+    # assign_opensees_loads(JSON_FOLDER, combo_name=combo_name)
+    # calculate_and_apply_nodal_masses(JSON_FOLDER, g)
 
 
     # run_gravity(JSON_FOLDER, steps=10, comb_name=combo_name)
     # run_gravity(JSON_FOLDER, steps=10, nep=5, OUTPUT_FOLDER = "postprocessing_folder", load_combination=combo_name)
+
+    Tn = [0.0, 0.06, 0.1, 0.12, 0.18, 0.24, 0.3, 0.36, 0.4, 0.42, 
+    0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84, 0.9, 0.96, 1.02, 
+    1.08, 1.14, 1.2, 1.26, 1.32, 1.38, 1.44, 1.5, 1.56, 1.62, 
+    1.68, 1.74, 1.8, 1.86, 1.92, 1.98, 2.04, 2.1, 2.16, 2.22, 
+    2.28, 2.34, 2.4, 2.46, 2.52, 2.58, 2.64, 2.7, 2.76, 2.82, 
+    2.88, 2.94, 3.0, 3.06, 3.12, 3.18, 3.24, 3.3, 3.36, 3.42, 
+    3.48, 3.54, 3.6, 3.66, 3.72, 3.78, 3.84, 3.9, 3.96, 4.02, 
+    4.08, 4.14, 4.2, 4.26, 4.32, 4.38, 4.44, 4.5, 4.56, 4.62, 
+    4.68, 4.74, 4.8, 4.86, 4.92, 4.98, 5.04, 5.1, 5.16, 5.22, 
+    5.28, 5.34, 5.4, 5.46, 5.52, 5.58, 5.64, 5.7, 5.76, 5.82, 
+    5.88, 5.94, 6.0]
+
+    Sa = [1.9612, 3.72628, 4.903, 4.903, 4.903, 4.903, 4.903, 4.903, 4.903, 4.6696172, 
+        4.0861602, 3.6321424, 3.2683398, 2.971218, 2.7241068, 2.5142584, 2.3348086, 2.1788932, 2.0425898, 1.9229566, 
+        1.8160712, 1.7199724, 1.6346602, 1.5562122, 1.485609, 1.4208894, 1.3620534, 1.3071398, 1.2571292, 1.211041, 
+        1.166914, 1.1267094, 1.0894466, 1.054145, 1.0217852, 0.990406, 0.960988, 0.9335312, 0.9080356, 0.8835206, 
+        0.8599862, 0.838413, 0.8168398, 0.7972278, 0.7785964, 0.759965, 0.7432948, 0.7266246, 0.710935, 0.6952454, 
+        0.6805364, 0.666808, 0.6540602, 0.6285646, 0.6040496, 0.5814958, 0.5609032, 0.5403106, 0.5206986, 0.5030478, 
+        0.485397, 0.4697074, 0.4540178, 0.4393088, 0.4255804, 0.411852, 0.3991042, 0.3863564, 0.3755698, 0.3638026, 
+        0.353016, 0.34321, 0.333404, 0.3245786, 0.3157532, 0.3069278, 0.2981024, 0.2902576, 0.2833934, 0.2755486, 
+        0.2686844, 0.2618202, 0.254956, 0.2490724, 0.2431888, 0.2373052, 0.2314216, 0.2265186, 0.220635, 0.215732, 
+        0.210829, 0.205926, 0.2020036, 0.1971006, 0.1931782, 0.1892558, 0.1853334, 0.181411, 0.1774886, 0.1735662, 
+        0.1706244, 0.166702, 0.1637602]
+
+
+    output_dir = "modal_analysis"
+    os.makedirs(output_dir, exist_ok=True)
+    # model()
+    response_spectrum_analysis(output_dir, JSON_FOLDER, Tn, Sa, 5)
     
     # # extract_all_element_data(JSON_FOLDER, nep=5, output_folder="postprocessing_folder", load_combination=combo_name)
     # get_node_results(OUTPUT_FOLDER = "postprocessing_folder", load_combination=combo_name)
@@ -379,22 +130,7 @@ def final_run(JSON_FOLDER, materials_list, section_definitions, materials_config
     # structural_model_plot(OUTPUT_FOLDER="postprocessing_folder", load_combination=combo_name)
 
     
-    # modal_analysis_with_participation()
-    # debug_modal_analysis(mode_num=1)
 
-        # Run your existing modal analysis first
-    results = modal_analysis_with_participation()
-    
-
-    # results = analyze_modal_properties(json_folder=JSON_FOLDER, mode_number=1, z_spacing=z_spacing,)
-    # for story_num in results['stiffnesses']:
-    #     print(f"Story {story_num}:")
-    #     print(f"  Stiffness: {results['stiffnesses'][story_num]:.2e}")
-    #     print(f"  Mass: {results['masses'][story_num]:.2f}")
-    #     print(f"  CoM: {results['centers_of_mass'][story_num]}")
-    #     print(f"  CoS: {results['centers_of_stiffness'][story_num]}")
-    #     print(f"  Eccentricity: {results['eccentricities'][story_num]}")
- 
 
 
 combo_name = "unfactored_load"

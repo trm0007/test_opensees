@@ -6,6 +6,27 @@ import openseespy.opensees as ops
 import opsvis as opsv
 from matplotlib import pyplot as plt
 
+def calculate_Cs(S, T, TB, TC, TD, xi, Z, I, R):
+    # Calculate the damping correction factor mu
+    mu = (10 / (5 + xi)) ** 0.5
+    # Ensure mu is not smaller than 0.55
+    mu = max(mu, 0.55)
+
+    # Initialize Cs
+    Cs = 0
+
+    # Calculate Cs based on the given conditions
+    if 0 <= T <= TB:
+        Cs = S * (1 + (T / TB) * (2.5 * mu - 1))
+    elif TB < T <= TC:  # Fixed: changed from TB <= T to TB < T
+        Cs = 2.5 * S * mu
+    elif TC < T <= TD:  # Fixed: changed from TC <= T to TC < T
+        Cs = 2.5 * S * mu * (TC / T)
+    elif TD < T <= 4:   # Fixed: changed from TD <= T to TD < T
+        Cs = 2.5 * S * mu * (TC * TD / T ** 2)
+
+    Sa = (2 / 3) * (Z * I / R) * Cs
+    return Cs, Sa
 
 def CQC(mu, lambdas, dmp, scalf):
     u = 0.0
@@ -608,8 +629,8 @@ def response_spectrum_analysis(output_dir, Tn, Sa, nmode):
     # Define your story heights
     story_heights = {
         1: 0.0,      # Ground level
-        2: 3.0,      # First floor at 4m
-        3: 6.0,      # Second floor at 8m
+        2: 10.0,      # First floor at 4m
+        # 3: 6.0,      # Second floor at 8m
         # 4: 12.0,     # Third floor at 12m
         # ... add more stories as needed
     }
@@ -648,6 +669,8 @@ def extract_and_combine_forces(output_dir, Tn, Sa, direction, eigs, dmp, scalf, 
         # Get forces for all elements
         for ele_tag in element_tags:
             forces = ops.eleResponse(ele_tag, 'section', '1', 'force')
+            print("forces")
+            print(forces)
             modal_forces['P'][mode][ele_tag] = forces[0]
             modal_forces['Vy'][mode][ele_tag] = forces[1]
             modal_forces['Vz'][mode][ele_tag] = forces[2]
