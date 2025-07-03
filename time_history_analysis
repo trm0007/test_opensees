@@ -1,0 +1,1071 @@
+import openseespy.opensees as ops
+import opsvis as opsv
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+import json
+import random
+from math import sqrt, pi, sin, exp
+
+def model():
+    """Create the structural model (same as your provided model)"""
+    ops.wipe()
+    ops.model("basic","-ndm",3,"-ndf",6)
+
+    # a uniaxial material for transverse shear
+    ops.uniaxialMaterial("Elastic", 2, 938000000.0)
+
+    # the elastic beam section and aggregator
+    ops.section("Elastic", 1, 30000000000.0, 0.09, 0.0006749999999999999, 0.0006749999999999999, 
+                12500000000.0, 0.0011407499999999994)
+    ops.section("Aggregator", 3, 2, "Vy", 2, "Vz", "-section", 1)
+
+    # nodes and masses
+    ops.node(1, 0, 0, 0)
+    ops.node(2, 0, 0, 3, "-mass", 200, 200, 200, 0, 0, 0)
+    ops.node(3, 4, 0, 3, "-mass", 200, 200, 200, 0, 0, 0)
+    ops.node(4, 4, 0, 0)
+    ops.node(5, 0, 0, 6, "-mass", 200, 200, 200, 0, 0, 0)
+    ops.node(6, 4, 0, 6, "-mass", 200, 200, 200, 0, 0, 0)
+    ops.node(7, 4, 3, 6, "-mass", 200, 200, 200, 0, 0, 0)
+    ops.node(8, 0, 3, 6, "-mass", 200, 200, 200, 0, 0, 0)
+    ops.node(9, 0, 3, 3, "-mass", 200, 200, 200, 0, 0, 0)
+    ops.node(10, 0, 3, 0)
+    ops.node(11, 4, 3, 3, "-mass", 200, 200, 200, 0, 0, 0)
+    ops.node(12, 4, 3, 0)
+    ops.node(13, 2, 1.5, 6)
+    ops.node(14, 2, 1.5, 3)
+
+    # beam elements
+    ops.beamIntegration("Lobatto", 1, 3, 5)
+    ops.geomTransf("Linear", 1, 1.0, 0.0, -0.0)
+    ops.element("forceBeamColumn", 1, 1, 2, 1, 1)
+    ops.geomTransf("Linear", 2, 0.0, 0.0, 1.0)
+    ops.element("forceBeamColumn", 2, 2, 3, 2, 1)
+    ops.geomTransf("Linear", 3, 1.0, 0.0, -0.0)
+    ops.element("forceBeamColumn", 3, 4, 3, 3, 1)
+    ops.geomTransf("Linear", 4, 1.0, 0.0, -0.0)
+    ops.element("forceBeamColumn", 4, 2, 5, 4, 1)
+    ops.geomTransf("Linear", 5, 0.0, 0.0, 1.0)
+    ops.element("forceBeamColumn", 5, 5, 6, 5, 1)
+    ops.geomTransf("Linear", 6, 0.0, 0.0, 1.0)
+    ops.element("forceBeamColumn", 6, 7, 6, 6, 1)
+    ops.geomTransf("Linear", 7, 0.0, 0.0, 1.0)
+    ops.element("forceBeamColumn", 7, 8, 7, 7, 1)
+    ops.geomTransf("Linear", 8, 0.0, 0.0, 1.0)
+    ops.element("forceBeamColumn", 8, 9, 2, 8, 1)
+    ops.geomTransf("Linear", 9, 0.0, 0.0, 1.0)
+    ops.element("forceBeamColumn", 9, 8, 5, 9, 1)
+    ops.geomTransf("Linear", 10, 1.0, 0.0, -0.0)
+    ops.element("forceBeamColumn", 10, 10, 9, 10, 1)
+    ops.geomTransf("Linear", 11, 1.0, 0.0, -0.0)
+    ops.element("forceBeamColumn", 11, 3, 6, 11, 1)
+    ops.geomTransf("Linear", 12, 1.0, 0.0, -0.0)
+    ops.element("forceBeamColumn", 12, 11, 7, 12, 1)
+    ops.geomTransf("Linear", 13, 0.0, 0.0, 1.0)
+    ops.element("forceBeamColumn", 13, 11, 3, 13, 1)
+    ops.geomTransf("Linear", 14, 0.0, 0.0, 1.0)
+    ops.element("forceBeamColumn", 14, 9, 11, 14, 1)
+    ops.geomTransf("Linear", 15, 1.0, 0.0, -0.0)
+    ops.element("forceBeamColumn", 15, 12, 11, 15, 1)
+    ops.geomTransf("Linear", 16, 1.0, 0.0, -0.0)
+    ops.element("forceBeamColumn", 16, 9, 8, 16, 1)
+
+    # Constraints.sp fix
+    ops.fix(1, 1, 1, 1, 1, 1, 1)
+    ops.fix(10, 1, 1, 1, 1, 1, 1)
+    ops.fix(4, 1, 1, 1, 1, 1, 1)
+    ops.fix(12, 1, 1, 1, 1, 1, 1)
+    ops.fix(13, 0, 0, 1, 1, 1, 0)
+    ops.fix(14, 0, 0, 1, 1, 1, 0)
+
+    # Constraints.mp rigidDiaphragm
+    ops.rigidDiaphragm(3, 14, 2, 3, 9, 11)
+    ops.rigidDiaphragm(3, 13, 5, 6, 7, 8)
+
+def generate_white_noise(npts, mean=0.0, std=1.0):
+    """Generate white noise without scipy"""
+    return [random.gauss(mean, std) for _ in range(npts)]
+
+def generate_time_history_from_spectrum(Tn, Sa, duration=30.0, dt=0.01, damping=0.05):
+    """
+    Generate a synthetic time history that matches the target response spectrum
+    
+    Args:
+        Tn (list): List of periods for response spectrum
+        Sa (list): List of spectral accelerations (g)
+        duration (float): Duration of time history (s)
+        dt (float): Time step (s)
+        damping (float): Damping ratio
+    
+    Returns:
+        tuple: (time, acceleration) arrays
+    """
+    # Convert to numpy arrays
+    Tn = np.array(Tn, dtype=np.float32)
+    Sa = np.array(Sa, dtype=np.float32)
+    
+    # Remove duplicate periods (keep first occurrence)
+    _, unique_indices = np.unique(Tn, return_index=True)
+    Tn = Tn[unique_indices]
+    Sa = Sa[unique_indices]
+    
+    # Sort by period
+    sort_idx = np.argsort(Tn)
+    Tn = Tn[sort_idx]
+    Sa = Sa[sort_idx]
+    
+    # Create time array
+    npts = int(duration/dt) + 1
+    time = np.linspace(0, duration, npts)
+    
+    # Generate white noise as seed (without scipy)
+    random.seed(42)  # For reproducibility
+    white_noise = generate_white_noise(npts)
+    
+    # Initialize acceleration time history
+    accel = np.zeros(npts)
+    
+    # Weighting factors for each period
+    weights = np.ones(len(Tn))
+    weights[0] = 0.5  # Reduce weight for T=0
+    weights[-1] = 0.5  # Reduce weight for last period
+    
+    # Iterate through each period to build the time history
+    for i in range(len(Tn)):
+        T = Tn[i]
+        if T == 0:
+            continue  # Skip zero period
+            
+        Sa_val = Sa[i]
+        omega = 2 * pi / T
+        omega_d = omega * sqrt(1 - damping**2)
+        
+        # Create single-degree-of-freedom response
+        h = np.array([exp(-damping * omega * t) * sin(omega_d * t) for t in time])
+        
+        # Scale by spectral acceleration and weight
+        scaled_response = np.array(white_noise) * h * Sa_val * weights[i]
+        
+        # Add to total acceleration
+        accel += scaled_response
+    
+    # Normalize to match target spectrum
+    scale_factor = max(Sa) / max(np.abs(accel))
+    accel *= scale_factor
+    
+    # Apply baseline correction
+    accel = accel - np.mean(accel)
+    
+    return time, accel
+
+def perform_time_history_analysis(time, accel, output_dir, direction=1):
+    """
+    Perform time history analysis using the generated accelerogram
+    
+    Args:
+        time (array): Time array
+        accel (array): Acceleration array
+        output_dir (str): Output directory path
+        direction (int): Excitation direction (1=X, 2=Y, 3=Z)
+    """
+    # Create output directory
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Define time series and pattern
+    ts_tag = 1
+    pattern_tag = 1
+    
+    # Ensure time and accel have same length
+    min_length = min(len(time), len(accel))
+    time = time[:min_length]
+    accel = accel[:min_length]
+    
+    # Convert to lists for OpenSees
+    time_list = time.tolist()
+    accel_list = accel.tolist()
+    
+    ops.timeSeries("Path", ts_tag, "-time", *time_list, "-values", *accel_list, "-dt", time[1]-time[0])
+    ops.pattern("UniformExcitation", pattern_tag, direction, "-accel", ts_tag)
+    
+    # Define analysis parameters
+    ops.wipeAnalysis()
+    ops.constraints("Transformation")
+    ops.numberer("RCM")
+    ops.system("UmfPack")
+    ops.test("NormDispIncr", 1.0e-6, 10)
+    ops.algorithm("Newton")
+    ops.integrator("Newmark", 0.5, 0.25)
+    ops.analysis("Transient")
+    
+    # Perform time history analysis
+    dt = time[1] - time[0]
+    n_steps = len(time)
+    
+    # Initialize results storage
+    node_tags = ops.getNodeTags()
+    results = {
+        'time': time_list,
+        'acceleration': accel_list,
+        'node_displacements': {tag: [] for tag in node_tags},
+        'node_velocities': {tag: [] for tag in node_tags},
+        'node_accelerations': {tag: [] for tag in node_tags},
+        'base_shear': [],
+        'base_moment': []
+    }
+    
+    for i in range(n_steps):
+        ops.analyze(1, dt)
+        
+        # Record results at each time step
+        for tag in node_tags:
+            disp = ops.nodeDisp(tag)
+            vel = ops.nodeVel(tag)
+            accel_node = ops.nodeAccel(tag)
+            
+            results['node_displacements'][tag].append(disp[direction-1])
+            results['node_velocities'][tag].append(vel[direction-1])
+            results['node_accelerations'][tag].append(accel_node[direction-1])
+        
+        # Calculate base reactions
+        base_shear = 0.0
+        base_moment = 0.0
+        base_nodes = [1, 4, 10, 12]  # Assuming these are fixed base nodes
+        
+        for tag in base_nodes:
+            reaction = ops.nodeReaction(tag)
+            base_shear += reaction[direction-1]
+            
+            # Calculate moment contribution (assuming 3D model)
+            if len(reaction) >= 6:
+                base_moment += reaction[direction+2]  # Mx for X direction, My for Y direction
+        
+        results['base_shear'].append(base_shear)
+        results['base_moment'].append(base_moment)
+    
+    # Save results to JSON file
+    with open(os.path.join(output_dir, "time_history_results.json"), "w") as f:
+        json.dump(results, f, indent=4)
+    
+    # Plot results
+    plot_time_history_results(time, accel, results, output_dir)
+    
+    return results
+
+def plot_time_history_results(time, accel, results, output_dir):
+    """Plot time history analysis results"""
+    # Ensure all arrays have same length
+    min_length = min(len(time), len(accel))
+    time = time[:min_length]
+    accel = accel[:min_length]
+    
+    # Plot input accelerogram
+    plt.figure(figsize=(10, 6))
+    plt.plot(time, accel, 'b-', linewidth=1)
+    plt.xlabel('Time (s)')
+    plt.ylabel('Acceleration (g)')
+    plt.title('Input Ground Motion')
+    plt.grid(True)
+    plt.savefig(os.path.join(output_dir, "input_accelerogram.png"))
+    plt.close()
+    
+    # Plot base shear time history
+    plt.figure(figsize=(10, 6))
+    plt.plot(time, results['base_shear'][:min_length], 'r-', linewidth=1)
+    plt.xlabel('Time (s)')
+    plt.ylabel('Base Shear (N)')
+    plt.title('Base Shear Time History')
+    plt.grid(True)
+    plt.savefig(os.path.join(output_dir, "base_shear_time_history.png"))
+    plt.close()
+    
+    # Plot node displacements (select a few representative nodes)
+    selected_nodes = [2, 5, 8]  # Example nodes at different heights
+    plt.figure(figsize=(10, 6))
+    for node in selected_nodes:
+        if node in results['node_displacements']:
+            plt.plot(time, results['node_displacements'][node][:min_length], 
+                    label=f'Node {node}')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Displacement (m)')
+    plt.title('Node Displacement Time Histories')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig(os.path.join(output_dir, "node_displacements.png"))
+    plt.close()
+
+
+
+def extract_results_and_perform_checks(output_dir, direction=1):
+    """
+    Extract and analyze time history results including:
+    - Nodal displacements
+    - Nodal reactions
+    - Member forces
+    - Story shears
+    - Story drifts
+    - Perform code checks
+    """
+    # Load results from JSON file
+    with open(os.path.join(output_dir, "time_history_results.json"), "r") as f:
+        results = json.load(f)
+    
+    # First analyze member forces (this creates member_force_analysis.json)
+    with open(os.path.join(output_dir, "member_forces.json"), "r") as f:
+        member_forces = json.load(f)
+    member_analysis = analyze_member_forces(member_forces, output_dir)
+    
+    # Get node coordinates and story assignments
+    node_coords = {}
+    story_assignments = {}
+    story_heights = {1: 0.0, 2: 3.0, 3: 6.0}  # Example story heights
+    
+    for tag in ops.getNodeTags():
+        node_coords[tag] = ops.nodeCoord(tag)
+        z = node_coords[tag][2]
+        for story, height in story_heights.items():
+            if abs(z - height) < 0.01:
+                story_assignments[tag] = story
+                break
+
+    # 1. Extract and process nodal displacements
+    max_displacements = {}
+    for node_tag, displacements in results['node_displacements'].items():
+        max_displacements[int(node_tag)] = float(max(abs(x) for x in displacements))
+    
+    # 2. Extract and process nodal reactions
+    max_reactions = {}
+    base_nodes = [1, 4, 10, 12]
+    for node_tag in base_nodes:
+        reactions = []
+        for step in range(len(results['time'])):
+            reaction = ops.nodeReaction(node_tag)
+            reactions.append(float(reaction[direction-1]))
+        max_reactions[node_tag] = float(max(abs(x) for x in reactions))
+    
+    # 3. Calculate story shears
+    story_shears = {story: [] for story in story_heights}
+    for step in range(len(results['time'])):
+        current_shears = {story: 0.0 for story in story_heights}
+        
+        for node_tag, story in story_assignments.items():
+            reaction = ops.nodeReaction(node_tag)
+            current_shears[story] += float(reaction[direction-1])
+        
+        for story in story_heights:
+            story_shears[story].append(float(current_shears[story]))
+    
+    # 4. Calculate story drifts
+    story_drifts = {}
+    for story in sorted(story_heights.keys()):
+        if story == 1:
+            continue  # No drift for base story
+        
+        upper_nodes = [tag for tag, s in story_assignments.items() if s == story]
+        lower_nodes = [tag for tag, s in story_assignments.items() if s == story-1]
+        
+        if not upper_nodes or not lower_nodes:
+            continue
+        
+        drift_history = []
+        for step in range(len(results['time'])):
+            upper_disp = max(float(results['node_displacements'][str(tag)][step]) for tag in upper_nodes)
+            lower_disp = max(float(results['node_displacements'][str(tag)][step]) for tag in lower_nodes)
+            
+            story_height = float(story_heights[story] - story_heights[story-1])
+            drift = float((upper_disp - lower_disp) / story_height)
+            drift_history.append(drift)
+        
+        story_drifts[int(story)] = drift_history
+    
+    # 5. Perform code checks (using the pre-analyzed member forces)
+    code_checks = {
+        'drift_limits': check_drift_limits(story_drifts),
+        'member_checks': check_member_capacities(member_analysis, output_dir),
+        'base_shear_check': check_base_shear([float(x) for x in results['base_shear']])
+    }
+    
+    # Prepare final results
+    analysis_results = {
+        'max_displacements': max_displacements,
+        'max_reactions': max_reactions,
+        'story_shears': {int(k): v for k, v in story_shears.items()},
+        'story_drifts': story_drifts,
+        'code_checks': code_checks,
+        'metadata': {
+            'analysis_date': datetime.now().isoformat(),
+            'direction': direction,
+            'story_heights': story_heights
+        }
+    }
+    
+    # Save all results to JSON
+    with open(os.path.join(output_dir, "analysis_results.json"), "w") as f:
+        json.dump(analysis_results, f, indent=4, cls=NumpyEncoder)
+    
+    # Generate summary report
+    generate_summary_report(output_dir, analysis_results)
+    
+    return analysis_results
+
+
+def check_drift_limits(story_drifts):
+    """Check story drifts against code limits (BNBC 2020)"""
+    drift_limits = 0.025  # 2.5% of story height (BNBC 2020)
+    results = {}
+    
+    for story, drifts in story_drifts.items():
+        max_drift = max(abs(x) for x in drifts)
+        results[story] = {
+            'max_drift': max_drift,
+            'limit': drift_limits,
+            'pass': max_drift <= drift_limits,
+            'ratio': max_drift / drift_limits
+        }
+    
+    return results
+
+def check_member_capacities(member_forces, output_dir):
+    """Check member forces against capacities"""
+    # Example capacity values - should be replaced with actual member capacities
+    beam_capacity = 50000  # N-m
+    column_capacity = 100000  # N-m
+    
+    results = {}
+    
+    for ele_tag, forces in member_forces.items():
+        max_moment = max(abs(force[2]) for force in forces)  # Assuming moment is at index 2
+        
+        # Determine if beam or column (simplified)
+        node_i = ops.eleNodes(ele_tag)[0]
+        node_j = ops.eleNodes(ele_tag)[1]
+        coords_i = ops.nodeCoord(node_i)
+        coords_j = ops.nodeCoord(node_j)
+        
+        # If vertical, assume column
+        if abs(coords_i[2] - coords_j[2]) > 0.1:
+            capacity = column_capacity
+            member_type = 'column'
+        else:
+            capacity = beam_capacity
+            member_type = 'beam'
+        
+        results[ele_tag] = {
+            'max_moment': max_moment,
+            'capacity': capacity,
+            'member_type': member_type,
+            'pass': max_moment <= capacity,
+            'ratio': max_moment / capacity
+        }
+    
+    return results
+
+def check_base_shear(base_shear_history):
+    """Check base shear against expected values"""
+    max_base_shear = max(abs(x) for x in base_shear_history)
+    
+    # Simplified check - compare to equivalent static analysis
+    # In practice, you would run equivalent static analysis and compare
+    expected_base_shear = 100000  # Example value
+    
+    return {
+        'max_base_shear': max_base_shear,
+        'expected_base_shear': expected_base_shear,
+        'ratio': max_base_shear / expected_base_shear,
+        'pass': max_base_shear <= expected_base_shear * 1.2  # Allow 20% tolerance
+    }
+
+def generate_summary_report(output_dir, analysis_results):
+    """Generate a text summary report of the analysis"""
+    report_path = os.path.join(output_dir, "analysis_summary.txt")
+    
+    with open(report_path, "w") as f:
+        f.write("TIME HISTORY ANALYSIS SUMMARY REPORT\n")
+        f.write("===================================\n\n")
+        
+        # Displacements
+        f.write("MAXIMUM NODAL DISPLACEMENTS:\n")
+        for node, disp in analysis_results['max_displacements'].items():
+            f.write(f"Node {node}: {disp:.4f} m\n")
+        f.write("\n")
+        
+        # Story Drifts
+        f.write("STORY DRIFT CHECKS:\n")
+        for story, check in analysis_results['code_checks']['drift_limits'].items():
+            status = "PASS" if check['pass'] else "FAIL"
+            f.write(f"Story {story}: Max drift = {check['max_drift']*100:.2f}% "
+                   f"(Limit: {check['limit']*100:.2f}%) - {status}\n")
+        f.write("\n")
+        
+        # Member Checks
+        f.write("MEMBER CAPACITY CHECKS:\n")
+        failures = 0
+        for ele_tag, check in analysis_results['code_checks']['member_checks'].items():
+            if not check['pass']:
+                failures += 1
+                f.write(f"Element {ele_tag} ({check['member_type']}): "
+                       f"Moment = {check['max_moment']:.1f} (Capacity: {check['capacity']:.1f}) - FAIL\n")
+        
+        if failures == 0:
+            f.write("All members passed capacity checks\n")
+        f.write("\n")
+        
+        # Base Shear Check
+        bs_check = analysis_results['code_checks']['base_shear_check']
+        status = "PASS" if bs_check['pass'] else "FAIL"
+        f.write(f"BASE SHEAR CHECK: Max = {bs_check['max_base_shear']:.1f} N, "
+               f"Expected = {bs_check['expected_base_shear']:.1f} N - {status}\n")
+        
+        # Final Status
+        all_passed = (
+            all(x['pass'] for x in analysis_results['code_checks']['drift_limits'].values()) and
+            all(x['pass'] for x in analysis_results['code_checks']['member_checks'].values()) and
+            analysis_results['code_checks']['base_shear_check']['pass']
+        )
+
+        
+        f.write("\nFINAL STATUS: ")
+        f.write("ALL CHECKS PASSED" if all_passed else "SOME CHECKS FAILED")
+
+
+import numpy as np
+import json
+import os
+import matplotlib.pyplot as plt
+from datetime import datetime
+
+class NumpyEncoder(json.JSONEncoder):
+    """Custom JSON encoder for numpy data types"""
+    def default(self, obj):
+        if isinstance(obj, (np.int_, np.intc, np.intp, np.int8,
+                          np.int16, np.int32, np.int64, np.uint8,
+                          np.uint16, np.uint32, np.uint64)):
+            return int(obj)
+        elif isinstance(obj, (np.float_, np.float16, np.float32, np.float64)):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
+
+# def extract_member_forces(output_dir, analysis_duration, dt):
+#     """
+#     Extract complete member forces (Fx, Fy, Fz, Mx, My, Mz) at each time step
+#     and save to JSON file with proper organization
+    
+#     Args:
+#         output_dir: Directory to save results
+#         analysis_duration: Total duration of analysis (sec)
+#         dt: Time step size (sec)
+#     """
+#     element_tags = ops.getEleTags()
+#     n_steps = int(analysis_duration/dt) + 1
+    
+#     # Initialize member forces dictionary with native Python types
+#     member_forces = {
+#         'time': [float(i*dt) for i in range(n_steps)],
+#         'elements': {int(tag): {
+#             'Fx': [], 'Fy': [], 'Fz': [],
+#             'Mx': [], 'My': [], 'Mz': []
+#         } for tag in element_tags},
+#         'metadata': {
+#             'analysis_date': datetime.now().isoformat(),
+#             'num_elements': len(element_tags),
+#             'num_time_steps': n_steps
+#         }
+#     }
+    
+#     # Extract forces at each time step
+#     for i in range(n_steps):
+#         current_time = i * dt
+#         ops.setTime(current_time)
+        
+#         for tag in element_tags:
+#             forces = ops.eleForce(tag)
+            
+#             # Convert forces to Python native types
+#             if len(forces) >= 6:
+#                 member_forces['elements'][tag]['Fx'].append(float(forces[0]))
+#                 member_forces['elements'][tag]['Fy'].append(float(forces[1]))
+#                 member_forces['elements'][tag]['Fz'].append(float(forces[2]))
+#                 member_forces['elements'][tag]['Mx'].append(float(forces[3]))
+#                 member_forces['elements'][tag]['My'].append(float(forces[4]))
+#                 member_forces['elements'][tag]['Mz'].append(float(forces[5]))
+#             else:
+#                 # Handle cases with insufficient force components
+#                 member_forces['elements'][tag]['Fx'].append(0.0)
+#                 member_forces['elements'][tag]['Fy'].append(0.0)
+#                 member_forces['elements'][tag]['Fz'].append(0.0)
+#                 member_forces['elements'][tag]['Mx'].append(0.0)
+#                 member_forces['elements'][tag]['My'].append(0.0)
+#                 member_forces['elements'][tag]['Mz'].append(0.0)
+    
+#     # Save to JSON file with custom encoder
+#     with open(os.path.join(output_dir, "member_forces.json"), "w") as f:
+#         json.dump(member_forces, f, indent=4, cls=NumpyEncoder)
+    
+#     return member_forces
+
+# def analyze_member_forces(member_forces, output_dir):
+#     """
+#     Analyze member forces to find:
+#     - Maximum absolute values
+#     - Critical time steps
+#     - Envelope values
+    
+#     Handles numpy data types properly for JSON serialization
+#     """
+#     analysis_results = {
+#         'metadata': {
+#             'analysis_date': datetime.now().isoformat(),
+#             'source_file': 'member_forces.json'
+#         },
+#         'envelope_values': {},
+#         'critical_time_steps': {},
+#         'max_values': {}
+#     }
+    
+#     for tag, forces in member_forces['elements'].items():
+#         # Convert to numpy arrays for analysis
+#         force_components = {
+#             'Fx': np.array(forces['Fx']),
+#             'Fy': np.array(forces['Fy']),
+#             'Fz': np.array(forces['Fz']),
+#             'Mx': np.array(forces['Mx']),
+#             'My': np.array(forces['My']),
+#             'Mz': np.array(forces['Mz'])
+#         }
+        
+#         # Find maximum absolute values (convert to native Python types)
+#         max_values = {
+#             'Fx': float(np.max(np.abs(force_components['Fx']))),
+#             'Fy': float(np.max(np.abs(force_components['Fy']))),
+#             'Fz': float(np.max(np.abs(force_components['Fz']))),
+#             'Mx': float(np.max(np.abs(force_components['Mx']))),
+#             'My': float(np.max(np.abs(force_components['My']))),
+#             'Mz': float(np.max(np.abs(force_components['Mz'])))
+#         }
+        
+#         # Find time steps when maxima occur (as Python int)
+#         critical_steps = {
+#             'Fx': int(np.argmax(np.abs(force_components['Fx']))),
+#             'Fy': int(np.argmax(np.abs(force_components['Fy']))),
+#             'Fz': int(np.argmax(np.abs(force_components['Fz']))),
+#             'Mx': int(np.argmax(np.abs(force_components['Mx']))),
+#             'My': int(np.argmax(np.abs(force_components['My']))),
+#             'Mz': int(np.argmax(np.abs(force_components['Mz'])))
+#         }
+        
+#         # Get envelope values (max and min as Python floats)
+#         envelope = {
+#             'Fx': {'max': float(np.max(force_components['Fx'])), 
+#                   'min': float(np.min(force_components['Fx']))},
+#             'Fy': {'max': float(np.max(force_components['Fy'])), 
+#                   'min': float(np.min(force_components['Fy']))},
+#             'Fz': {'max': float(np.max(force_components['Fz'])), 
+#                   'min': float(np.min(force_components['Fz']))},
+#             'Mx': {'max': float(np.max(force_components['Mx'])), 
+#                   'min': float(np.min(force_components['Mx']))},
+#             'My': {'max': float(np.max(force_components['My'])), 
+#                   'min': float(np.min(force_components['My']))},
+#             'Mz': {'max': float(np.max(force_components['Mz'])), 
+#                   'min': float(np.min(force_components['Mz']))}
+#         }
+        
+#         # Store results with native Python types
+#         analysis_results['max_values'][int(tag)] = max_values
+#         analysis_results['critical_time_steps'][int(tag)] = critical_steps
+#         analysis_results['envelope_values'][int(tag)] = envelope
+    
+#     # Save analysis results with custom encoder
+#     with open(os.path.join(output_dir, "member_force_analysis.json"), "w") as f:
+#         json.dump(analysis_results, f, indent=4, cls=NumpyEncoder)
+    
+#     # Generate member force plots for critical elements
+#     plot_critical_member_forces(member_forces, analysis_results, output_dir)
+    
+#     return analysis_results
+
+# def plot_critical_member_forces(member_forces, analysis_results, output_dir):
+#     """Plot force time histories for critical members"""
+#     # Identify most critical elements (highest moment)
+#     critical_elements = sorted(
+#         analysis_results['max_values'].items(),
+#         key=lambda x: max(x[1]['My'], x[1]['Mz']),
+#         reverse=True
+#     )[:3]  # Top 3 most critical
+    
+#     for tag, values in critical_elements:
+#         # Create figure for this element
+#         plt.figure(figsize=(12, 8))
+        
+#         # Plot moments
+#         plt.subplot(2, 1, 1)
+#         plt.plot(member_forces['time'], member_forces['elements'][tag]['My'], 'b-', label='My')
+#         plt.plot(member_forces['time'], member_forces['elements'][tag]['Mz'], 'r-', label='Mz')
+#         plt.xlabel('Time (s)')
+#         plt.ylabel('Moment (N-m)')
+#         plt.title(f'Member {tag} Moment Time Histories')
+#         plt.legend()
+#         plt.grid(True)
+        
+#         # Plot forces
+#         plt.subplot(2, 1, 2)
+#         plt.plot(member_forces['time'], member_forces['elements'][tag]['Fx'], 'g-', label='Fx')
+#         plt.plot(member_forces['time'], member_forces['elements'][tag]['Fy'], 'm-', label='Fy')
+#         plt.plot(member_forces['time'], member_forces['elements'][tag]['Fz'], 'c-', label='Fz')
+#         plt.xlabel('Time (s)')
+#         plt.ylabel('Force (N)')
+#         plt.title(f'Member {tag} Force Time Histories')
+#         plt.legend()
+#         plt.grid(True)
+        
+#         plt.tight_layout()
+#         plt.savefig(os.path.join(output_dir, f"member_{tag}_forces.png"))
+#         plt.close()
+
+def check_member_capacities(member_forces_analysis, output_dir):
+    """
+    Check member forces against capacities with more detailed reporting
+    including all force components
+    """
+    # Example capacities - should be replaced with actual values from design
+    capacities = {
+        'beam': {
+            'Fx': 50000, 'Fy': 50000, 'Fz': 50000,
+            'Mx': 20000, 'My': 30000, 'Mz': 30000
+        },
+        'column': {
+            'Fx': 80000, 'Fy': 80000, 'Fz': 80000,
+            'Mx': 30000, 'My': 40000, 'Mz': 40000
+        }
+    }
+    
+    check_results = {
+        'metadata': {
+            'analysis_date': datetime.now().isoformat(),
+            'source_file': 'member_force_analysis.json'
+        },
+        'members': {}
+    }
+    
+    for tag, values in member_forces_analysis['max_values'].items():
+        # Determine member type
+        node_i = ops.eleNodes(tag)[0]
+        node_j = ops.eleNodes(tag)[1]
+        coords_i = ops.nodeCoord(node_i)
+        coords_j = ops.nodeCoord(node_j)
+        
+        member_type = 'column' if abs(coords_i[2] - coords_j[2]) > 0.1 else 'beam'
+        
+        # Check all force components
+        component_checks = {}
+        for component in ['Fx', 'Fy', 'Fz', 'Mx', 'My', 'Mz']:
+            capacity = capacities[member_type][component]
+            value = values[component]
+            ratio = value / capacity
+            
+            component_checks[component] = {
+                'value': float(value),
+                'capacity': float(capacity),
+                'ratio': float(ratio),
+                'pass': ratio <= 1.0
+            }
+        
+        check_results['members'][int(tag)] = {
+            'member_type': member_type,
+            'checks': component_checks,
+            'all_pass': all(c['pass'] for c in component_checks.values())
+        }
+    
+    # Save check results with custom encoder
+    with open(os.path.join(output_dir, "member_capacity_checks.json"), "w") as f:
+        json.dump(check_results, f, indent=4, cls=NumpyEncoder)
+    
+    # Generate capacity check report
+    generate_capacity_report(check_results, output_dir)
+    
+    return check_results
+
+def generate_capacity_report(check_results, output_dir):
+    """Generate detailed report of member capacity checks"""
+    report_path = os.path.join(output_dir, "member_capacity_report.txt")
+    
+    with open(report_path, "w") as f:
+        f.write("MEMBER CAPACITY CHECK REPORT\n")
+        f.write("===========================\n")
+        f.write(f"Analysis Date: {check_results['metadata']['analysis_date']}\n\n")
+        
+        failures = 0
+        for tag, result in check_results['members'].items():
+            if not result['all_pass']:
+                failures += 1
+                f.write(f"Member {tag} ({result['member_type']}) FAILED checks:\n")
+                for comp, check in result['checks'].items():
+                    if not check['pass']:
+                        f.write(f"  {comp}: {check['value']:.1f}/{check['capacity']:.1f} "
+                               f"(ratio = {check['ratio']:.2f})\n")
+                f.write("\n")
+        
+        if failures == 0:
+            f.write("All members passed capacity checks for all force components\n")
+        else:
+            f.write(f"\nTotal members failing checks: {failures}\n")
+
+
+
+
+def analyze_member_forces(member_forces, output_dir):
+    """
+    Analyze member forces to find:
+    - Maximum absolute values
+    - Critical time steps
+    - Envelope values
+    """
+    analysis_results = {
+        'metadata': {
+            'analysis_date': datetime.now().isoformat(),
+            'source_file': 'member_forces.json'
+        },
+        'envelope_values': {},
+        'critical_time_steps': {},
+        'max_values': {}
+    }
+    
+    # Convert string keys to integers for compatibility
+    elements_data = {int(k): v for k, v in member_forces['elements'].items()}
+    
+    for tag, forces in elements_data.items():
+        # Convert all force components to numpy arrays for analysis
+        force_components = {
+            'Fx': np.array(forces['Fx']),
+            'Fy': np.array(forces['Fy']),
+            'Fz': np.array(forces['Fz']),
+            'Mx': np.array(forces['Mx']),
+            'My': np.array(forces['My']),
+            'Mz': np.array(forces['Mz'])
+        }
+        
+        # Find maximum absolute values (convert to native Python types)
+        max_values = {
+            'Fx': float(np.max(np.abs(force_components['Fx']))),
+            'Fy': float(np.max(np.abs(force_components['Fy']))),
+            'Fz': float(np.max(np.abs(force_components['Fz']))),
+            'Mx': float(np.max(np.abs(force_components['Mx']))),
+            'My': float(np.max(np.abs(force_components['My']))),
+            'Mz': float(np.max(np.abs(force_components['Mz'])))
+        }
+        
+        # Find time steps when maxima occur (as Python int)
+        critical_steps = {
+            'Fx': int(np.argmax(np.abs(force_components['Fx']))),
+            'Fy': int(np.argmax(np.abs(force_components['Fy']))),
+            'Fz': int(np.argmax(np.abs(force_components['Fz']))),
+            'Mx': int(np.argmax(np.abs(force_components['Mx']))),
+            'My': int(np.argmax(np.abs(force_components['My']))),
+            'Mz': int(np.argmax(np.abs(force_components['Mz'])))
+        }
+        
+        # Get envelope values (max and min as Python floats)
+        envelope = {
+            'Fx': {'max': float(np.max(force_components['Fx'])), 
+                  'min': float(np.min(force_components['Fx']))},
+            'Fy': {'max': float(np.max(force_components['Fy'])), 
+                  'min': float(np.min(force_components['Fy']))},
+            'Fz': {'max': float(np.max(force_components['Fz'])), 
+                  'min': float(np.min(force_components['Fz']))},
+            'Mx': {'max': float(np.max(force_components['Mx'])), 
+                  'min': float(np.min(force_components['Mx']))},
+            'My': {'max': float(np.max(force_components['My'])), 
+                  'min': float(np.min(force_components['My']))},
+            'Mz': {'max': float(np.max(force_components['Mz'])), 
+                  'min': float(np.min(force_components['Mz']))}
+        }
+        
+        # Store results with native Python types
+        analysis_results['max_values'][int(tag)] = max_values
+        analysis_results['critical_time_steps'][int(tag)] = critical_steps
+        analysis_results['envelope_values'][int(tag)] = envelope
+    
+    # Save analysis results with custom encoder
+    with open(os.path.join(output_dir, "member_force_analysis.json"), "w") as f:
+        json.dump(analysis_results, f, indent=4, cls=NumpyEncoder)
+    
+    # Generate member force plots for critical elements
+    plot_critical_member_forces(member_forces, analysis_results, output_dir)
+    
+    return analysis_results
+
+def plot_critical_member_forces(member_forces, analysis_results, output_dir):
+    """Plot force time histories for critical members"""
+    # Ensure element tags are integers
+    elements_data = {int(k): v for k, v in member_forces['elements'].items()}
+    
+    # Identify most critical elements (highest moment)
+    critical_elements = sorted(
+        analysis_results['max_values'].items(),
+        key=lambda x: max(x[1]['My'], x[1]['Mz']),
+        reverse=True
+    )[:3]  # Top 3 most critical
+    
+    for tag, values in critical_elements:
+        # Create figure for this element
+        plt.figure(figsize=(12, 8))
+        
+        # Plot moments
+        plt.subplot(2, 1, 1)
+        plt.plot(member_forces['time'], elements_data[tag]['My'], 'b-', label='My')
+        plt.plot(member_forces['time'], elements_data[tag]['Mz'], 'r-', label='Mz')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Moment (N-m)')
+        plt.title(f'Member {tag} Moment Time Histories')
+        plt.legend()
+        plt.grid(True)
+        
+        # Plot forces
+        plt.subplot(2, 1, 2)
+        plt.plot(member_forces['time'], elements_data[tag]['Fx'], 'g-', label='Fx')
+        plt.plot(member_forces['time'], elements_data[tag]['Fy'], 'm-', label='Fy')
+        plt.plot(member_forces['time'], elements_data[tag]['Fz'], 'c-', label='Fz')
+        plt.xlabel('Time (s)')
+        plt.ylabel('Force (N)')
+        plt.title(f'Member {tag} Force Time Histories')
+        plt.legend()
+        plt.grid(True)
+        
+        plt.tight_layout()
+        plt.savefig(os.path.join(output_dir, f"member_{tag}_forces.png"))
+        plt.close()
+
+def extract_member_forces(output_dir, analysis_duration, dt):
+    """
+    Extract complete member forces (Fx, Fy, Fz, Mx, My, Mz) at each time step
+    and save to JSON file with proper organization
+    
+    Args:
+        output_dir: Directory to save results
+        analysis_duration: Total duration of analysis (sec)
+        dt: Time step size (sec)
+    """
+    element_tags = ops.getEleTags()
+    n_steps = int(analysis_duration/dt) + 1
+    
+    # Initialize member forces dictionary with integer keys
+    member_forces = {
+        'time': [float(i*dt) for i in range(n_steps)],
+        'elements': {int(tag): {  # Ensure keys are integers
+            'Fx': [], 'Fy': [], 'Fz': [],
+            'Mx': [], 'My': [], 'Mz': []
+        } for tag in element_tags},
+        'metadata': {
+            'analysis_date': datetime.now().isoformat(),
+            'num_elements': len(element_tags),
+            'num_time_steps': n_steps
+        }
+    }
+    
+    # Extract forces at each time step
+    for i in range(n_steps):
+        current_time = i * dt
+        ops.setTime(current_time)
+        
+        for tag in element_tags:
+            forces = ops.eleForce(tag)
+            
+            # Convert forces to Python native types
+            if len(forces) >= 6:
+                member_forces['elements'][int(tag)]['Fx'].append(float(forces[0]))
+                member_forces['elements'][int(tag)]['Fy'].append(float(forces[1]))
+                member_forces['elements'][int(tag)]['Fz'].append(float(forces[2]))
+                member_forces['elements'][int(tag)]['Mx'].append(float(forces[3]))
+                member_forces['elements'][int(tag)]['My'].append(float(forces[4]))
+                member_forces['elements'][int(tag)]['Mz'].append(float(forces[5]))
+            else:
+                # Handle cases with insufficient force components
+                member_forces['elements'][int(tag)]['Fx'].append(0.0)
+                member_forces['elements'][int(tag)]['Fy'].append(0.0)
+                member_forces['elements'][int(tag)]['Fz'].append(0.0)
+                member_forces['elements'][int(tag)]['Mx'].append(0.0)
+                member_forces['elements'][int(tag)]['My'].append(0.0)
+                member_forces['elements'][int(tag)]['Mz'].append(0.0)
+    
+    # Save to JSON file with custom encoder
+    with open(os.path.join(output_dir, "member_forces.json"), "w") as f:
+        json.dump(member_forces, f, indent=4, cls=NumpyEncoder)
+    
+    return member_forces
+
+def main():
+    """Main function to run time history analysis for Bangladesh"""
+    # Response spectrum data for Bangladesh (from your input)
+    Tn = [0.0, 0.06, 0.1, 0.12, 0.18, 0.24, 0.3, 0.36, 0.4, 0.42, 
+          0.48, 0.54, 0.6, 0.66, 0.72, 0.78, 0.84, 0.9, 0.96, 1.02, 
+          1.08, 1.14, 1.2, 1.26, 1.32, 1.38, 1.44, 1.5, 1.56, 1.62, 
+          1.68, 1.74, 1.8, 1.86, 1.92, 1.98, 2.04, 2.1, 2.16, 2.22, 
+          2.28, 2.34, 2.4, 2.46, 2.52, 2.58, 2.64, 2.7, 2.76, 2.82, 
+          2.88, 2.94, 3.0, 3.06, 3.12, 3.18, 3.24, 3.3, 3.36, 3.42, 
+          3.48, 3.54, 3.6, 3.66, 3.72, 3.78, 3.84, 3.9, 3.96, 4.02, 
+          4.08, 4.14, 4.2, 4.26, 4.32, 4.38, 4.44, 4.5, 4.56, 4.62, 
+          4.68, 4.74, 4.8, 4.86, 4.92, 4.98, 5.04, 5.1, 5.16, 5.22, 
+          5.28, 5.34, 5.4, 5.46, 5.52, 5.58, 5.64, 5.7, 5.76, 5.82, 
+          5.88, 5.94, 6.0]
+
+    Sa = [1.9612, 3.72628, 4.903, 4.903, 4.903, 4.903, 4.903, 4.903, 4.903, 4.6696172, 
+          4.0861602, 3.6321424, 3.2683398, 2.971218, 2.7241068, 2.5142584, 2.3348086, 2.1788932, 2.0425898, 1.9229566, 
+          1.8160712, 1.7199724, 1.6346602, 1.5562122, 1.485609, 1.4208894, 1.3620534, 1.3071398, 1.2571292, 1.211041, 
+          1.166914, 1.1267094, 1.0894466, 1.054145, 1.0217852, 0.990406, 0.960988, 0.9335312, 0.9080356, 0.8835206, 
+          0.8599862, 0.838413, 0.8168398, 0.7972278, 0.7785964, 0.759965, 0.7432948, 0.7266246, 0.710935, 0.6952454, 
+          0.6805364, 0.666808, 0.6540602, 0.6285646, 0.6040496, 0.5814958, 0.5609032, 0.5403106, 0.5206986, 0.5030478, 
+          0.485397, 0.4697074, 0.4540178, 0.4393088, 0.4255804, 0.411852, 0.3991042, 0.3863564, 0.3755698, 0.3638026, 
+          0.353016, 0.34321, 0.333404, 0.3245786, 0.3157532, 0.3069278, 0.2981024, 0.2902576, 0.2833934, 0.2755486, 
+          0.2686844, 0.2618202, 0.254956, 0.2490724, 0.2431888, 0.2373052, 0.2314216, 0.2265186, 0.220635, 0.215732, 
+          0.210829, 0.205926, 0.2020036, 0.1971006, 0.1931782, 0.1892558, 0.1853334, 0.181411, 0.1774886, 0.1735662, 
+          0.1706244, 0.166702, 0.1637602]
+
+    # Create the structural model
+    model()
+    
+    # Generate synthetic time history matching the response spectrum
+    print("Generating synthetic time history...")
+    time, accel = generate_time_history_from_spectrum(Tn, Sa, duration=30.0, dt=0.01)
+    
+    # Perform time history analysis
+    print("Performing time history analysis...")
+    output_dir = "time_history_analysis1"
+
+    # Parameters for analysis
+    analysis_duration = 30.0  # seconds
+    dt = 0.01  # time step
+    
+    # After performing time history analysis:
+    output_dir = "time_history_analysis1"
+    
+    # Extract and analyze member forces
+    # member_forces = extract_member_forces(output_dir, analysis_duration, dt)
+    
+    # Extract and analyze member forces
+    print("Extracting member forces...")
+    member_forces = extract_member_forces(output_dir, analysis_duration, dt)
+    
+    print("Analyzing member forces...")
+    member_analysis = analyze_member_forces(member_forces, output_dir)
+    
+    print("Checking member capacities...")
+    capacity_checks = check_member_capacities(member_analysis, output_dir)
+    
+    print("\nAnalysis complete. Results saved to:")
+    print(f"- Member forces: {os.path.join(output_dir, 'member_forces.json')}")
+    print(f"- Force analysis: {os.path.join(output_dir, 'member_force_analysis.json')}")
+    print(f"- Capacity checks: {os.path.join(output_dir, 'member_capacity_checks.json')}")
+    print(f"- Report: {os.path.join(output_dir, 'member_capacity_report.txt')}")
+
+
+    results = perform_time_history_analysis(time, accel, output_dir, direction=1)
+    analysis_results = extract_results_and_perform_checks(output_dir)
+    # analysis_results = extract_results_and_perform_checks(output_dir)   
+    print(f"\nAnalysis complete. Full results saved to '{output_dir}' directory.")
+    print("See analysis_summary.txt for key results and code checks.")
+
+    print(f"\nAnalysis complete. Results saved to '{output_dir}' directory.")
+
+if __name__ == "__main__":
+    main()

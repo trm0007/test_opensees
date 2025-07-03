@@ -10,13 +10,7 @@ import matplotlib.pyplot as plt
 from ipywidgets import widgets
 from run_function import *
 from post_processing import *
-from test4 import CQC, calculate_floor_masses, calculate_floor_stiffness, extract_and_combine_forces, extract_node_data, model, plot, response_spectrum_analysis
-
-
-
-
-
-
+from test4 import CQC, calculate_floor_masses, calculate_floor_stiffness, extract_node_data, model, plot, response_spectrum_analysis
 
 
 

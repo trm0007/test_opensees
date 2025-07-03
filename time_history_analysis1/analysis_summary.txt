@@ -1,0 +1,24 @@
+TIME HISTORY ANALYSIS SUMMARY REPORT
+===================================
+
+MAXIMUM NODAL DISPLACEMENTS:
+Node 1: 0.0000 m
+Node 2: 0.0000 m
+Node 3: 0.0000 m
+Node 4: 0.0000 m
+Node 5: 0.0000 m
+Node 6: 0.0000 m
+Node 7: 0.0000 m
+Node 8: 0.0000 m
+Node 9: 0.0000 m
+Node 10: 0.0000 m
+Node 11: 0.0000 m
+Node 12: 0.0000 m
+Node 13: 0.0000 m
+Node 14: 0.0000 m
+
+STORY DRIFT CHECKS:
+Story 2: Max drift = 0.00% (Limit: 2.50%) - PASS
+Story 3: Max drift = 0.00% (Limit: 2.50%) - PASS
+
+MEMBER CAPACITY CHECKS:

@@ -1,0 +1,5 @@
+MEMBER CAPACITY CHECK REPORT
+===========================
+Analysis Date: 2025-07-03T11:13:09.391129
+
+All members passed capacity checks for all force components

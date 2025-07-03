@@ -1,0 +1,680 @@
+{
+    "metadata": {
+        "analysis_date": "2025-07-03T11:13:09.391129",
+        "source_file": "member_force_analysis.json"
+    },
+    "members": {
+        "1": {
+            "member_type": "column",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "2": {
+            "member_type": "beam",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 20000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "3": {
+            "member_type": "column",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "4": {
+            "member_type": "column",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "5": {
+            "member_type": "beam",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 20000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "6": {
+            "member_type": "beam",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 20000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "7": {
+            "member_type": "beam",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 20000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "8": {
+            "member_type": "beam",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 20000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "9": {
+            "member_type": "beam",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 20000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "10": {
+            "member_type": "column",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "11": {
+            "member_type": "column",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "12": {
+            "member_type": "column",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "13": {
+            "member_type": "beam",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 20000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "14": {
+            "member_type": "beam",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 50000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 20000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "15": {
+            "member_type": "column",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        },
+        "16": {
+            "member_type": "column",
+            "checks": {
+                "Fx": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fy": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Fz": {
+                    "value": 0.0,
+                    "capacity": 80000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mx": {
+                    "value": 0.0,
+                    "capacity": 30000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "My": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                },
+                "Mz": {
+                    "value": 0.0,
+                    "capacity": 40000.0,
+                    "ratio": 0.0,
+                    "pass": true
+                }
+            },
+            "all_pass": true
+        }
+    }
+}
